@@ -9,8 +9,9 @@ class BaseForm extends Component {
         return (
             <div>
                 <Card.Body>
-
                     <Card.Title>{this.props.title}</Card.Title>
+                    <Card.Text>{this.props.subtitle}</Card.Text>
+
                     {this.props.form}
                     <OrHr className="my-4" />
                     <GoogleButton

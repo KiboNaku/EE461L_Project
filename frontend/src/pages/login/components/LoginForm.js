@@ -5,21 +5,20 @@ import BaseForm from './BaseForm'
 class LoginForm extends Component {
 
     render() {
-        let title = "Login";
+        let title = "Welcome Back";
+        let subtitle = "Login to stay up to date on your latest projects.";
         let footer = "Don't have an account?";
         let switchText = "Register here.";
         let form = (
             <Form>
                 <Form.Group>
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="example@gmail.com" />
+                    <Form.Control type="email" placeholder="Email Address" />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="12345678" />
+                    <Form.Control type="password" placeholder="Password" />
                 </Form.Group>
-                <Button variant="primary" type="submit" onClick={this.props.onSubmit}>
+                <Button variant="primary" type="submit" onClick={this.props.onSubmit} className="w-100">
                     Login
                 </Button>
             </Form>
@@ -29,6 +28,7 @@ class LoginForm extends Component {
             <div id="login-page-div">
                 <BaseForm 
                     title={title} 
+                    subtitle={subtitle}
                     form={form} 
                     googleClick={this.props.googleSignIn} 
                     switch={this.props.switch} 

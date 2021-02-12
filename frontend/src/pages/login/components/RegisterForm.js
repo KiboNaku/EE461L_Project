@@ -5,32 +5,29 @@ import BaseForm from './BaseForm'
 class LoginForm extends Component {
 
     render() {
-        let title = "Register";
+        let title = "Welcome";
+        let subtitle = "Looking to create and share projects? Create an account today to get started.";
         let footer = "Already have an account?";
         let switchText = "Login here.";
         let form = (
             <Form>
                 <Form.Group>
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" placeholder="Bob" />
+                    <Form.Control type="text" placeholder="First Name" />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" placeholder="Davis" />
+                    <Form.Control type="text" placeholder="Last Name" />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="email" placeholder="example@gmail.com" />
+                    <Form.Control type="email" placeholder="Email Address" />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="12345678" />
+                    <Form.Control type="password" placeholder="Password" />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={this.props.onSubmit}>
+                <Button variant="primary" type="submit" onClick={this.props.onSubmit} className="w-100">
                     Register
                 </Button>
             </Form>
@@ -40,6 +37,7 @@ class LoginForm extends Component {
             <div id="login-page-div">
                 <BaseForm 
                     title={title} 
+                    subtitle={subtitle}
                     form={form} 
                     googleClick={this.props.googleSignIn} 
                     switch={this.props.switch} 
