@@ -10,8 +10,23 @@ class Login extends Component {
         this.state = {
             isLogin: true,
         }
+        this.emailSignIn = this.emailSignIn.bind(this);
+        this.emailRegister = this.emailRegister.bind(this);
+        this.googleSignIn = this.googleSignIn.bind(this);
         this.switchToRegister = this.switchToRegister.bind(this);
         this.switchToLogin = this.switchToLogin.bind(this);
+    }
+
+    emailSignIn(email, password){
+        console.log("Signing in with email");
+    }
+
+    emailRegister(firstName, lastName, email, password){
+        console.log("Registering with email");
+    }
+
+    googleSignIn() {
+        console.log("Signing in with Google.");
     }
 
     switchToRegister() {
@@ -30,8 +45,15 @@ class Login extends Component {
                         <Col xs={4}>
                             <Card className="text-center">
                                 {
-                                    this.state.isLogin ? 
-                                        <LoginForm switch={this.switchToRegister}/> : <RegisterForm switch={this.switchToLogin}/>
+                                    this.state.isLogin ?
+                                        <LoginForm 
+                                            onSubmit={this.emailSignIn} 
+                                            switch={this.switchToRegister} 
+                                            googleSignIn={this.googleSignIn} /> :
+                                        <RegisterForm 
+                                            onSubmit={this.emailRegister}
+                                            switch={this.switchToLogin} 
+                                            googleSignIn={this.googleSignIn} />
                                 }
                             </Card>
                         </Col>
