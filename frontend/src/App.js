@@ -1,5 +1,6 @@
 import Home from './pages/home/Home'
 import Login from './pages/login/Login';
+import ProjectDetails from './pages/project-details/Project_Details';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -19,6 +20,9 @@ function App() {
 					</Route>
 					<Route path="/login">
 						<Login />
+					</Route>
+					<Route path="/project-details">
+						<ProjectDetails />
 					</Route>
 				</Switch>
 			</div>
