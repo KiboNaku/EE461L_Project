@@ -1,0 +1,21 @@
+
+.project-name{
+    font-size: 60px;
+}
+
+.project-members {
+    font-size: 26px;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.project-description {
+}
+
+.project-tag {
+    margin: 1px 5px;
+    padding: 5px 8px;
+    background-color: #9bbfb0;
+    color: #d1ffeb;
+    border-radius: 5px;
+}

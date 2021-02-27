@@ -1,6 +1,6 @@
 import Home from './pages/home/Home'
 import Login from './pages/login/Login';
-import ProjectDetails from './pages/project-details/Project_Details';
+import ProjectDetails from './pages/project-details/ProjectDetails';
 import {
 	BrowserRouter as Router,
 	Switch,
