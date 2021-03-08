@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Header from "./components/Header";
+import Landing from "./components/Landing";
 
 import "./Home.css"
 
@@ -13,8 +14,9 @@ class Home extends Component {
 
     render() {
         return (
-            <div className="">
+            <div className="full-screen-height">
                 <Header />
+                <Landing />
             </div>
         )
     }
