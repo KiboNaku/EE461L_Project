@@ -1,0 +1,16 @@
+.nav-link {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.navbar a{
+	color: navy;
+}
+
+.navbar a:hover {
+	color:blue;
+}
+
+.nav-brand {
+	font-family: Georgia, 'Times New Roman', Times, serif;
+}

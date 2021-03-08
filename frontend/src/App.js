@@ -25,6 +25,9 @@ function App() {
 					<Route path="/project-details">
 						<ProjectDetails />
 					</Route>
+					<Route path="/profile">
+						<Profile />
+					</Route>
 				</Switch>
 			</div>
 		</Router>
