@@ -26,6 +26,7 @@ class Header extends Component {
 					</button>
 					<div className="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul className="navbar-nav ml-auto">
+							{/*Current navbar items*/}
 							<li className="nav-item nav-link">
 								<Link to="/"> Projects</Link>
 							</li>
@@ -35,6 +36,7 @@ class Header extends Component {
 							<li className="navbar-item nav-link">
 								<Link to="/profile"> Profile</Link>
 							</li>
+							{/* Toggle Profile if login true */}
 							{this.state.loggedIn ?
 								<li className="nav-item nav-link">
 									<Link to="/profile"><AccountCircleIcon /></Link>

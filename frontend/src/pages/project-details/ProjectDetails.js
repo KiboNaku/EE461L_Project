@@ -34,11 +34,12 @@ class ProjectDetails extends Component {
                         <p>Project description</p>
                     </div>
 
+                    /* List of HW items */
                     <div className="project-materials my-3">
                         <h4>Materials</h4>
 
                         <div className="mx-3">
-
+                            /* Checked out items */
                             <h5>Checked Out:</h5>
                             <div className="mx-4">
                                 <p>Material 1</p>
@@ -53,7 +54,7 @@ class ProjectDetails extends Component {
                         </div>
                         
                         <div className="mx-3">
-
+                            /* Wishlist items */
                             <h5>Wishlist:</h5>
                             <div className="mx-4">
                                 <p>Material 1</p>
