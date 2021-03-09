@@ -3,6 +3,10 @@
   height: 100vh;
 }
 
+.full-screen-height {
+  height: 100vh;
+}
+
 .max-height {
   min-height: 100%;
 }
