@@ -1,17 +1,20 @@
 import axios from 'axios';
 import * as consts from '../constants/backendRoutes';
 
+axios.defaults.port = 5000;
+
 export const register = newUser => {
     let registerUrl = consts.BACKEND_ROUTE + consts.REGISTER_ROUTE;
 	return axios
 		.post(registerUrl, {
-			first_name: newUser.first_name,
-			last_name: newUser.last_name,
+			firstName: newUser.first_name,
+			lastName: newUser.last_name,
 			email: newUser.email,
 			password: newUser.password
 		})
 		.then(response => {
 			// TODO: do something with response
+			console.log("Register result:", response);
 		})
 }
 
@@ -24,8 +27,10 @@ export const login = user => {
 		})
 		.then(response => {
 			// TODO: do something with response
+			console.log("Login result:", response);
 		})
 		.catch(err => {
             // TODO: do something with error
+			console.log("Login err:", err);
 		})
 }

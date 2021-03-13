@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
+import * as admission from '../../api_calls/admission'
 
 class Login extends Component {
 
@@ -17,12 +18,18 @@ class Login extends Component {
         this.switchToLogin = this.switchToLogin.bind(this);
     }
 
-    emailSignIn(email, password){
-        console.log("Signing in with email");
+    emailSignIn(email, password) {
+        admission.login({ email: email, password: password })
+            .then(res => {
+                console.log("Logged in with response", res);
+            })
     }
 
-    emailRegister(firstName, lastName, email, password){
-        console.log("Registering with email");
+    emailRegister(firstName, lastName, email, password) {
+        admission.register({ firstName: firstName, lastName: lastName, email: email, password: password })
+            .then(res => {
+                console.log("Registered with response", res);
+            })
     }
 
     googleSignIn() {
@@ -47,13 +54,13 @@ class Login extends Component {
                             <Card className="text-center px-5 py-5 white-background">
                                 {
                                     this.state.isLogin ?
-                                        <LoginForm 
-                                            onSubmit={this.emailSignIn} 
-                                            switch={this.switchToRegister} 
+                                        <LoginForm
+                                            onSubmit={this.emailSignIn}
+                                            switch={this.switchToRegister}
                                             googleSignIn={this.googleSignIn} /> :
-                                        <RegisterForm 
+                                        <RegisterForm
                                             onSubmit={this.emailRegister}
-                                            switch={this.switchToLogin} 
+                                            switch={this.switchToLogin}
                                             googleSignIn={this.googleSignIn} />
                                 }
                             </Card>
