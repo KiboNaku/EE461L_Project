@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import BaseForm from './BaseForm'
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
 
     render() {
         let title = "Welcome";
@@ -49,4 +49,4 @@ class LoginForm extends Component {
     }
 }
 
-export default LoginForm
+export default RegisterForm

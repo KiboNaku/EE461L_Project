@@ -1,8 +1,6 @@
 import axios from 'axios';
 import * as consts from '../constants/backendRoutes';
 
-axios.defaults.port = 5000;
-
 export const register = newUser => {
     let registerUrl = consts.BACKEND_ROUTE + consts.REGISTER_ROUTE;
 	return axios
@@ -23,7 +21,7 @@ export const login = user => {
 	return axios
 		.post(loginUrl, {
 			email: user.email,
-			password: user.password,
+			password: user.password
 		})
 		.then(response => {
 			// TODO: do something with response
@@ -34,3 +32,4 @@ export const login = user => {
 			console.log("Login err:", err);
 		})
 }
+

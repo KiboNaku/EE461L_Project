@@ -23,7 +23,25 @@ def register():
     password = request.args.get("password")
 
     # debug: print to screen
-    app.logger.debug("Received register for: {first_name} {last_name} with email {email}")
+    app.logger.debug("Received register for: {first_name} {last_name} with email {email}".format(
+        first_name = first_name, last_name=last_name, email=email)
+        )
+
+    return r_val
+
+
+@app.route("/api/login", methods=["POST"])
+def login():
+
+    # initialize return value
+    r_val = {"email": None, "success": 0, "error": None}
+
+    # get args from front end
+    email = request.args.get("email")
+    password = request.args.get("password")
+
+    # debug: print to screen
+    app.logger.debug("Received login for: {email}")
 
     return r_val
 
