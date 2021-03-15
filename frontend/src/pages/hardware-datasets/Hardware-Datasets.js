@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import Header from "../home/components/Header"
-import Dashboard from "./components/Dashboard";
 import "../home/Home.css"
-import "./components/Dashboard.css"
 
 class HardwareDatasets extends Component {
 
@@ -23,4 +21,4 @@ class HardwareDatasets extends Component {
     }
 }
 
-export default Profile
+export default HardwareDatasets

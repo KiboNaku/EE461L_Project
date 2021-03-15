@@ -3,6 +3,7 @@ import Login from './pages/login/Login';
 import Profile from './pages/profile/Profile';
 import ProjectDetails from './pages/project-details/ProjectDetails';
 import Browse from './pages/browse/Browse';
+import Hardware from './pages/hardware-datasets/Hardware-Datasets';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -31,6 +32,8 @@ function App() {
 					</Route>
 					<Route path="browse">
 						<Browse />
+					<Route path="/hardware">
+						<Hardware />
 					</Route>
 				</Switch>
 			</div>
