@@ -4,8 +4,22 @@ import BaseForm from './BaseForm'
 
 class LoginForm extends Component {
 
+    constructor() {
+        super();
+        this.state = { email: "", password: "" };
+        this.handleChange = this.handleChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onSubmit(){
+        this.props.onSubmit(this.state.email, this.state.password);
+    }
+
+    handleChange(event){
+        this.setState({[event.target.name]: event.target.value});
+    }
+
     render() {
-        let formData = { email: "", password: "" };
         let title = "Welcome Back";
         let subtitle = "Login to stay up to date on your latest projects.";
         let footer = "Don't have an account?";
@@ -13,18 +27,14 @@ class LoginForm extends Component {
         let form = (
             <Form>
                 <Form.Group>
-                    <Form.Control type="email" placeholder="Email Address" value={formData.email} onChange={(event) => {
-                        formData.email = event.target.value;
-                    }} />
+                    <Form.Control name="email" type="email" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Control type="password" placeholder="Password" value={formData.password} onChange={(event) => {
-                        formData.password = event.target.value;
-                    }} />
+                    <Form.Control name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={() => { this.props.onSubmit(formData) }} className="w-100">
+                <Button variant="primary" type="submit" onClick={this.onSubmit} className="w-100">
                     Login
                 </Button>
             </Form>

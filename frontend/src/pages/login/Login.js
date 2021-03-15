@@ -18,15 +18,16 @@ class Login extends Component {
         this.switchToLogin = this.switchToLogin.bind(this);
     }
 
-    emailSignIn(formData) {
-        admission.login(formData)
+    emailSignIn(email, password) {
+        admission.login({ email: email, password: password })
             .then(res => {
                 console.log("Logged in with response", res);
             })
     }
 
-    emailRegister(formData) {
-        admission.register(formData)
+    emailRegister(firstName, lastName, email, password) {
+        console.log("register details: ", firstName, lastName, email, password)
+        admission.register({ firstName: firstName, lastName: lastName, email: email, password: password })
             .then(res => {
                 console.log("Registered with response", res);
             })
