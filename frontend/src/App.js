@@ -32,6 +32,7 @@ function App() {
 					</Route>
 					<Route path="browse">
 						<Browse />
+					</Route>
 					<Route path="/hardware">
 						<Hardware />
 					</Route>
