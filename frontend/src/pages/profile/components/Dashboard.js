@@ -16,16 +16,14 @@ class Dashboard extends Component {
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            <a class="nav-link active" href="#Menu">
                             <span data-feather="home"></span>
                             Menu <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
                             <span data-feather="file"></span>
                             Billing
-                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
@@ -43,6 +41,12 @@ class Dashboard extends Component {
                             <a class="nav-link" href="#">
                             <span data-feather="bar-chart-2"></span>
                             Dataset
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                            <span data-feather="bar-chart-2"></span>
+                            Sign Out
                             </a>
                         </li>
                         </ul>
