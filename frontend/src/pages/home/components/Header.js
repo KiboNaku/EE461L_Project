@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import './../Home.css';
-
 class Header extends Component {
 	constructor(props) {
 		super(props);
@@ -28,7 +26,7 @@ class Header extends Component {
 						<ul className="navbar-nav ml-auto">
 							{/*Current navbar items*/}
 							<li className="nav-item nav-link">
-								<Link to="/"> Projects</Link>
+								<Link to="/browse"> Projects</Link>
 							</li>
 							<li className="nav-item nav-link">
 								<Link to="/"> Services</Link>

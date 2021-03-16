@@ -4,6 +4,24 @@ import BaseForm from './BaseForm'
 
 class RegisterForm extends Component {
 
+    constructor() {
+        super();
+        this.state = { firstName: "", lastName: "", email: "", password: "" };
+        this.handleChange = this.handleChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onSubmit(){
+        console.log("state:", this.state);
+        console.log(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
+        this.props.onSubmit(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
+    }
+
+    handleChange(event){
+        this.setState({[event.target.name]: event.target.value});
+        console.log(this.state);
+    }
+
     render() {
         let title = "Welcome";
         let subtitle = "Looking to create and share projects? Create an account today to get started.";
@@ -12,23 +30,23 @@ class RegisterForm extends Component {
         let form = (
             <Form>
                 <Form.Group>
-                    <Form.Control type="text" placeholder="First Name" />
+                    <Form.Control name="firstName" type="text" placeholder="First Name" value={this.state.firstName} onChange={this.handleChange} />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Control type="text" placeholder="Last Name" />
+                    <Form.Control name="lastName" type="text" placeholder="Last Name" value={this.state.lastName} onChange={this.handleChange} />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Control type="email" placeholder="Email Address" />
+                    <Form.Control name="email" type="email" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Control type="password" placeholder="Password" />
+                    <Form.Control name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={this.props.onSubmit} className="w-100">
-                    Register
+                <Button variant="primary" type="submit" onClick={this.onSubmit} className="w-100">
+                    Login
                 </Button>
             </Form>
         );

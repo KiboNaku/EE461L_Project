@@ -17,10 +17,10 @@ def register():
     r_val = {"email": None, "success": 0, "error": None}
 
     # get args from front end
-    first_name = request.args.get("firstName")
-    last_name = request.args.get("lastName")
-    email = request.args.get("email")
-    password = request.args.get("password")
+    first_name = request.get_json()["firstName"]
+    last_name = request.get_json()["lastName"]
+    email = request.get_json()["email"]
+    password = request.get_json()["password"]
 
     # debug: print to screen
     app.logger.debug("Received register for: {first_name} {last_name} with email {email}".format(
@@ -37,11 +37,13 @@ def login():
     r_val = {"email": None, "success": 0, "error": None}
 
     # get args from front end
-    email = request.args.get("email")
-    password = request.args.get("password")
+    email = request.get_json()["email"]
+    password = request.get_json()["password"]
+
+    r_val["email"] = email
 
     # debug: print to screen
-    app.logger.debug("Received login for: {email}")
+    app.logger.debug("Received login for: {email}".format(email=email))
 
     return r_val
 

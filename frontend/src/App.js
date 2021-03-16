@@ -2,6 +2,7 @@ import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Profile from './pages/profile/Profile';
 import ProjectDetails from './pages/project-details/ProjectDetails';
+import Browse from './pages/browse/Browse';
 import Hardware from './pages/hardware-datasets/Hardware-Datasets';
 import {
 	BrowserRouter as Router,
@@ -28,6 +29,9 @@ function App() {
 					</Route>
 					<Route path="/profile">
 						<Profile />
+					</Route>
+					<Route path="browse">
+						<Browse />
 					</Route>
 					<Route path="/hardware">
 						<Hardware />
