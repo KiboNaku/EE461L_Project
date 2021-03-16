@@ -1,12 +1,38 @@
-.browse{
+.browse {
 	margin-top: 20px;
 }
 
-.browse-filter{
+.browse-filter {
+	margin-left: 10px;
+	margin-top: 10px;
 	text-align: left;
 }
 
 .project {
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.project-owner {
+	display: block;
+}
+
+.project-description {
+	margin-top: 20px;
+}
+
+.project-tag {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.project-header {
+	display: flex;
+	justify-content: center;
+	position: relative;
+}
+
+.project-add {
+	position: absolute;
+	right: 0;
 }
