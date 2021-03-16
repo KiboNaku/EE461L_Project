@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-from bcr
 import uuid
 
 class User:
@@ -20,7 +19,6 @@ class User:
             "password": password,
         }
 
-        # encrypt password
-
+        # TODO: encrypt password
         
         return jsonify(user), 200
