@@ -30,7 +30,7 @@ function App() {
 					<Route path="/profile">
 						<Profile />
 					</Route>
-					<Route path="browse">
+					<Route path="/browse">
 						<Browse />
 					</Route>
 					<Route path="/hardware">
