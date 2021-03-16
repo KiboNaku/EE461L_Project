@@ -52,6 +52,27 @@ class HardwareDatasets extends Component {
                         </table>
                     </Card.Body>
                 </Card>
+                <Card> 
+                    <Card.Header>DataSets</Card.Header>
+                    <Card.Body>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Download Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1000 Pi Digits</td>
+                                    <td>
+                                        <a href="/resources/1000Pi.txt" download="1000Pi.txt">Click to download</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </Card.Body>
+                </Card>
             </div>
         )
     }
