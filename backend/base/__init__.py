@@ -11,7 +11,8 @@ def create_app():
     new_app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
     # new_app.logger.debug(os.environ.get('MONGO_URI'))
 
-    mongo.init_app(new_app)
+    # mongo.init_app(new_app)
+    
     return new_app
 
 
