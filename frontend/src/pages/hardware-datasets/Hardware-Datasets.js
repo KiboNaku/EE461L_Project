@@ -3,7 +3,6 @@ import { Button, Card, Table } from 'react-bootstrap'
 import Header from "../home/components/Header"
 import "../home/Home.css"
 
-
 class HardwareDatasets extends Component {
 
     constructor() {
@@ -30,22 +29,27 @@ class HardwareDatasets extends Component {
                             <tbody>
                                 <tr>
                                     <td>HWSet1</td>
+                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>10</td>
                                 </tr>
                                 <tr>
                                     <td>HWSet2</td>
+                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>25</td>
                                 </tr>
                                 <tr>
                                     <td>HWSet3</td>
+                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>5</td>
                                 </tr>
                                 <tr>
                                     <td>HWSet4</td>
+                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>15</td>
                                 </tr>
                                 <tr>
                                     <td>HWSet5</td>
+                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>50</td>
                                 </tr>
                             </tbody>
@@ -64,9 +68,11 @@ class HardwareDatasets extends Component {
                             </thead>
                             <tbody>
                                 <tr>
+                                    {/* TODO: fix this to list a real dataset later on */}
                                     <td>1000 Pi Digits</td>
                                     <td>
-                                        <a href="/resources/1000Pi.txt" download="1000Pi.txt">Click to download</a>
+                                    {/* TODO: fix to download a real dataset from our site later on */}
+                                    <a href="/resources/1000Pi.txt" download="1000Pi.txt">Click to download</a>
                                     </td>
                                 </tr>
                             </tbody>
