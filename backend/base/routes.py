@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
-from base import app
+from base import app, mongo
+from models.user import User
 
 @app.route("/api/register", methods=["POST"])
 def register():
@@ -7,16 +8,19 @@ def register():
     # initialize return value
     r_val = {"email": None, "success": 0, "error": None}
 
-    # get args from front end
-    first_name = request.get_json()["firstName"]
-    last_name = request.get_json()["lastName"]
-    email = request.get_json()["email"]
-    password = request.get_json()["password"]
+    # get user info
+    user = User.get_json()
 
     # debug: print to screen
     app.logger.debug("Received register for: {first_name} {last_name} with email {email}".format(
-        first_name = first_name, last_name=last_name, email=email)
-        )
+        first_name = user['first_name'], last_name=user['last_name'], email=user["email"])
+    )
+
+    # TODO: check to see if email exists
+
+    # add user to database
+    users_collection = mongo.db.user
+    users_collection.insert_one(user)
 
     return r_val
 

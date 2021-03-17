@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, request
-import uuid
 
 class User:
-    def signup(self, first_name, last_name, email, password):
+    def get_json():
 
         # get args from front end
         first_name = request.get_json()["firstName"]
@@ -10,15 +9,11 @@ class User:
         email = request.get_json()["email"]
         password = request.get_json()["password"]
 
-        # create user object
-        user = {
-            "_id": uuid.uuid4.hex,
+        # TODO: encrypt password
+        
+        return {
             "first_name": first_name,
             "last_name": last_name,
             "email": email,
             "password": password,
         }
-
-        # TODO: encrypt password
-        
-        return jsonify(user), 200
