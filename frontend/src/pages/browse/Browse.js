@@ -34,47 +34,7 @@ class Browse extends Component {
 					id: 2,
 					name: "Project 3",
 					owner: "User C",
-					tag1: ["D"],
-					tag2: ["b"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 3,
-					name: "Project 4",
-					owner: "User D",
-					tag1: [],
-					tag2: ["c", "d"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 4,
-					name: "Project 5",
-					owner: "User E",
-					tag1: ["E", "F", "G"],
-					tag2: [],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 0,
-					name: "Project 1",
-					owner: "User A",
 					tag1: ["A"],
-					tag2: [],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 1,
-					name: "Project 2",
-					owner: "User B",
-					tag1: ["B", "C"],
-					tag2: ["a"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 2,
-					name: "Project 3",
-					owner: "User C",
-					tag1: ["D"],
 					tag2: ["b"],
 					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
 				},
@@ -83,62 +43,33 @@ class Browse extends Component {
 					name: "Project 4",
 					owner: "User D",
 					tag1: [],
-					tag2: ["c", "d"],
+					tag2: ["c", "a"],
 					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
 				},
 				{
 					id: 4,
 					name: "Project 5",
 					owner: "User E",
-					tag1: ["E", "F", "G"],
+					tag1: ["C", "A", "B"],
 					tag2: [],
 					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
 				},
-				{
-					id: 0,
-					name: "Project 1",
-					owner: "User A",
-					tag1: ["A"],
-					tag2: [],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 1,
-					name: "Project 2",
-					owner: "User B",
-					tag1: ["B", "C"],
-					tag2: ["a"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 2,
-					name: "Project 3",
-					owner: "User C",
-					tag1: ["D"],
-					tag2: ["b"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 3,
-					name: "Project 4",
-					owner: "User D",
-					tag1: [],
-					tag2: ["c", "d"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 4,
-					name: "Project 5",
-					owner: "User E",
-					tag1: ["E", "F", "G"],
-					tag2: [],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				}
-			]
+			],
+			filter: {
+				tag1A: true,
+				tag1B: true,
+				tag1C: true,
+				tag2a: true,
+				tag2b: true,
+				tag3c: true,
+			},
+			filtered: false,
+			checked: 0
 		}
 
 		this.setProjectData = this.setProjectData.bind(this)
 		this.joinProject = this.joinProject.bind(this)
+		this.handleFilterChange = this.handleFilterChange.bind(this)
 	}
 
 	componentDidMount() {
@@ -158,7 +89,18 @@ class Browse extends Component {
 	}
 
 	setProjectData() {
-		return this.state.projects.map(project => {
+		let filteredProject = this.state.filtered == undefined || !this.state.filtered ?
+			this.state.projects :
+			this.state.projects.filter(project =>
+				(this.state.tag1A && project.tag1.includes("A")) ||
+				(this.state.tag1B && project.tag1.includes("B")) ||
+				(this.state.tag1C && project.tag1.includes("C")) ||
+				(this.state.tag2a && project.tag2.includes("a")) ||
+				(this.state.tag2b && project.tag2.includes("b")) ||
+				(this.state.tag2c && project.tag2.includes("c"))
+			)
+
+		return filteredProject.map(project => {
 			return (<Project
 				data={project}
 				joinProject={this.joinProject}
@@ -171,13 +113,39 @@ class Browse extends Component {
 		console.log(id)
 	}
 
+	handleFilterChange = (event) => {
+		const target = event.target
+		const value = target.checked
+		const name = target.name
+		this.setState({ [name]: value })
+		console.log(name, value)
+		let checked = this.state.checked
+		if (value) {
+			checked++
+		} else {
+			checked--
+		}
+
+		if (checked > 0) {
+			this.setState({ filtered: true })
+		} else {
+			this.setState({ filtered: false })
+		}
+
+		this.setState({ checked: checked })
+		this.setProjectData()
+	}
+
 	render() {
 		return (
 			<div className="container">
 				<Header />
 				<div className="row browse">
 					<div className="col browse-filter">
-						<Filter />
+						<Filter
+							handleChange={this.handleFilterChange}
+							filter={this.state.filter}
+						/>
 					</div>
 					<div className="col-9">
 						<BrowsingItems

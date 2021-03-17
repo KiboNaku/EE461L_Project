@@ -4,7 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 function Project(props) {
 
 	return (
-		<div className='col-lg-3 col-sm-6 project'>
+		<div className='col-lg-4 col-sm-6 col-md-6 project'>
 			<div className="card">
 				<div className="card-body">
 					<div className="project-header">

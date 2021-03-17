@@ -4,18 +4,10 @@ class Filter extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tag1: {
-				A: false,
-				B: false,
-				C: false,
-			},
-			tag2: {
-				a: false,
-				b: false,
-				c: false
-			}
 		}
 	}
+
+
 
 	render() {
 		return (
@@ -27,21 +19,27 @@ class Filter extends Component {
 							<input
 								type="checkbox"
 								className="form-check-input"
-								id="tag1A" />
+								name="tag1A"
+								value={this.props.filter.tag1A}
+								onChange={this.props.handleChange} />
 							<label className="form-check-label" for="tag1A">A</label>
 						</div>
 						<div className="form-check">
 							<input
 								type="checkbox"
 								className="form-check-input"
-								id="tag1B" />
+								name="tag1B"
+								value={this.props.filter.tag1B}
+								onChange={this.props.handleChange} />
 							<label className="form-check-label" for="tag1B">B</label>
 						</div>
 						<div className="form-check">
 							<input
 								type="checkbox"
 								className="form-check-input"
-								id="tag1C" />
+								name="tag1C"
+								value={this.props.filter.tag1C}
+								onChange={this.props.handleChange} />
 							<label className="form-check-label" for="tag1C">C</label>
 						</div>
 					</div>
@@ -51,22 +49,28 @@ class Filter extends Component {
 							<input
 								type="checkbox"
 								className="form-check-input"
-								id="tag2A" />
-							<label className="form-check-label" for="tag2A">a</label>
+								name="tag2a"
+								value={this.props.filter.tag2a}
+								onChange={this.props.handleChange} />
+							<label className="form-check-label" for="tag2a">a</label>
 						</div>
 						<div className="form-check">
 							<input
 								type="checkbox"
 								className="form-check-input"
-								id="tag2B" />
-							<label className="form-check-label" for="tag2B">b</label>
+								name="tag2b"
+								value={this.props.filter.tag2b}
+								onChange={this.props.handleChange} />
+							<label className="form-check-label" for="tag2b">b</label>
 						</div>
 						<div className="form-check">
 							<input
 								type="checkbox"
 								className="form-check-input"
-								id="tag2C" />
-							<label className="form-check-label" for="tag2C">c</label>
+								name="tag2c"
+								value={this.props.filter.tag2c}
+								onChange={this.props.handleChange} />
+							<label className="form-check-label" for="tag2c">c</label>
 						</div>
 					</div>
 				</form>

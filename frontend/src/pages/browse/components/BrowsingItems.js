@@ -7,16 +7,16 @@ class BrowsingItems extends Component {
 		this.state = {
 		}
 
-		this.fetchMoreData = this.fetchMoreData.bind(this)
+		// this.fetchMoreData = this.fetchMoreData.bind(this)
 	}
 
-	fetchMoreData = () => {
+	// fetchMoreData = () => {
 		// setTimeout(() => {
 		// 	this.setState({
 		// 		projects: this.state.projects.concat(Array.from({ length: 5 }))
 		// 	});
 		// }, 1500);
-	};
+	// };
 
 	render() {
 		return (
