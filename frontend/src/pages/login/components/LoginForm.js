@@ -34,7 +34,7 @@ class LoginForm extends Component {
                     <Form.Control name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={this.onSubmit} className="w-100">
+                <Button variant="primary" onClick={this.onSubmit} className="w-100">
                     Login
                 </Button>
             </Form>
@@ -43,6 +43,7 @@ class LoginForm extends Component {
         return (
             <div id="login-page-div">
                 <BaseForm
+                    error={this.props.error}
                     title={title}
                     subtitle={subtitle}
                     form={form}

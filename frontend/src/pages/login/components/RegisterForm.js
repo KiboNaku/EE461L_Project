@@ -12,14 +12,11 @@ class RegisterForm extends Component {
     }
 
     onSubmit(){
-        console.log("state:", this.state);
-        console.log(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
         this.props.onSubmit(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
     }
 
     handleChange(event){
         this.setState({[event.target.name]: event.target.value});
-        console.log(this.state);
     }
 
     render() {
@@ -45,8 +42,8 @@ class RegisterForm extends Component {
                     <Form.Control name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={this.onSubmit} className="w-100">
-                    Login
+                <Button variant="primary" onClick={this.onSubmit} className="w-100">
+                    Register
                 </Button>
             </Form>
         );
@@ -54,6 +51,7 @@ class RegisterForm extends Component {
         return (
             <div id="login-page-div">
                 <BaseForm 
+                    error={this.props.error}
                     title={title} 
                     subtitle={subtitle}
                     form={form} 

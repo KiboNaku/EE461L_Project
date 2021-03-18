@@ -11,6 +11,7 @@ class BaseForm extends Component {
                 <Card.Body>
                     <Card.Title>{this.props.title}</Card.Title>
                     <Card.Text>{this.props.subtitle}</Card.Text>
+                    {this.props.error != null && <Card.Text className="text-danger">Error: {this.props.error}</Card.Text>}
 
                     {this.props.form}
                     <OrHr className="my-4" />
