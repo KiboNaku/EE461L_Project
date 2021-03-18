@@ -10,6 +10,9 @@ class Login extends Component {
         super();
         this.state = {
             isLogin: true,
+            hasLoggedIn: false,
+            loginError: null,
+            registerError: null,
         }
         this.emailSignIn = this.emailSignIn.bind(this);
         this.emailRegister = this.emailRegister.bind(this);
@@ -19,18 +22,31 @@ class Login extends Component {
     }
 
     emailSignIn(email, password) {
+        this.setState({ loginError: null });
         admission.login({ email: email, password: password })
             .then(res => {
                 console.log("Logged in with response", res);
-            })
+                let errorCode = res.data.success;
+                let error = res.data.error;
+
+                if (errorCode < 0) {
+                    this.setState({ loginError: error });
+                }
+            });
     }
 
     emailRegister(firstName, lastName, email, password) {
-        console.log("register details: ", firstName, lastName, email, password)
+        this.setState({ registerError: null });
         admission.register({ firstName: firstName, lastName: lastName, email: email, password: password })
             .then(res => {
                 console.log("Registered with response", res);
-            })
+                let errorCode = res.data.success;
+                let error = res.data.error;
+
+                if (errorCode < 0) {
+                    this.setState({ registerError: error });
+                }
+            });
     }
 
     googleSignIn() {
@@ -56,10 +72,12 @@ class Login extends Component {
                                 {
                                     this.state.isLogin ?
                                         <LoginForm
+                                            error={this.state.loginError}
                                             onSubmit={this.emailSignIn}
                                             switch={this.switchToRegister}
                                             googleSignIn={this.googleSignIn} /> :
                                         <RegisterForm
+                                            error={this.state.registerError}
                                             onSubmit={this.emailRegister}
                                             switch={this.switchToLogin}
                                             googleSignIn={this.googleSignIn} />
