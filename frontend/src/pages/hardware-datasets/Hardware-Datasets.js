@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Card, Table } from 'react-bootstrap'
 import Header from "../home/components/Header"
 import "../home/Home.css"
+import CheckCart from "./components/CheckCart.js"
 
 class HardwareDatasets extends Component {
 
@@ -38,7 +39,7 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>10</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number"/>
+                                        <input type="num" placeholder="Enter Number" name="hwSet1"/>
                                         <small class="form-text text-muted">How many you would like to checkout.</small>
                                     </td>
                                 </tr>
@@ -47,7 +48,7 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>25</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number"/>
+                                        <input type="num" placeholder="Enter Number" name="hwSet2"/>
                                         <small class="form-text text-muted">How many you would like to checkout.</small>
                                     </td>
                                 </tr>
@@ -56,7 +57,7 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>5</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number"/>
+                                        <input type="num" placeholder="Enter Number" name="hwSet3"/>
                                         <small class="form-text text-muted">How many you would like to checkout.</small>
                                     </td>
                                 </tr>
@@ -65,7 +66,7 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>15</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number"/>
+                                        <input type="num" placeholder="Enter Number" name="hwSet4"/>
                                         <small class="form-text text-muted">How many you would like to checkout.</small>
                                     </td>
                                 </tr>
@@ -74,14 +75,14 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>50</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number"/>
+                                        <input type="num" placeholder="Enter Number" name="hwSet5"/>
                                         <small class="form-text text-muted">How many you would like to checkout.</small>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <CheckCart />
                     </Card.Body>
-                    <button type="button" class="btn btn-primary btn-md" onClick="checkout()">Checkout</button>
                 </Card>
                 <Card style={{margin:20}}> 
                     <Card.Header>DataSets</Card.Header>
