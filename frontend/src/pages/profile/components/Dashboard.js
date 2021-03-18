@@ -41,7 +41,7 @@ class Dashboard extends Component {
             page = <ProfileHome/>
         }
         else if(this.state.currentPage == 1){
-           page = <Billing/>
+            page = <Billing/>
         }
         else if(this.state.currentPage == 2){
             page = <Project/>
@@ -71,7 +71,7 @@ class Dashboard extends Component {
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#project" onClick={this.projectClick}>
-                            Project
+                            Projects
                             </a>
                         </li>
                         <li class="nav-item">
