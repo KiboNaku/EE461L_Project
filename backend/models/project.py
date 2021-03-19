@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, request
+from bson import json_util
 from base import db
-from user import User
+from .user import User
+from .hardware import Hardware
+
 
 class Project(db.Document):
-
     project_name = db.StringField(required=True, max_length=50)
     owner = db.ReferenceField(User, required=True)
     contributors = db.ListField(db.ReferenceField(User))
@@ -15,10 +17,23 @@ class Project(db.Document):
     rented_hardware = db.ListField(db.ReferenceField(Hardware))
 
     def to_json(self):
-        return {
-            "project_name": self.project_name,
+        data = self.to_mongo()
+        data["owner"] = {
+            "User": {
+                "first_name": self.owner.first_name,
+                "last_name": self.owner.last_name
+            }
         }
 
+        # I don't actually know if this works 
+        for contributor in data["contributors"]:
+            contributor = {
+                "User": {
+                    "first_name": contributor.first_name,
+                    "last_name": contributor.last_name
+                }
+            }
+        
+        # write out details for hardware sets 
 
-class Hardware(db.Document):
-    pass
+        return json_util.dumps(data)

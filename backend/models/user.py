@@ -21,14 +21,15 @@
 
 from flask import Flask, jsonify, request
 from base import db
-from project import Project
+from .hardware import Hardware
+
 
 class User(db.Document):
     first_name = db.StringField(required=True)
     last_name = db.StringField(required=True)
     email = db.EmailField(required=True)
     password = db.StringField(required=True)
-    projects = db.ListField(db.ReferenceField(Project))
+    rented_hardware = db.ListField(db.ReferenceField(Hardware))
 
     # TODO: encrypt password
 
