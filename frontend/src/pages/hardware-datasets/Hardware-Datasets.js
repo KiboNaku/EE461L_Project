@@ -1,9 +1,11 @@
+import { useRadioGroup } from '@material-ui/core'
 import React, { Component } from 'react'
 import { Button, Card, Modal, Table } from 'react-bootstrap'
 import Header from "../home/components/Header"
 import "../home/Home.css"
 import CheckCart from "./components/CheckCart.js"
 import "./components/Modal.css"
+import $ from "jquery";
 
 class HardwareDatasets extends Component {
 
@@ -18,43 +20,65 @@ class HardwareDatasets extends Component {
     displayCart() {
         var btn = document.getElementById("modalButton");
         var modal = document.getElementById("CheckCart");
-        btn.onclick = function() {
-            let hwSet1String = "";
-            let hwSet2String = "";
-            let hwSet3String = "";
-            let hwSet4String = "";
-            let hwSet5String = "";
-            if(document.getElementById("hwSet1").value.length == 0) {
-                hwSet1String = "0 of HWSet1";
-            } else {
-                hwSet1String = document.getElementById("hwSet1").value + " of HWSet1";
+        btn.onclick = function () {
+            let hwSet1String = "0 of HWSet1";
+            let hwSet2String = "0 of HWSet2";
+            let hwSet3String = "0 of HWSet3";
+            let hwSet4String = "0 of HWSet4";
+            let hwSet5String = "0 of HWSet5";
+            // Error strings can be used to track any errors with inputs and display them to the user
+            // if errors exist, the errormessage modal should show up instead of checkCart
+            let errorBool = false;
+            let hwSet1Error = "";
+            let hwSet2Error = "";
+            let hwSet3Error = "";
+            let hwSet4Error = "";
+            let hwSet5Error = "";
+            // Add check for whether or not their ask exceeds the availability in the backend
+            if (!document.getElementById("hwSet1").value.length == 0) {
+                if (!isNaN(document.getElementById("hwSet1").value)) {
+                    hwSet1String = document.getElementById("hwSet1").value + " of HWSet1";
+                }
             }
-            if(document.getElementById("hwSet2").value.length == 0) {
-                hwSet2String = "0 of HWSet2";
-            } else {
-                hwSet2String = document.getElementById("hwSet2").value + " of HWSet2";
+            // Add check for whether or not their ask exceeds the availability in the backend
+            if (!document.getElementById("hwSet2").value.length == 0) {
+                if (!isNaN(document.getElementById("hwSet2").value)) {
+                    hwSet2String = document.getElementById("hwSet2").value + " of HWSet2";
+                }
             }
-            if(document.getElementById("hwSet3").value.length == 0) {
-                hwSet3String = "0 of HWSet3";
-            } else {
-                hwSet3String = document.getElementById("hwSet3").value + " of HWSet3";
+            // Add check for whether or not their ask exceeds the availability in the backend
+            if (!document.getElementById("hwSet3").value.length == 0) {
+                if (!isNaN(document.getElementById("hwSet3").value)) {
+                    hwSet3String = document.getElementById("hwSet3").value + " of HWSet3";
+                }
             }
-            if(document.getElementById("hwSet4").value.length == 0) {
-                hwSet4String = "0 of HWSet4";
-            } else {
-                hwSet4String = document.getElementById("hwSet4").value + " of HWSet4";
+            // Add check for whether or not their ask exceeds the availability in the backend
+            if (!document.getElementById("hwSet4").value.length == 0) {
+                if (!isNaN(document.getElementById("hwSet4").value)) {
+                    hwSet4String = document.getElementById("hwSet4").value + " of HWSet4";
+                }
             }
-            if(document.getElementById("hwSet5").value.length == 0) {
-                hwSet5String = "0 of HWSet5";
-            } else {
-                hwSet5String = document.getElementById("hwSet5").value + " of HWSet5";
+            // Add check for whether or not their ask exceeds the availability in the backend
+            if (!document.getElementById("hwSet5").value.length == 0) {
+                if (!isNaN(document.getElementById("hwSet5").value)) {
+                    hwSet5String = document.getElementById("hwSet5").value + " of HWSet5";
+                }
             }
-            document.getElementById("hwSet1Info").innerHTML = hwSet1String
-            document.getElementById("hwSet2Info").innerHTML = hwSet2String
-            document.getElementById("hwSet3Info").innerHTML = hwSet3String
-            document.getElementById("hwSet4Info").innerHTML = hwSet4String
-            document.getElementById("hwSet5Info").innerHTML = hwSet5String
-            modal.style.display = "block";
+
+            document.getElementById("hwSet1Info").innerHTML = hwSet1String;
+            document.getElementById("hwSet2Info").innerHTML = hwSet2String;
+            document.getElementById("hwSet3Info").innerHTML = hwSet3String;
+            document.getElementById("hwSet4Info").innerHTML = hwSet4String;
+            document.getElementById("hwSet5Info").innerHTML = hwSet5String;
+            if (!errorBool) {
+                // modal.style.display = "block";
+                // $("#CheckCart").modal("show");
+            }
+            document.getElementById("hwSet1").value = "";
+            document.getElementById("hwSet2").value = "";
+            document.getElementById("hwSet3").value = "";
+            document.getElementById("hwSet4").value = "";
+            document.getElementById("hwSet5").value = "";
         }
     }
 
@@ -128,7 +152,7 @@ class HardwareDatasets extends Component {
                             </tbody>
                         </table>
                         <div class="row justify-content-center">
-                            <button id="modalButton" type="button" class="btn btn-primary btn-md"
+                            <button id="modalButton" type="button" className="btn btn-primary btn-md"
                                 data-toggle="modal" data-target="#CheckCart" onClick={this.displayCart}>
                                 Checkout
                             </button>
