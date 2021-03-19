@@ -4,6 +4,8 @@ import { Button, Card, Modal, Table } from 'react-bootstrap'
 import Header from "../home/components/Header"
 import "../home/Home.css"
 import CheckCart from "./components/CheckCart.js"
+import ErrorMessage from "./components/ErrorMessage.js"
+import CheckModal from "./components/CheckModal.js"
 import "./components/Modal.css"
 import $ from "jquery";
 
@@ -12,6 +14,7 @@ class HardwareDatasets extends Component {
     constructor() {
         super();
         this.state = {
+            error: true
         }
         this.displayCart = this.displayCart.bind(this);
         this.checkOut = this.checkOut.bind(this);
@@ -19,7 +22,7 @@ class HardwareDatasets extends Component {
 
     displayCart() {
         var btn = document.getElementById("modalButton");
-        var modal = document.getElementById("CheckCart");
+        var modal = document.getElementById("check-modal");
         btn.onclick = function () {
             let hwSet1String = "0 of HWSet1";
             let hwSet2String = "0 of HWSet2";
@@ -28,7 +31,7 @@ class HardwareDatasets extends Component {
             let hwSet5String = "0 of HWSet5";
             // Error strings can be used to track any errors with inputs and display them to the user
             // if errors exist, the errormessage modal should show up instead of checkCart
-            let errorBool = false;
+            // let errorBool = false;
             let hwSet1Error = "";
             let hwSet2Error = "";
             let hwSet3Error = "";
@@ -70,10 +73,10 @@ class HardwareDatasets extends Component {
             document.getElementById("hwSet3Info").innerHTML = hwSet3String;
             document.getElementById("hwSet4Info").innerHTML = hwSet4String;
             document.getElementById("hwSet5Info").innerHTML = hwSet5String;
-            if (!errorBool) {
+            // if (!errorBool) {
                 // modal.style.display = "block";
                 // $("#CheckCart").modal("show");
-            }
+            // }
             document.getElementById("hwSet1").value = "";
             document.getElementById("hwSet2").value = "";
             document.getElementById("hwSet3").value = "";
@@ -153,10 +156,10 @@ class HardwareDatasets extends Component {
                         </table>
                         <div class="row justify-content-center">
                             <button id="modalButton" type="button" className="btn btn-primary btn-md"
-                                data-toggle="modal" data-target="#CheckCart" onClick={this.displayCart}>
+                                data-toggle="modal" data-target="#check-modal" onClick={this.displayCart}>
                                 Checkout
                             </button>
-                            <CheckCart />
+                            <CheckModal content={this.state.error? <ErrorMessage/>: <CheckCart/>} />
                         </div>
                     </Card.Body>
                 </Card>
