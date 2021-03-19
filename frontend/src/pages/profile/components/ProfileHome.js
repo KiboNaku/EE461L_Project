@@ -3,6 +3,13 @@ import Avatar from 'react-avatar';
 import { Card, Tab, Table } from 'react-bootstrap';
 
 class ProfileHome extends Component {
+    constructor() {
+        super();
+        this.state = {
+        }
+        /* TODO: Need to get info from database*/
+    }
+
     render() {
         return (
             <div>
@@ -23,18 +30,27 @@ class ProfileHome extends Component {
                             <tr>
                                 <td>First Name: </td>
                                 <td>Temporary</td>
+                                <td><a>Change First Name</a></td>
                             </tr>
                             <tr>
                                 <td>Last Name: </td>
                                 <td>Temporary</td>
+                                <td><a>Change Last Name</a></td>
                             </tr>
                             <tr>
                                 <td>Username: </td>
                                 <td>Temporary</td>
+                                <td><a>Change Username</a></td>
                             </tr>
                             <tr>
                                 <td>Password: </td>
                                 <td>Temporary</td>
+                                <td><a>Change Password</a></td>
+                            </tr>
+                            <tr>
+                                <td>Email: </td>
+                                <td>Temporary</td>
+                                <td><a>Change Email</a></td>
                             </tr>
                         </tbody>
                     </Table>
@@ -58,7 +74,7 @@ class ProfileHome extends Component {
                                 <td>Project 3</td>
                             </tr>
                             <tr>
-                                <td>Project4</td>
+                                <td>Project 4</td>
                             </tr>
                         </tbody>
                     </Table>

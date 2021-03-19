@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import ProfileHome from './ProfileHome'
-import Billing from './Billing'
+import Billing from '../../billing/Billing'
 import Project from './Project'
 import ProfileHardware from './ProfileHardware'
 import ProfileDataset from './ProfileDataset'
