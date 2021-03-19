@@ -1,12 +1,14 @@
 from flask import Flask, jsonify, request
 from base import app, db
 from models.user import User
+from models.project import Project
 import json
+
 
 @app.route("/api/register", methods=["POST"])
 def register():
 
-#     # initialize return value
+    #     # initialize return value
     r_val = {"email": None, "success": 0, "error": None}
 
 #     # get user info
@@ -17,14 +19,14 @@ def register():
 
     if not exist_user:
         user = User(
-            first_name=record["firstName"], 
+            first_name=record["firstName"],
             last_name=record["lastName"],
             email=record["email"],
             password=record["password"],
             projects=[]
         )
         user.save()
-    else: 
+    else:
         r_val["success"] = -1
         r_val["error"] = "An account with the email already exists."
 
@@ -85,3 +87,17 @@ def login():
             r_val["error"] = "Invalid email and password combination."
 
     return r_val
+
+
+@app.route("/api/fetch-project", methods=["GET"])
+def fetch_project():
+    project_list = Project.objects()
+
+    # iterate through all profs and add to list
+    projects = []
+    for project in project_list:
+        projects.append(project.to_json())
+
+    result = jsonify({"projects": projects})
+
+    return result
