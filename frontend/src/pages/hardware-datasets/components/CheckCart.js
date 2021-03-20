@@ -10,10 +10,13 @@ class CheckCart extends Component {
         this.fixString = this.fixString.bind(this);
     }
     
-    // TODO: learn how to use this to more accurately define how many of each hardware set are requested
     fixString(hardware) {
-        if(hardware.value.length == 0){
-            return 0;
+        console.log("fixString was called")
+        if(!hardware){
+            return "0";
+        }
+        else {
+            return hardware
         }
     }
 
@@ -26,11 +29,11 @@ class CheckCart extends Component {
                     </div>
                     <div className="modal-body">
                         <p>Are these all the hardware sets that you require?</p>
-                        <p id="hwSet1Info">{this.props.hwSet1} of HWSet1</p>
-                        <p id="hwSet2Info">{this.props.hwSet2} of HWSet2</p>
-                        <p id="hwSet3Info">{this.props.hwSet3} of HWSet3</p>
-                        <p id="hwSet4Info">{this.props.hwSet4} of HWSet4</p>
-                        <p id="hwSet5Info">{this.props.hwSet5} of HWSet5</p>
+                        <p id="hwSet1Info">{this.fixString(this.props.hwSet1)} of HWSet1</p>
+                        <p id="hwSet2Info">{this.fixString(this.props.hwSet2)} of HWSet2</p>
+                        <p id="hwSet3Info">{this.fixString(this.props.hwSet3)} of HWSet3</p>
+                        <p id="hwSet4Info">{this.fixString(this.props.hwSet4)} of HWSet4</p>
+                        <p id="hwSet5Info">{this.fixString(this.props.hwSet5)} of HWSet5</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-primary" data-dismiss="modal">Checkout</button>

@@ -1,4 +1,3 @@
-import { useRadioGroup } from '@material-ui/core'
 import React, { Component } from 'react'
 import { Form, Button, Card, Modal, Table } from 'react-bootstrap'
 import Header from "../home/components/Header"
@@ -25,8 +24,12 @@ class HardwareDatasets extends Component {
     }
 
     handleChange(event) {
+        // TODO: add a check for if a hwSet ask is greater than the current availability of that hwSet
         this.setState({ [event.target.name]: event.target.value });
-        console.log(event.target.name + " was set to " + event.target.value)
+        if(isNaN(this.state.hwSet1) || isNaN(this.state.hwSet2) || isNaN(this.state.hwSet3) || isNaN(this.state.hwSet4) || isNaN(this.state.hwSet5)){
+            this.state.error = true;
+        }
+        // console.log(event.target.name + " was set to " + event.target.value)
     }
 
     checkOut() {
