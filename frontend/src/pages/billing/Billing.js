@@ -39,7 +39,7 @@ class Billing extends Component {
                     </Card>
                 </div>
                 <div style={{ display: "flex" }} class="mb-3">
-                    <Card style={{ marginRight: "auto", width:"80%", height:"auto"}}>
+                    <Card style={{ marginRight: "auto", width:"auto", height:"auto"}}>
                         <Card.Header>
                         <h4>Payment Information</h4>
                         </Card.Header>
