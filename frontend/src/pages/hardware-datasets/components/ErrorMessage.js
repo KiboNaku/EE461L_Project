@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import "../Hardware-Datasets"
-import "./Modal.css"
 
 class ErrorMessage extends Component {
-    // {/* TODO: add script here to get the values from the different input boxes to finalize the user's cart */}
 
     render() {
         return (
@@ -14,6 +12,7 @@ class ErrorMessage extends Component {
                     </div>
                     <div class="modal-body">
                         <p>There is an issue with your input: </p>
+                        {/* TODO: implement similar structure to the checkCart modal with dynamic text changes */}
                         <p id="hwSet1Error"></p>
                         <p id="hwSet2Error"></p>
                         <p id="hwSet3Error"></p>

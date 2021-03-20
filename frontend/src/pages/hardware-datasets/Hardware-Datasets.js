@@ -1,12 +1,11 @@
 import { useRadioGroup } from '@material-ui/core'
 import React, { Component } from 'react'
-import { Button, Card, Modal, Table } from 'react-bootstrap'
+import { Form, Button, Card, Modal, Table } from 'react-bootstrap'
 import Header from "../home/components/Header"
 import "../home/Home.css"
 import CheckCart from "./components/CheckCart.js"
 import ErrorMessage from "./components/ErrorMessage.js"
 import CheckModal from "./components/CheckModal.js"
-import "./components/Modal.css"
 import $ from "jquery";
 
 class HardwareDatasets extends Component {
@@ -14,75 +13,20 @@ class HardwareDatasets extends Component {
     constructor() {
         super();
         this.state = {
-            error: true
+            hwSet1: "",
+            hwSet2: "",
+            hwSet3: "",
+            hwSet4: "",
+            hwSet5: "",
+            error: false
         }
-        this.displayCart = this.displayCart.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.checkOut = this.checkOut.bind(this);
     }
 
-    displayCart() {
-        var btn = document.getElementById("modalButton");
-        var modal = document.getElementById("check-modal");
-        btn.onclick = function () {
-            let hwSet1String = "0 of HWSet1";
-            let hwSet2String = "0 of HWSet2";
-            let hwSet3String = "0 of HWSet3";
-            let hwSet4String = "0 of HWSet4";
-            let hwSet5String = "0 of HWSet5";
-            // Error strings can be used to track any errors with inputs and display them to the user
-            // if errors exist, the errormessage modal should show up instead of checkCart
-            // let errorBool = false;
-            let hwSet1Error = "";
-            let hwSet2Error = "";
-            let hwSet3Error = "";
-            let hwSet4Error = "";
-            let hwSet5Error = "";
-            // Add check for whether or not their ask exceeds the availability in the backend
-            if (!document.getElementById("hwSet1").value.length == 0) {
-                if (!isNaN(document.getElementById("hwSet1").value)) {
-                    hwSet1String = document.getElementById("hwSet1").value + " of HWSet1";
-                }
-            }
-            // Add check for whether or not their ask exceeds the availability in the backend
-            if (!document.getElementById("hwSet2").value.length == 0) {
-                if (!isNaN(document.getElementById("hwSet2").value)) {
-                    hwSet2String = document.getElementById("hwSet2").value + " of HWSet2";
-                }
-            }
-            // Add check for whether or not their ask exceeds the availability in the backend
-            if (!document.getElementById("hwSet3").value.length == 0) {
-                if (!isNaN(document.getElementById("hwSet3").value)) {
-                    hwSet3String = document.getElementById("hwSet3").value + " of HWSet3";
-                }
-            }
-            // Add check for whether or not their ask exceeds the availability in the backend
-            if (!document.getElementById("hwSet4").value.length == 0) {
-                if (!isNaN(document.getElementById("hwSet4").value)) {
-                    hwSet4String = document.getElementById("hwSet4").value + " of HWSet4";
-                }
-            }
-            // Add check for whether or not their ask exceeds the availability in the backend
-            if (!document.getElementById("hwSet5").value.length == 0) {
-                if (!isNaN(document.getElementById("hwSet5").value)) {
-                    hwSet5String = document.getElementById("hwSet5").value + " of HWSet5";
-                }
-            }
-
-            document.getElementById("hwSet1Info").innerHTML = hwSet1String;
-            document.getElementById("hwSet2Info").innerHTML = hwSet2String;
-            document.getElementById("hwSet3Info").innerHTML = hwSet3String;
-            document.getElementById("hwSet4Info").innerHTML = hwSet4String;
-            document.getElementById("hwSet5Info").innerHTML = hwSet5String;
-            // if (!errorBool) {
-                // modal.style.display = "block";
-                // $("#CheckCart").modal("show");
-            // }
-            document.getElementById("hwSet1").value = "";
-            document.getElementById("hwSet2").value = "";
-            document.getElementById("hwSet3").value = "";
-            document.getElementById("hwSet4").value = "";
-            document.getElementById("hwSet5").value = "";
-        }
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+        console.log(event.target.name + " was set to " + event.target.value)
     }
 
     checkOut() {
@@ -112,8 +56,9 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>10</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number" id="hwSet1" />
-                                        <small class="form-text text-muted">How many you would like to checkout.</small>
+                                        <Form>
+                                            <Form.Control name="hwSet1" type="num" placeholder="Enter Num" value={this.statehwSet1} onChange={this.handleChange} />
+                                        </Form>
                                     </td>
                                 </tr>
                                 <tr>
@@ -121,8 +66,9 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>25</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number" id="hwSet2" />
-                                        <small class="form-text text-muted">How many you would like to checkout.</small>
+                                        <Form>
+                                            <Form.Control name="hwSet2" type="num" placeholder="Enter Num" value={this.statehwSet2} onChange={this.handleChange} />
+                                        </Form>
                                     </td>
                                 </tr>
                                 <tr>
@@ -130,8 +76,9 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>5</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number" id="hwSet3" />
-                                        <small class="form-text text-muted">How many you would like to checkout.</small>
+                                        <Form>
+                                            <Form.Control name="hwSet3" type="num" placeholder="Enter Num" value={this.statehwSet3} onChange={this.handleChange} />
+                                        </Form>
                                     </td>
                                 </tr>
                                 <tr>
@@ -139,8 +86,9 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>15</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number" id="hwSet4" />
-                                        <small class="form-text text-muted">How many you would like to checkout.</small>
+                                        <Form>
+                                            <Form.Control name="hwSet4" type="num" placeholder="Enter Num" value={this.statehwSet4} onChange={this.handleChange} />
+                                        </Form>
                                     </td>
                                 </tr>
                                 <tr>
@@ -148,8 +96,9 @@ class HardwareDatasets extends Component {
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
                                     <td>50</td>
                                     <td>
-                                        <input type="num" placeholder="Enter Number" id="hwSet5" />
-                                        <small class="form-text text-muted">How many you would like to checkout.</small>
+                                        <Form>
+                                            <Form.Control name="hwSet5" type="num" placeholder="Enter Num" value={this.statehwSet5} onChange={this.handleChange} />
+                                        </Form>
                                     </td>
                                 </tr>
                             </tbody>
@@ -159,7 +108,8 @@ class HardwareDatasets extends Component {
                                 data-toggle="modal" data-target="#check-modal" onClick={this.displayCart}>
                                 Checkout
                             </button>
-                            <CheckModal content={this.state.error? <ErrorMessage/>: <CheckCart/>} />
+                            <CheckModal content={this.state.error ? <ErrorMessage /> :
+                                <CheckCart hwSet1={this.state.hwSet1} hwSet2={this.state.hwSet2} hwSet3={this.state.hwSet3} hwSet4={this.state.hwSet4} hwSet5={this.state.hwSet5} />} />
                         </div>
                     </Card.Body>
                 </Card>
