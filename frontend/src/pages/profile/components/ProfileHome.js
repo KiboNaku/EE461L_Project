@@ -13,15 +13,15 @@ class ProfileHome extends Component {
     render() {
         return (
             <div>
-                <div id="profile" class=" pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Profile</h1>
+                <div id="profile" className=" pb-2 mb-3 border-bottom">
+                    <h1 className="h2">Profile</h1>
                 </div>
                 {/* TODO: need better way to implement avatar */}
-                <div id="avatar" class='mb-3'>
+                <div id="avatar" className='mb-3'>
                     <Avatar name="Temporary name" />
                 </div>
                 {/* TODO: fill personal info from login */}
-                <div id="personal-info" class='mb-3'>
+                <div id="personal-info" className='mb-3'>
                 <Card>
                     <Card.Header>Personal Information</Card.Header>
                     <Card.Body>

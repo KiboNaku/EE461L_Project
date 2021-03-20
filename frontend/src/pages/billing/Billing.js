@@ -10,33 +10,26 @@ class Billing extends Component {
     this.state = {
       billingAddress: false,
     };
-    this.differentBilling = this.differentBilling.bind(this);
-    this.sameBilling = this.sameBilling.bind(this);
+    this.toggleBilling = this.toggleBilling.bind(this);
   }
-  differentBilling() {
-    this.setState({ billingAddress: true });
+  toggleBilling() {
+    const{billingAddress} = this.state;
+    this.setState({ billingAddress: !billingAddress, });
   }
-  sameBilling() {
-    this.setState({ billingAddress: false });
-  }
+
   render() {
-    var show;
-    if (this.state.billingAddress == false) {
-      show = false;
-    } else {
-      show = true;
-    }
+    const{billingAddress} = this.state;
     return (
       <div>
-        <div id="Billing" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <div id="Billing" className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
           <h1 class="h2">Billing</h1>
         </div>
         <div id="billing-body">
           <Container fluid>
             <Row>
-              <Col>
+              <Col md={8}>
                 <div style={{ display: "flex" }} class="mb-3">
-                    <Card style={{ marginRight: "auto", width:"auto", height:"auto"}}>
+                    <Card style={{ marginRight: "auto", width:"80%", height:"auto"}}>
                         <Card.Header>
                             <h4>Shipping Information</h4>
                         </Card.Header>
@@ -55,9 +48,31 @@ class Billing extends Component {
                         </Card.Body>
                     </Card>
                 </div>
+                <div style={{ display: "flex" }} class="mb-3">
+                  <input type="checkbox" onClick={this.toggleBilling}></input><span>Is your billing diffferent from your shipping?</span>
+                </div>
+                <div style={{ display: "flex" }} class="mb-3">
+                  {billingAddress && (
+                    <Card style={{ marginRight: "auto", width:"80%", height:"auto"}}>
+                    <Card.Header>
+                    <h4>Billing Information</h4>
+                    </Card.Header>
+                    <Card.Body>
+                        <AddressForm/>
+                    </Card.Body>
+                    </Card>
+                  )}
+                </div>
               </Col>
-              <Col>
-                <PricingDisplay/>
+              <Col md={4}>
+                <div style={{ display: "flex" }}>
+                  <Card style={{ marginLeft: "auto", width:"80%", height:"45%"}}>
+                    <Card.Header>Items</Card.Header>
+                    <Card.Body> 
+                      <PricingDisplay/>
+                    </Card.Body>
+                  </Card>
+                </div>
               </Col>
             </Row>
             <Row>

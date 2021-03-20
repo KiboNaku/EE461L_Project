@@ -153,7 +153,6 @@ class Browse extends Component {
 	render() {
 		return (
 			<div className="container">
-				<Header />
 				<div className="row browse">
 					<div className="col browse-filter">
 						<Filter

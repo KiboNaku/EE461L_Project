@@ -81,7 +81,6 @@ class HardwareDatasets extends Component {
     render() {
         return (
             <div className="full-screen-height">
-                <Header />
                 <Card style={{ margin: 20 }}>
                     <Card.Header>Hardware Sets</Card.Header>
                     <Card.Body>

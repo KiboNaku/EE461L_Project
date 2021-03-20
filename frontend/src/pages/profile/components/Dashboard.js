@@ -54,38 +54,38 @@ class Dashboard extends Component {
         }
         
         return (
-            <div class="container-fluid">
-                <div class="row">
-                    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#menu" onClick={this.profileClick}>
-                            Profile <span class="sr-only">(current)</span>
+            <div className="container-fluid">
+                <div className="row">
+                    <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div className="sidebar-sticky">
+                        <ul className="nav flex-column">
+                        <li className="nav-item">
+                            <a className="nav-link active" href="#menu" onClick={this.profileClick}>
+                            Profile <span className="sr-only">(current)</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#billing" onClick={this.billingClick}>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#billing" onClick={this.billingClick}>
                             Billing
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#project" onClick={this.projectClick}>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#project" onClick={this.projectClick}>
                             Projects
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#hardware" onClick={this.hardwareClick}>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#hardware" onClick={this.hardwareClick}>
                             Hardware
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#dataset" onClick={this.datasetClick}>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#dataset" onClick={this.datasetClick}>
                             Dataset
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">
                             Sign Out
                             </a>
                         </li>
@@ -93,7 +93,7 @@ class Dashboard extends Component {
                     </div>
                     </nav>
 
-                    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                         {page}
                     </main>
                 </div>

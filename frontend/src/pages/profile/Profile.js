@@ -16,7 +16,6 @@ class Profile extends Component {
     render(){
         return (
             <div className="full-screen-height">
-                <Header />
                 <Dashboard />
             </div>
         )  
