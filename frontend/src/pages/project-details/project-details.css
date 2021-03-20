@@ -19,3 +19,31 @@
     color: #d1ffeb;
     border-radius: 5px;
 }
+
+.block-color-title {
+    height: 50vh;
+    background-color: #2C363F;
+    color: white;
+    flex: 0 1 40px;
+}
+
+.block-color-green {
+    background-color: #1a936f;
+}
+
+.block-color-purple {
+    background-color: #7a82ab;
+    color: white;
+}
+
+.block-color-rose {
+    background-color: #FAE1DF;
+}
+
+.block-color-blue {
+    background-color: #9FB4C7;
+}
+
+.borderless td, .borderless th, .borderless tr, .borderless thead, .borderless tbody {
+    border: none;
+}
