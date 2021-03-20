@@ -3,6 +3,7 @@ import Header from "./../home/components/Header";
 import Filter from "./components/Filter";
 import BrowsingItems from "./components/BrowsingItems";
 import { fetchProjects } from "./../../api_calls/fetchInformation";
+import { joinProject } from "./../../api_calls/editProject";
 import Project from "./components/Project";
 
 import "./Browse.css"
@@ -110,7 +111,20 @@ class Browse extends Component {
 	}
 
 	joinProject(id) {
-		console.log(id)
+		// get user information => if not logged in, go to login page instead 
+		let user = localStorage.token
+		let project = null
+		this.state.projects.map(p => {
+			if (p.id == id) {
+				project = p;
+			}
+		})
+
+		joinProject(user, project).then(res => {
+			if (res.error) {
+				alert(res.error)
+			}
+		})
 	}
 
 	handleFilterChange = (event) => {

@@ -14,7 +14,7 @@ class Project(db.Document):
     description = db.StringField(max_length=1000)
     tags = db.ListField(db.StringField(max_length=20))
     total_cost = db.FloatField(required=True)
-    rented_hardware = db.ListField(db.ReferenceField(Hardware))
+    # rented_hardware = db.ListField(db.ReferenceField(Hardware))
 
     def to_json(self):
         data = self.to_mongo()

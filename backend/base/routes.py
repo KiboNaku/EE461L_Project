@@ -23,7 +23,6 @@ def register():
             last_name=record["lastName"],
             email=record["email"],
             password=record["password"],
-            projects=[]
         )
         user.save()
     else:
@@ -93,7 +92,6 @@ def login():
 def fetch_project():
     project_list = Project.objects()
 
-    # iterate through all profs and add to list
     projects = []
     for project in project_list:
         projects.append(project.to_json())
@@ -101,3 +99,24 @@ def fetch_project():
     result = jsonify({"projects": projects})
 
     return result
+
+
+@app.route("/api/join-project", methods=["POST"])
+def join_project():
+    r_val = {"success": 0, "error": None}
+
+    user_request = json.loads(request.data["user"])
+    user = User.objects(email=user_request['email']).first()
+    project_request = json.loads(request.data["project"])
+    project = Project.objects(id=project_request['id']).first()
+
+    if not project:
+        r_val["success"] = -1
+        r_val["error"] = "No project found."
+    elif not user:
+        r_val["success"] = -1
+        r_val["error"] = "No user found."
+    else:
+        project.update(add_to_set__contributors=[user])
+
+    return r_val
