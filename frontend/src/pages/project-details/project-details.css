@@ -45,5 +45,5 @@
 }
 
 .borderless td, .borderless th, .borderless tr, .borderless thead, .borderless tbody {
-    border: none;
+    border: none !important;
 }
