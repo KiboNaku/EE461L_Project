@@ -25,18 +25,33 @@ from .hardware import Hardware
 
 
 class User(db.Document):
-    first_name = db.StringField(required=True)
-    last_name = db.StringField(required=True)
+    username = db.StringField(required=True)
     email = db.EmailField(required=True)
     password = db.StringField(required=True)
-    rented_hardware = db.ListField(db.ReferenceField(Hardware))
+    # fix dictfield input
+    rented_hardware = db.ListField(db.ReferenceField(RentRecord))
+    # cross reference list to project, one as owner, and one as contributor
+    # profile pic?
+    # cross reference to billing, shipping address and payment info
 
     # TODO: encrypt password
 
     def to_json(self):
         return {
-            "first_name": self.first_name,
-            "last_name": self.last_name,
+            "username": self.first_name,
             "email": self.email,
             "password": self.password
         }
+
+
+class Address(db.Document):
+    pass
+
+
+class PaymentInformation(db.Document):
+    pass
+
+
+class RentRecord(db.Document):
+    # user, hardware, date rented out, date expiring 
+    pass

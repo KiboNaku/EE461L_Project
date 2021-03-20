@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from bson import json_util
 from base import db
-from .user import User
+from .user import User, RentRecord
 from .hardware import Hardware
 
 
@@ -12,16 +12,15 @@ class Project(db.Document):
     created_time = db.DateTimeField()
     last_edited_time = db.DateTimeField()
     description = db.StringField(max_length=1000)
-    tags = db.ListField(db.StringField(max_length=20))
+    tags = db.ListField(db.ReferenceField(Tag))
     total_cost = db.FloatField(required=True)
-    rented_hardware = db.ListField(db.ReferenceField(Hardware))
+    rented_hardware = db.ListField(db.ReferenceField(RentRecord))
 
     def to_json(self):
         data = self.to_mongo()
         data["owner"] = {
             "User": {
-                "first_name": self.owner.first_name,
-                "last_name": self.owner.last_name
+                "username": self.owner.username,
             }
         }
 
@@ -34,6 +33,20 @@ class Project(db.Document):
                 }
             }
         
+        for tag in data["tags"]:
+            tag = {
+                "Tag":{
+                    "tag_name": tag.tag_name,
+                    "tag_type": tag.tag_type
+                }
+            }
+        
         # write out details for hardware sets 
 
         return json_util.dumps(data)
+
+
+class Tag(db.Document):
+    tag_name = db.StringField(required=True)
+    # limit number of types somewhere 
+    tag_type = db.StringField(required=True)

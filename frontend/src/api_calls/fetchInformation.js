@@ -9,12 +9,3 @@ export const fetchProjects = () => {
 			return response.data
 		})
 }
-
-export const fetchLoginStatus = () => {
-    let fetchLoginStatusUrl = consts.BACKEND_ROUTE + consts.FETCH_LOGIN_STATUS_ROUTE;
-	return axios
-		.get(fetchLoginStatusUrl)
-		.then(response => {
-			return response.data
-		})
-}
