@@ -19,8 +19,7 @@ def register():
 
     if not exist_user:
         user = User(
-            first_name=record["firstName"],
-            last_name=record["lastName"],
+            username=record["username"],
             email=record["email"],
             password=record["password"],
         )
