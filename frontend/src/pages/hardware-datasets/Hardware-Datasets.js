@@ -5,7 +5,6 @@ import "../home/Home.css"
 import CheckCart from "./components/CheckCart.js"
 import ErrorMessage from "./components/ErrorMessage.js"
 import CheckModal from "./components/CheckModal.js"
-import $ from "jquery";
 
 class HardwareDatasets extends Component {
 
@@ -17,59 +16,17 @@ class HardwareDatasets extends Component {
             hwSet3: "",
             hwSet4: "",
             hwSet5: "",
-            errorString: "",
-            error: false
+            // errorString: "",
+            error: false // currently is never set to true
         }
         this.handleChange = this.handleChange.bind(this);
-        this.errorExists = this.errorExists.bind(this);
-        this.findErrors = this.findErrors.bind(this);
         this.checkOut = this.checkOut.bind(this);
     }
 
     handleChange(event) {
         // TODO: add a check for if a hwSet ask is greater than the current availability of that hwSet
         this.setState({ [event.target.name]: event.target.value });
-                console.log(event.target.name + " was set to " + event.target.value)
-
-        if(this.errorExists()){
-            this.state.error = true;
-            this.state.errorString = this.findErrors();
-            console.log("error was found")
-        } else {
-            this.state.error = false;
-        }
-    }
-
-    errorExists(){
-        if(isNaN(this.state.hwSet1) || isNaN(this.state.hwSet2) ||isNaN(this.state.hwSet3) || isNaN(this.state.hwSet4) || isNaN(this.state.hwSet5)){
-            return true;
-        }
-        // TODO: decide with the team if the user asking for too many of a hwset counts as an error or not
-    }
-
-    findErrors(){
-        var errorString = "";
-        if(isNaN(this.state.hwSet1)){
-            errorString += "Checkout Amount for HWSet1 must be a number\n";
-            console.log(this.state.hwSet1 + " is not a number")
-        }
-        if(isNaN(this.state.hwSet2)){
-            errorString += "Checkout Amount for HWSet2 must be a number\n";
-            console.log(this.state.hwSet2 + " is not a number")
-        }
-        if(isNaN(this.state.hwSet3)){
-            errorString += "Checkout Amount for HWSet3 must be a number\n";
-            console.log(this.state.hwSet3 + " is not a number")
-        }
-        if(isNaN(this.state.hwSet4)){
-            errorString += "Checkout Amount for HWSet4 must be a number\n";
-            console.log(this.state.hwSet4 + " is not a number")
-        }
-        if(isNaN(this.state.hwSet5)){
-            errorString += "Checkout Amount for HWSet5 must be a number\n";
-            console.log(this.state.hwSet5 + " is not a number")
-        }
-        return errorString;
+        // console.log(event.target.name + " was set to " + event.target.value)
     }
 
     checkOut() {
@@ -99,7 +56,7 @@ class HardwareDatasets extends Component {
                                     <td>10</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet1" type="num" placeholder="Enter Num" value={this.statehwSet1} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet1" type="number" placeholder="Enter Num" min="0" value={this.statehwSet1} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
@@ -109,7 +66,7 @@ class HardwareDatasets extends Component {
                                     <td>25</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet2" type="num" placeholder="Enter Num" value={this.statehwSet2} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet2" type="number" placeholder="Enter Num" min="0" value={this.statehwSet2} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
@@ -119,7 +76,7 @@ class HardwareDatasets extends Component {
                                     <td>5</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet3" type="num" placeholder="Enter Num" value={this.statehwSet3} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet3" type="number" placeholder="Enter Num" min="0" value={this.statehwSet3} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
@@ -129,7 +86,7 @@ class HardwareDatasets extends Component {
                                     <td>15</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet4" type="num" placeholder="Enter Num" value={this.statehwSet4} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet4" type="number" placeholder="Enter Num" min="0" value={this.statehwSet4} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
@@ -139,7 +96,7 @@ class HardwareDatasets extends Component {
                                     <td>50</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet5" type="num" placeholder="Enter Num" value={this.statehwSet5} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet5" type="number" placeholder="Enter Num" min="0" value={this.statehwSet5} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
