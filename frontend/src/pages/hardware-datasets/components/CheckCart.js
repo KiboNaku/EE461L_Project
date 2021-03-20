@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import "../Hardware-Datasets"
 
 class CheckCart extends Component {
-    // {/* TODO: add script here to get the values from the different input boxes to finalize the user's cart */}
     constructor() {
         super();
         this.state = {
@@ -11,7 +10,6 @@ class CheckCart extends Component {
     }
     
     fixString(hardware) {
-        console.log("fixString was called")
         if(!hardware){
             return "0";
         }

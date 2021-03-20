@@ -13,11 +13,7 @@ class ErrorMessage extends Component {
                     <div class="modal-body">
                         <p>There is an issue with your input: </p>
                         {/* TODO: implement similar structure to the checkCart modal with dynamic text changes */}
-                        <p id="hwSet1Error"></p>
-                        <p id="hwSet2Error"></p>
-                        <p id="hwSet3Error"></p>
-                        <p id="hwSet4Error"></p>
-                        <p id="hwSet5Error"></p>
+                        <p id="hwSet1Error" style={{ whiteSpace: 'break-spaces' }}>{this.props.errorString}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

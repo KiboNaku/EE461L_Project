@@ -17,19 +17,59 @@ class HardwareDatasets extends Component {
             hwSet3: "",
             hwSet4: "",
             hwSet5: "",
+            errorString: "",
             error: false
         }
         this.handleChange = this.handleChange.bind(this);
+        this.errorExists = this.errorExists.bind(this);
+        this.findErrors = this.findErrors.bind(this);
         this.checkOut = this.checkOut.bind(this);
     }
 
     handleChange(event) {
         // TODO: add a check for if a hwSet ask is greater than the current availability of that hwSet
         this.setState({ [event.target.name]: event.target.value });
-        if(isNaN(this.state.hwSet1) || isNaN(this.state.hwSet2) || isNaN(this.state.hwSet3) || isNaN(this.state.hwSet4) || isNaN(this.state.hwSet5)){
+                console.log(event.target.name + " was set to " + event.target.value)
+
+        if(this.errorExists()){
             this.state.error = true;
+            this.state.errorString = this.findErrors();
+            console.log("error was found")
+        } else {
+            this.state.error = false;
         }
-        // console.log(event.target.name + " was set to " + event.target.value)
+    }
+
+    errorExists(){
+        if(isNaN(this.state.hwSet1) || isNaN(this.state.hwSet2) ||isNaN(this.state.hwSet3) || isNaN(this.state.hwSet4) || isNaN(this.state.hwSet5)){
+            return true;
+        }
+        // TODO: decide with the team if the user asking for too many of a hwset counts as an error or not
+    }
+
+    findErrors(){
+        var errorString = "";
+        if(isNaN(this.state.hwSet1)){
+            errorString += "Checkout Amount for HWSet1 must be a number\n";
+            console.log(this.state.hwSet1 + " is not a number")
+        }
+        if(isNaN(this.state.hwSet2)){
+            errorString += "Checkout Amount for HWSet2 must be a number\n";
+            console.log(this.state.hwSet2 + " is not a number")
+        }
+        if(isNaN(this.state.hwSet3)){
+            errorString += "Checkout Amount for HWSet3 must be a number\n";
+            console.log(this.state.hwSet3 + " is not a number")
+        }
+        if(isNaN(this.state.hwSet4)){
+            errorString += "Checkout Amount for HWSet4 must be a number\n";
+            console.log(this.state.hwSet4 + " is not a number")
+        }
+        if(isNaN(this.state.hwSet5)){
+            errorString += "Checkout Amount for HWSet5 must be a number\n";
+            console.log(this.state.hwSet5 + " is not a number")
+        }
+        return errorString;
     }
 
     checkOut() {
@@ -111,7 +151,7 @@ class HardwareDatasets extends Component {
                                 data-toggle="modal" data-target="#check-modal" onClick={this.displayCart}>
                                 Checkout
                             </button>
-                            <CheckModal content={this.state.error ? <ErrorMessage /> :
+                            <CheckModal content={this.state.error ? <ErrorMessage errorString={this.state.errorString} /> :
                                 <CheckCart hwSet1={this.state.hwSet1} hwSet2={this.state.hwSet2} hwSet3={this.state.hwSet3} hwSet4={this.state.hwSet4} hwSet5={this.state.hwSet5} />} />
                         </div>
                     </Card.Body>
