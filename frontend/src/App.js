@@ -5,6 +5,7 @@ import Profile from './pages/profile/Profile';
 import ProjectDetails from './pages/project-details/ProjectDetails';
 import Browse from './pages/browse/Browse';
 import Hardware from './pages/hardware-datasets/Hardware-Datasets';
+import ProjectAdd from './pages/project-add/ProjectAdd';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -13,6 +14,7 @@ import {
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import Project from './pages/profile/components/Project';
 
 function App() {
 	return (
@@ -28,6 +30,9 @@ function App() {
 					</Route>
 					<Route path="/project-details">
 						<ProjectDetails />
+					</Route>
+					<Route path="/project-add">
+						<ProjectAdd />
 					</Route>
 					<Route path="/profile">
 						<Profile />

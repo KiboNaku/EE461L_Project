@@ -47,3 +47,11 @@
 .borderless td, .borderless th, .borderless tr, .borderless thead, .borderless tbody {
     border: none !important;
 }
+
+.custom-input, .custom-input:focus{
+    border: none !important;
+    border-bottom: 1px solid beige !important;
+    background-color: transparent;
+    outline: none;
+    color: white;
+}
