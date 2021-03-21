@@ -27,30 +27,30 @@ class ProfileHome extends Component {
                     <Card.Body>
                     <Table borderless={true} size="sm">
                         <tbody>
-                            <tr>
+                            {/* <tr>
                                 <td>First Name: </td>
                                 <td>Temporary</td>
-                                <td><a>Change First Name</a></td>
+                                <td><a>Change First Name (Optional)</a></td>
                             </tr>
                             <tr>
                                 <td>Last Name: </td>
                                 <td>Temporary</td>
-                                <td><a>Change Last Name</a></td>
-                            </tr>
+                                <td><a>Change Last Name (Optional)</a></td>
+                            </tr> */}
                             <tr>
                                 <td>Username: </td>
                                 <td>Temporary</td>
-                                <td><a>Change Username</a></td>
+                                <td><a>Change Username (Optional)</a></td>
                             </tr>
                             <tr>
                                 <td>Password: </td>
                                 <td>Temporary</td>
-                                <td><a>Change Password</a></td>
+                                <td><a>Change Password (Optional)</a></td>
                             </tr>
                             <tr>
                                 <td>Email: </td>
                                 <td>Temporary</td>
-                                <td><a>Change Email</a></td>
+                                <td><a>Change Email (Optional)</a></td>
                             </tr>
                         </tbody>
                     </Table>
@@ -81,7 +81,7 @@ class ProfileHome extends Component {
                     </Card.Body>
                     <Card.Footer>
                         {/* TODO: create link to project page */}
-                        <a>View All</a>
+                        <a href="/profile#project">View All</a>
                         </Card.Footer>
                 </Card>
                 </div>  
