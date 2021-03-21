@@ -73,7 +73,7 @@ class ProjectAdd extends Component {
     render() {
 
         return (
-            <div className="w-100 block-color-purple max-height overflow-hidden text-left px-0 py-0 mx-0 my-0 h-100">
+            <div className="w-100 block-color-purple max-height text-left px-0 py-0 mx-0 my-0 h-100">
 
                 {/* <Form> */}
 
