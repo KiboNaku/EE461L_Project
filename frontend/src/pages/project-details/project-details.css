@@ -54,4 +54,23 @@
     background-color: transparent;
     outline: none;
     color: white;
+    width: fit-content;
+}
+
+#add-tag {
+    display: inline;
+    border: 1px solid white;
+    padding: 0px 3px 3px 3px;
+    width: fit-content;
+}
+
+#add-tag:hover {
+    border: 1px solid #2C363F;
+    background-color: white;
+    color: #2C363F;
+    cursor: pointer;
+}
+
+.new-tag {
+    resize: none;
 }
