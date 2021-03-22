@@ -3,8 +3,9 @@ import { Form, Button, Card, Modal, Table } from 'react-bootstrap'
 import Header from "../home/components/Header"
 import "../home/Home.css"
 import CheckCart from "./components/CheckCart.js"
-import ErrorMessage from "./components/ErrorMessage.js"
+import ErrorMessage from "./components/ErrorMessage.js" //currently never displayed
 import CheckModal from "./components/CheckModal.js"
+import * as handleHardware from '../../api_calls/handleHardware'
 
 class HardwareDatasets extends Component {
 
@@ -19,12 +20,17 @@ class HardwareDatasets extends Component {
             // errorString: "",
             error: false // currently is never set to true
         }
+        this.retrieveHWInfo = this.retrieveHWInfo.bind(this)
         this.handleChange = this.handleChange.bind(this);
         this.checkOut = this.checkOut.bind(this);
     }
 
+    retrieveHWInfo(){
+        console.log(handleHardware.fetchHW());
+        return(handleHardware.fetchHW().data);
+    }
+
     handleChange(event) {
-        // TODO: add a check for if a hwSet ask is greater than the current availability of that hwSet
         this.setState({ [event.target.name]: event.target.value });
         // console.log(event.target.name + " was set to " + event.target.value)
     }
@@ -41,6 +47,10 @@ class HardwareDatasets extends Component {
                 <Card style={{ margin: 20 }}>
                     <Card.Header>Hardware Sets</Card.Header>
                     <Card.Body>
+                    <button type="button" className="btn btn-primary btn-md"
+                                onClick={this.retrieveHWInfo}>
+                                log info
+                            </button>
                         <table id="fixed-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -53,10 +63,10 @@ class HardwareDatasets extends Component {
                                 <tr>
                                     <td>HWSet1</td>
                                     {/* TODO: fix this hardcoded value once profiles are implemented */}
-                                    <td>10</td>
+                                    <td>{this.retrieveHWInfo.value}</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet1" type="number" placeholder="Enter Num" min="0" value={this.statehwSet1} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet1" type="number" placeholder="Desired Checkout Amount" min="0" value={this.statehwSet1} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
@@ -66,7 +76,7 @@ class HardwareDatasets extends Component {
                                     <td>25</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet2" type="number" placeholder="Enter Num" min="0" value={this.statehwSet2} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet2" type="number" placeholder="Desired Checkout Amount" min="0" value={this.statehwSet2} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
@@ -76,7 +86,7 @@ class HardwareDatasets extends Component {
                                     <td>5</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet3" type="number" placeholder="Enter Num" min="0" value={this.statehwSet3} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet3" type="number" placeholder="Desired Checkout Amount" min="0" value={this.statehwSet3} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
@@ -86,7 +96,7 @@ class HardwareDatasets extends Component {
                                     <td>15</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet4" type="number" placeholder="Enter Num" min="0" value={this.statehwSet4} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet4" type="number" placeholder="Desired Checkout Amount" min="0" value={this.statehwSet4} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
@@ -96,7 +106,7 @@ class HardwareDatasets extends Component {
                                     <td>50</td>
                                     <td>
                                         <Form>
-                                            <Form.Control name="hwSet5" type="number" placeholder="Enter Num" min="0" value={this.statehwSet5} onChange={this.handleChange} />
+                                            <Form.Control name="hwSet5" type="number" placeholder="Desired Checkout Amount" min="0" value={this.statehwSet5} onChange={this.handleChange} />
                                         </Form>
                                     </td>
                                 </tr>
