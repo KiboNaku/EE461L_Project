@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import {Card, Table} from "react-bootstrap";
+import { Card, Table } from "react-bootstrap";
 
- class ProfileHardware extends Component {
+class ProfileHardware extends Component {
     render() {
         return (
             <div>
                 <div id="ProfileHardware" className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                     <h1 className="h2">Hardware</h1>
                 </div>
-                <Card className="mb-3">
+                <Card className="mb-3 light-background">
                     <Card.Header>Checked Out Hardware</Card.Header>
                     <Card.Body>
-                        <Table bordered hover>
+                        <Table className="text-light profile-table" bordered >
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -44,10 +44,10 @@ import {Card, Table} from "react-bootstrap";
                         </Table>
                     </Card.Body>
                 </Card>
-                <Card>
+                <Card className="light-background">
                     <Card.Header>Hardware Wishlist</Card.Header>
                     <Card.Body>
-                    <Table bordered hover>
+                        <Table className="text-light profile-table" bordered>
                             <thead>
                                 <tr>
                                     <th>Name</th>

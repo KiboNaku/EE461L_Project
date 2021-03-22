@@ -1,14 +1,10 @@
+.navbar {
+	background-color: #111c22;
+}
+
 .nav-link {
 	margin-left: 10px;
 	margin-right: 10px;
-}
-
-.navbar a{
-	color: black;
-}
-
-.navbar a:hover {
-	color:blue;
 }
 
 .nav-brand {

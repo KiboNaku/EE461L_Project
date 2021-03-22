@@ -1,0 +1,13 @@
+.hardware-page{
+	padding-top: 20px;
+}
+
+.hardware-card{
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.hardware-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.15);
+}

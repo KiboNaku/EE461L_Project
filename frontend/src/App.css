@@ -1,38 +1,78 @@
 .App {
-  text-align: center;
-  height: 100vh;
+    text-align: center;
+    height: 100vh;
 }
 
 .full-screen-height {
-  height: 100vh;
+    height: 100vh;
 }
 
 .max-height {
-  min-height: 100%;
-}
-
-.boring-background {
-  background-color: #d4d4bc;
-}
-
-.white-background {
-  background-color: white;
+    min-height: 100%;
 }
 
 .container {
-  position: relative;
-  min-width: 100%;
-  min-height: 100%;
+    position: relative;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 .vertical-center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 
 .overflow-hidden {
-  overflow: hidden;
+    overflow: hidden;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.dark-background {
+    background-color: #223843;
+}
+
+.light-background {
+    background-color: #465a64;
+}
+
+.white-background {
+    background-color: white;
+}
+
+.a-light {
+    color: #53c6af;
+}
+
+.a-light:hover {
+    color: #23967f;
+}
+
+.a-dark {
+    color: white;
+}
+
+.a-dark:hover {
+    color: #d7fff1;
+}
+
+.button-primary {
+    background-color: #23967f;
+    color: white;
+    border-color: #13866f;
+}
+
+.button-primary:hover {
+    background-color: #13866f;
+    color: white;
+    border-color: #13866f;
+}
+
+.text-light {
+    color: white;
 }

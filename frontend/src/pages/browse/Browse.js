@@ -151,16 +151,16 @@ class Browse extends Component {
 	}
 
 	render() {
-		return (
-			<div className="container">
-				<div className="row browse">
-					<div className="col browse-filter">
+		return ( 
+			<div className="container dark-background ">
+				<div className="row">
+					<div className="col browse-filter text-light">
 						<Filter
 							handleChange={this.handleFilterChange}
 							filter={this.state.filter}
 						/>
 					</div>
-					<div className="col-9">
+					<div className="col-9 browse-content">
 						<BrowsingItems
 							projects={this.state.projects}
 							setProjectData={this.setProjectData}
