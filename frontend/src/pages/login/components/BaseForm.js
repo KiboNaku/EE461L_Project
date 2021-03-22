@@ -22,7 +22,7 @@ class BaseForm extends Component {
                     />
                 </Card.Body>
                 <Card.Footer>
-                    {this.props.footer} <a href="#" onClick={this.props.switch}>{this.props.switchText}</a>
+                    {this.props.footer} <a className="a-light" href="#" onClick={this.props.switch}>{this.props.switchText}</a>
                 </Card.Footer>
             </div>
         );

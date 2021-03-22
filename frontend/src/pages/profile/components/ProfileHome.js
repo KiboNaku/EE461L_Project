@@ -22,12 +22,12 @@ class ProfileHome extends Component {
                 </div>
                 {/* TODO: fill personal info from login */}
                 <div id="personal-info" className='mb-3'>
-                <Card>
-                    <Card.Header>Personal Information</Card.Header>
-                    <Card.Body>
-                    <Table borderless={true} size="sm">
-                        <tbody>
-                            {/* <tr>
+                    <Card className="light-background">
+                        <Card.Header>Personal Information</Card.Header>
+                        <Card.Body>
+                            <Table className="text-light" borderless={true} size="sm">
+                                <tbody>
+                                    {/* <tr>
                                 <td>First Name: </td>
                                 <td>Temporary</td>
                                 <td><a>Change First Name (Optional)</a></td>
@@ -37,56 +37,56 @@ class ProfileHome extends Component {
                                 <td>Temporary</td>
                                 <td><a>Change Last Name (Optional)</a></td>
                             </tr> */}
-                            <tr>
-                                <td>Username: </td>
-                                <td>Temporary</td>
-                                <td><a>Change Username (Optional)</a></td>
-                            </tr>
-                            <tr>
-                                <td>Password: </td>
-                                <td>Temporary</td>
-                                <td><a>Change Password (Optional)</a></td>
-                            </tr>
-                            <tr>
-                                <td>Email: </td>
-                                <td>Temporary</td>
-                                <td><a>Change Email (Optional)</a></td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                    </Card.Body>
-                </Card>
+                                    <tr>
+                                        <td>Username: </td>
+                                        <td>Temporary</td>
+                                        <td><a>Change Username (Optional)</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Password: </td>
+                                        <td>Temporary</td>
+                                        <td><a>Change Password (Optional)</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email: </td>
+                                        <td>Temporary</td>
+                                        <td><a>Change Email (Optional)</a></td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </Card.Body>
+                    </Card>
                 </div>
                 {/* TODO: need to manage projects being shown */}
                 <div id="personal-projects">
-                <Card>
-                    <Card.Header>Current Projects</Card.Header>
-                    <Card.Body>
-                    <Table borderless={true} size="sm">
-                        <tbody>
-                            <tr>
-                                <td>Project 1</td>
-                            </tr>
-                            <tr>
-                                <td>Project 2</td>
-                            </tr>
-                            <tr>
-                                <td>Project 3</td>
-                            </tr>
-                            <tr>
-                                <td>Project 4</td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                    </Card.Body>
-                    <Card.Footer>
-                        {/* TODO: create link to project page */}
-                        <a href="/profile#project">View All</a>
+                    <Card className="light-background">
+                        <Card.Header>Current Projects</Card.Header>
+                        <Card.Body>
+                            <Table className="text-light" borderless={true} size="sm">
+                                <tbody>
+                                    <tr>
+                                        <td>Project 1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Project 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Project 3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Project 4</td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </Card.Body>
+                        <Card.Footer>
+                            {/* TODO: create link to project page */}
+                            <a className="a-light" href="/profile#project">View All</a>
                         </Card.Footer>
-                </Card>
-                </div>  
+                    </Card>
+                </div>
             </div>
-            
+
         )
     }
 }

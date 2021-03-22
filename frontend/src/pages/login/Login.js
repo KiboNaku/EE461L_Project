@@ -63,12 +63,12 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="w-100 boring-background max-height container overflow-hidden">
+            <div className="w-100 dark-background max-height container overflow-hidden">
                 <Container fluid className="vertical-center">
 
                     <Row className="justify-content-center">
                         <Col xs={4}>
-                            <Card className="text-center px-5 py-5 white-background">
+                            <Card className="text-center px-5 py-5 light-background text-light">
                                 {
                                     this.state.isLogin ?
                                         <LoginForm

@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from base import app, db
 from models.user import User
 from models.project import Project
+from models.hardware import Hardware
 import json
 
 
@@ -119,3 +120,14 @@ def join_project():
         project.update(add_to_set__contributors=[user])
 
     return r_val
+
+@app.route("api/fetch-hardware", methods=["POST"])
+def fetch_hardware():
+    hardware_list = Hardware.objects()
+
+    hardware_sets = []
+    for hardware in hardware_list:
+        hardware_sets.append(hardware.to_json())
+
+    result = jsonify({"HWSets": hardware_sets})
+    return result

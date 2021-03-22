@@ -5,12 +5,12 @@ function Project(props) {
 
 	return (
 		<div className='col-lg-4 col-sm-6 col-md-6 project'>
-			<div className="card">
+			<div className="card light-background text-light">
 				<div className="card-body">
 					<div className="project-header">
 						<AddIcon
 							type="button"
-							className="project-add"
+							className="project-add a-dark"
 							onClick={() => props.joinProject(props.data.id)}
 						/>
 						<h5 className="card-title">{props.data.name}</h5>
