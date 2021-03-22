@@ -18,7 +18,7 @@ class ProfileHome extends Component {
                 </div>
                 {/* TODO: need better way to implement avatar */}
                 <div id="avatar" className='mb-3'>
-                    <Avatar name="Temporary name" />
+                    <Avatar name="User Name" />
                 </div>
                 {/* TODO: fill personal info from login */}
                 <div id="personal-info" className='mb-3'>
@@ -37,20 +37,21 @@ class ProfileHome extends Component {
                                 <td>Temporary</td>
                                 <td><a>Change Last Name (Optional)</a></td>
                             </tr> */}
+                                    {/**Changing info is optional, need to get info from database */}
                                     <tr>
                                         <td>Username: </td>
                                         <td>Temporary</td>
-                                        <td><a>Change Username (Optional)</a></td>
+                                        <td><input type="text" placeholder="Change Username (Optional)"/></td>
                                     </tr>
                                     <tr>
                                         <td>Password: </td>
                                         <td>Temporary</td>
-                                        <td><a>Change Password (Optional)</a></td>
+                                        <td><input type="text" placeholder="Change Password (Optional)"/></td>
                                     </tr>
                                     <tr>
                                         <td>Email: </td>
                                         <td>Temporary</td>
-                                        <td><a>Change Email (Optional)</a></td>
+                                        <td><input type="text" placeholder="Change Email (Optional)"/></td>
                                     </tr>
                                 </tbody>
                             </Table>

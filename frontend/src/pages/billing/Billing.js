@@ -56,7 +56,7 @@ class Billing extends Component {
 								</div>
 								<div style={{ display: "flex" }} class="mb-3">
 									{billingAddress && (
-										<Card style={{ marginRight: "auto", width: "80%", height: "auto" }}>
+										<Card className="light-background" style={{ marginRight: "auto", width: "80%", height: "auto" }}>
 											<Card.Header>
 												<h4>Billing Information</h4>
 											</Card.Header>
