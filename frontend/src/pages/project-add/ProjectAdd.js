@@ -73,7 +73,7 @@ class ProjectAdd extends Component {
     render() {
 
         return (
-            <div className="w-100 block-color-purple max-height text-left px-0 py-0 mx-0 my-0 h-100">
+            <div className="w-100 dark-background max-height text-left px-0 py-0 mx-0 my-0 h-100">
 
                 {/* <Form> */}
 
@@ -105,8 +105,8 @@ class ProjectAdd extends Component {
                 </div>
 
                 {/* List of HW items */}
-                <div className="block-color-blue px-5 py-5 w-100 justify-content-center row mx-0 my-0">
-                    <table className="table borderless col-7">
+                <div className="light-background px-5 py-5 w-100 justify-content-center row mx-0 my-0">
+                    <table className="table borderless col-7 text-light">
                         <thead>
                             <tr>
                                 <th scope="col">Wishlist</th>
@@ -136,7 +136,7 @@ class ProjectAdd extends Component {
                             </tr>
                         </tbody>
                     </table>
-                    <Button variant="primary" onClick={this.onSubmit} className="w-100">
+                    <Button onClick={this.onSubmit} className="w-100 button-primary">
                         Submit
                     </Button>
                 </div>

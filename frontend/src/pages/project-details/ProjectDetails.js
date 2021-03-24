@@ -13,7 +13,7 @@ class ProjectDetails extends Component {
 
     render() {
         return (
-            <div className="w-100 block-color-purple max-height overflow-hidden text-left px-0 py-0 mx-0 my-0 h-100">
+            <div className="w-100 dark-background max-height overflow-hidden text-left px-0 py-0 mx-0 my-0 h-100">
 
                 <div className="project-title-panel block-color-title px-5 py-5 w-100 h-50  mx-0 my-0">
                     <div className="col-6 float-left justify-content-center align-items-center row h-100">
@@ -40,8 +40,8 @@ class ProjectDetails extends Component {
                 </div>
 
                 {/* List of HW items */}
-                <div className="block-color-blue px-5 py-5 w-100 justify-content-center row mx-0 my-0">
-                    <table className="table borderless col-7">
+                <div className="light-background px-5 py-5 w-100 justify-content-center row mx-0 my-0">
+                    <table className="table borderless col-7 text-light">
                         <thead>
                             <tr>
                                 <th scope="col">Checked</th>
