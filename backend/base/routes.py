@@ -15,9 +15,10 @@ def register():
 #     # get user info
 #     validator, user = User.get_json()
     record = request.get_json()
-    exist_user = User.objects(email=record['email']).first()
+    exist_email = User.objects(email=record['email']).first()
+    exist_username = User.objects(username=record['username']).first()
 
-    if not exist_user:
+    if not exist_email and not exist_username:
         user = User(
             username=record["username"],
             email=record["email"],
@@ -26,7 +27,10 @@ def register():
         user.save()
     else:
         r_val["success"] = -1
-        r_val["error"] = "An account with the email already exists."
+        if exist_email:
+            r_val["error"] = "An account with the email already exists."
+        else:
+            r_val["error"] = "An account with the username already exists."
 
 
 #     # debug: print to screen
