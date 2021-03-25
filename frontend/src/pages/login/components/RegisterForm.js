@@ -6,13 +6,13 @@ class RegisterForm extends Component {
 
     constructor() {
         super();
-        this.state = { firstName: "", lastName: "", email: "", password: "" };
+        this.state = { username: "", email: "", password: "" };
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit(){
-        this.props.onSubmit(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
+        this.props.onSubmit(this.state.username, this.state.email, this.state.password);
     }
 
     handleChange(event){
@@ -27,11 +27,7 @@ class RegisterForm extends Component {
         let form = (
             <Form>
                 <Form.Group>
-                    <Form.Control name="firstName" type="text" placeholder="First Name" value={this.state.firstName} onChange={this.handleChange} />
-                </Form.Group>
-
-                <Form.Group>
-                    <Form.Control name="lastName" type="text" placeholder="Last Name" value={this.state.lastName} onChange={this.handleChange} />
+                    <Form.Control name="username" type="text" placeholder="Username" value={this.state.username} onChange={this.handleChange} />
                 </Form.Group>
 
                 <Form.Group>

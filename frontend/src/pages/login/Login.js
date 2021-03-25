@@ -35,9 +35,9 @@ class Login extends Component {
             });
     }
 
-    emailRegister(firstName, lastName, email, password) {
+    emailRegister(username, email, password) {
         this.setState({ registerError: null });
-        admission.register({ firstName: firstName, lastName: lastName, email: email, password: password })
+        admission.register({ username: username, email: email, password: password })
             .then(res => {
                 console.log("Registered with response", res);
                 let errorCode = res.data.success;

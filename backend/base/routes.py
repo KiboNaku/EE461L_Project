@@ -14,8 +14,7 @@ def register():
 
 #     # get user info
 #     validator, user = User.get_json()
-    record = json.loads(request.data)
-    app.logger.debug(record)
+    record = request.get_json()
     exist_user = User.objects(email=record['email']).first()
 
     if not exist_user:
@@ -121,7 +120,7 @@ def join_project():
 
     return r_val
 
-@app.route("api/fetch-hardware", methods=["POST"])
+@app.route("/api/fetch-hardware", methods=["POST"])
 def fetch_hardware():
     hardware_list = Hardware.objects()
 
