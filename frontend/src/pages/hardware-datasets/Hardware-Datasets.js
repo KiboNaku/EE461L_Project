@@ -13,6 +13,7 @@ class HardwareDatasets extends Component {
     constructor() {
         super();
         this.state = {
+            hwList: [],
             hwSet1: "",
             hwSet2: "",
             hwSet3: "",
@@ -21,14 +22,18 @@ class HardwareDatasets extends Component {
             // errorString: "",
             error: false // currently is never set to true
         }
-        this.retrieveHWInfo = this.retrieveHWInfo.bind(this)
+        this.retrieveHWInfo = this.retrieveHWInfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.checkOut = this.checkOut.bind(this);
     }
 
     retrieveHWInfo() {
-        console.log(handleHardware.fetchHW());
-        return (handleHardware.fetchHW().data);
+        handleHardware.fetchHW().then(response => {
+            console.log(response.data)
+            // fromJson(response.data) // take the given data in json form and put it into hwlist
+            this.setState({ hwList: response.data })
+            // return response.data
+        })
     }
 
     handleChange(event) {
@@ -61,10 +66,20 @@ class HardwareDatasets extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                {this.state.hwList.map((item, i) => (
+                                    <tr>
+                                        <td>{item.hardware_name}</td>
+                                        {/* TODO: fix this value to reflect hwset1 */}
+                                        <td>{item.available_count}</td>
+                                        <Form>
+                                            <Form.Control name={i} type="number" placeholder="Desired Checkout Amount" min="0" value={item.available_count} onChange={this.handleChange} />
+                                        </Form>
+                                    </tr>
+                                ))}
+                                {/* <tr>
                                     <td>HWSet1</td>
-                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
-                                    <td>{this.retrieveHWInfo.value}</td>
+                                    {/* TODO: fix this value to reflect hwset1 
+                                    <td>{this.state.hwList.value}</td>
                                     <td>
                                         <Form>
                                             <Form.Control name="hwSet1" type="number" placeholder="Desired Checkout Amount" min="0" value={this.statehwSet1} onChange={this.handleChange} />
@@ -73,7 +88,7 @@ class HardwareDatasets extends Component {
                                 </tr>
                                 <tr>
                                     <td>HWSet2</td>
-                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
+                                    {/* TODO: fix this value to reflect hwset2 
                                     <td>25</td>
                                     <td>
                                         <Form>
@@ -83,7 +98,7 @@ class HardwareDatasets extends Component {
                                 </tr>
                                 <tr>
                                     <td>HWSet3</td>
-                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
+                                    {/* TODO: fix this value to reflect hwset3 
                                     <td>5</td>
                                     <td>
                                         <Form>
@@ -93,7 +108,7 @@ class HardwareDatasets extends Component {
                                 </tr>
                                 <tr>
                                     <td>HWSet4</td>
-                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
+                                    {/* TODO: fix this value to reflect hwset4 
                                     <td>15</td>
                                     <td>
                                         <Form>
@@ -103,14 +118,14 @@ class HardwareDatasets extends Component {
                                 </tr>
                                 <tr>
                                     <td>HWSet5</td>
-                                    {/* TODO: fix this hardcoded value once profiles are implemented */}
+                                    {/* TODO: fix this value to reflect hwset5 
                                     <td>50</td>
                                     <td>
                                         <Form>
                                             <Form.Control name="hwSet5" type="number" placeholder="Desired Checkout Amount" min="0" value={this.statehwSet5} onChange={this.handleChange} />
                                         </Form>
                                     </td>
-                                </tr>
+                                </tr> */}
                             </tbody>
                         </table>
                         <div class="row justify-content-center">
