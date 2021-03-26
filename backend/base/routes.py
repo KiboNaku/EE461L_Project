@@ -121,7 +121,7 @@ def join_project():
 
     return r_val
 
-@app.route("api/fetch-hardware", methods=["POST"])
+@app.route("/api/fetch-hardware", methods=["GET"])
 def fetch_hardware():
     hardware_list = Hardware.objects()
 
