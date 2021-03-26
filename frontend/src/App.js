@@ -61,8 +61,11 @@ class App extends Component {
 				})
 				.catch(err => {
 					this.logOut();
-					if (err.response.status === 403) {
-						this.setState({ loggedIn: false });
+					let response = err.response;
+					if(response !== null && response !== "undefined"){
+						if (response.status === 403) {
+							this.setState({ loggedIn: false });
+						}
 					}
 				});
 		}
