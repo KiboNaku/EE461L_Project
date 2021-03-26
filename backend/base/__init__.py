@@ -20,6 +20,7 @@ def create_app():
     new_app.config['MONGODB_SETTINGS'] = {
         'host': 'mongodb+srv://ee461L-user:dXFeMfeocMJnIygo@cluster0.5n8qc.mongodb.net/db?retryWrites=true&w=majority'
     }
+    new_app.config['SECRET_KEY'] = 'lmoAJD3xkayPSsR1eZce]>8t!qhhe/Ce#dq'
     db.init_app(new_app)
     return new_app
 

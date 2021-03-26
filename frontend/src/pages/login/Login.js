@@ -28,9 +28,12 @@ class Login extends Component {
                 console.log("Logged in with response", res);
                 let errorCode = res.data.success;
                 let error = res.data.error;
+                let token = res.data.token
 
                 if (errorCode < 0) {
                     this.setState({ loginError: error });
+                } else {
+                    localStorage.setItem("token", token);
                 }
             });
     }

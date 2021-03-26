@@ -4,6 +4,8 @@ from models.user import User
 from models.project import Project
 from models.hardware import Hardware
 import json
+import jwt
+import datetime
 
 
 @app.route("/api/register", methods=["POST"])
@@ -32,24 +34,6 @@ def register():
         else:
             r_val["error"] = "An account with the username already exists."
 
-
-#     # debug: print to screen
-#     app.logger.debug("Received register for: {first_name} {last_name} with email {email}".format(
-#         first_name = user['first_name'], last_name=user['last_name'], email=user["email"])
-#     )
-
-#     # add user to database
-#     users_collection = mongo.db.user
-
-#     # TODO: check to see if email exists
-#     found_user = users_collection.find_one(validator)
-#     app.logger.debug("found user {user}".format(user=found_user))
-#     if found_user:
-#         r_val["success"] = -1
-#         r_val["error"] = "An account with the email already exists."
-#     else:
-#         users_collection.insert_one(user)
-
     return r_val
 
 
@@ -57,28 +41,11 @@ def register():
 def login():
 
     # initialize return value
-    r_val = {"success": 0, "error": None}
+    r_val = {"success": 0, "error": None, "token": None}
 
 #     # get args from front end
-#     validator, user = User.get_json()
     record = json.loads(request.data)
     user = User.objects(email=record['email']).first()
-    # app.logger.debug(record["password"])
-
-#     # debug: print to screen
-#     app.logger.debug("Received login for: {email}".format(email=user["email"]))
-
-#     # check if email exists and if password correct
-#     found_user = mongo.db.user.find_one(validator)
-#     app.logger.debug("user=", user, "found_user=", found_user)
-#     if found_user:
-#         if found_user["password"] != user["password"]:
-#             r_val["success"] = -1
-#             r_val["error"] = "Invalid email and password combination."
-
-#     else:
-#         r_val["success"] = -1
-#         r_val["error"] = "Invalid email. No account exists."
 
     if not user:
         r_val["success"] = -1
@@ -87,9 +54,21 @@ def login():
         if record["password"] != user["password"]:
             r_val["success"] = -1
             r_val["error"] = "Invalid email and password combination."
+        else:
+            token = jwt.encode(
+                {
+                    'user': user["username"],
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
+                },
+                app.config['SECRET_KEY'])
+            r_val["token"] = token.decode('UTF-8')
 
     return r_val
 
+
+@app.route("/api/logout", methods=["POST"])
+def logout():
+    pass
 
 @app.route("/api/fetch-project", methods=["GET"])
 def fetch_project():
@@ -123,6 +102,7 @@ def join_project():
         project.update(add_to_set__contributors=[user])
 
     return r_val
+
 
 @app.route("/api/fetch-hardware", methods=["POST"])
 def fetch_hardware():
