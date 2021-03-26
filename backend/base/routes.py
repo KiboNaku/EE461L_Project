@@ -84,7 +84,7 @@ def login():
             token = jwt.encode(
                 {
                     'user': user["username"],
-                    'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=20)
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
                 },
                 app.config['SECRET_KEY'])
             r_val["token"] = token.decode('UTF-8')
@@ -94,6 +94,7 @@ def login():
 
 @app.route("/api/logout", methods=["POST"])
 def logout():
+    # TODO: consider making a list of blacklisted tokens for logged out users
     pass
 
 @app.route("/api/fetch-project", methods=["GET"])

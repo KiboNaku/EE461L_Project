@@ -17,6 +17,7 @@ import './App.css';
 import Project from './pages/profile/components/Project';
 import React, { Component } from 'react';
 import * as tokenCalls from './api_calls/tokenCalls';
+import * as adm from './api_calls/admission';
 
 class App extends Component {
 
@@ -35,7 +36,17 @@ class App extends Component {
 	}
 
 	logOut() {
+		console.log("logged out")
 		this.setState({ loggedIn: false });
+		localStorage.removeItem("token");
+		adm
+			.logout()
+			.then(res => {
+				// TODO
+			})
+			.catch(err => {
+				// TODO
+			});
 	}
 
 	validateToken() {
@@ -80,7 +91,7 @@ class App extends Component {
 							<ProjectAdd />
 						</Route>
 						<Route path="/profile">
-							<Profile />
+							<Profile logout = {this.logOut}/>
 						</Route>
 						<Route path="/browse">
 							<Browse />

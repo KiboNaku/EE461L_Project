@@ -9,7 +9,6 @@ class Header extends Component {
 	}
 
 	render() {
-		console.log(this.state);
 		return (
 			<div>
 				<nav className="navbar navbar-expand-lg justify-content-between">

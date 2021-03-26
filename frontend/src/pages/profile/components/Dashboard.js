@@ -85,7 +85,7 @@ class Dashboard extends Component {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link a-dark" href="#">
+                            <a className="nav-link a-dark" href="#" onClick={this.props.logout}>
                             Sign Out
                             </a>
                         </li>

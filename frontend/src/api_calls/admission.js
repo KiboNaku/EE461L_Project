@@ -14,3 +14,8 @@ export const login = user => {
 		.post(loginUrl, user)
 }
 
+export const logout = token => {
+    let logoutUrl = consts.BACKEND_ROUTE + consts.LOGOUT_ROUTE;
+	return axios
+		.post(logoutUrl, token)
+}
