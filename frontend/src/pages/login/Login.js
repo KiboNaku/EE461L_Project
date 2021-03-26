@@ -28,16 +28,20 @@ class Login extends Component {
                 console.log("Logged in with response", res);
                 let errorCode = res.data.success;
                 let error = res.data.error;
+                let token = res.data.token
 
                 if (errorCode < 0) {
                     this.setState({ loginError: error });
+                } else {
+                    localStorage.setItem("token", token);
+                    this.props.login();
                 }
             });
     }
 
-    emailRegister(firstName, lastName, email, password) {
+    emailRegister(username, email, password) {
         this.setState({ registerError: null });
-        admission.register({ firstName: firstName, lastName: lastName, email: email, password: password })
+        admission.register({ username: username, email: email, password: password })
             .then(res => {
                 console.log("Registered with response", res);
                 let errorCode = res.data.success;

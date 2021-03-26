@@ -4,6 +4,34 @@ from models.user import User
 from models.project import Project
 from models.hardware import Hardware
 import json
+import jwt
+import datetime
+from functools import wraps
+
+
+def token_required(function):
+    @wraps(function)
+    def decorated(*args, **kwargs):
+        token = request.get_json()["token"]
+
+        if not token:
+            return jsonify({'error' : 'Token is missing!'}), 403
+
+        try: 
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+        except:
+            return jsonify({'error' : 'Token is invalid!'}), 403
+
+        return function(*args, **kwargs, token_data=data)
+
+    return decorated
+
+
+@app.route("/api/validate-token", methods=["POST"])
+@token_required
+def validate_token(token_data):
+    r_val = {"email": None, "success": 0, "error": None}
+    return r_val
 
 
 @app.route("/api/register", methods=["POST"])
@@ -14,11 +42,11 @@ def register():
 
 #     # get user info
 #     validator, user = User.get_json()
-    record = json.loads(request.data)
-    app.logger.debug(record)
-    exist_user = User.objects(email=record['email']).first()
+    record = request.get_json()
+    exist_email = User.objects(email=record['email']).first()
+    exist_username = User.objects(username=record['username']).first()
 
-    if not exist_user:
+    if not exist_email and not exist_username:
         user = User(
             username=record["username"],
             email=record["email"],
@@ -27,25 +55,10 @@ def register():
         user.save()
     else:
         r_val["success"] = -1
-        r_val["error"] = "An account with the email already exists."
-
-
-#     # debug: print to screen
-#     app.logger.debug("Received register for: {first_name} {last_name} with email {email}".format(
-#         first_name = user['first_name'], last_name=user['last_name'], email=user["email"])
-#     )
-
-#     # add user to database
-#     users_collection = mongo.db.user
-
-#     # TODO: check to see if email exists
-#     found_user = users_collection.find_one(validator)
-#     app.logger.debug("found user {user}".format(user=found_user))
-#     if found_user:
-#         r_val["success"] = -1
-#         r_val["error"] = "An account with the email already exists."
-#     else:
-#         users_collection.insert_one(user)
+        if exist_email:
+            r_val["error"] = "An account with the email already exists."
+        else:
+            r_val["error"] = "An account with the username already exists."
 
     return r_val
 
@@ -54,28 +67,11 @@ def register():
 def login():
 
     # initialize return value
-    r_val = {"success": 0, "error": None}
+    r_val = {"success": 0, "error": None, "token": None}
 
 #     # get args from front end
-#     validator, user = User.get_json()
     record = json.loads(request.data)
     user = User.objects(email=record['email']).first()
-    # app.logger.debug(record["password"])
-
-#     # debug: print to screen
-#     app.logger.debug("Received login for: {email}".format(email=user["email"]))
-
-#     # check if email exists and if password correct
-#     found_user = mongo.db.user.find_one(validator)
-#     app.logger.debug("user=", user, "found_user=", found_user)
-#     if found_user:
-#         if found_user["password"] != user["password"]:
-#             r_val["success"] = -1
-#             r_val["error"] = "Invalid email and password combination."
-
-#     else:
-#         r_val["success"] = -1
-#         r_val["error"] = "Invalid email. No account exists."
 
     if not user:
         r_val["success"] = -1
@@ -84,9 +80,22 @@ def login():
         if record["password"] != user["password"]:
             r_val["success"] = -1
             r_val["error"] = "Invalid email and password combination."
+        else:
+            token = jwt.encode(
+                {
+                    'user': user["username"],
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
+                },
+                app.config['SECRET_KEY'])
+            r_val["token"] = token.decode('UTF-8')
 
     return r_val
 
+
+@app.route("/api/logout", methods=["POST"])
+def logout():
+    # TODO: consider making a list of blacklisted tokens for logged out users
+    pass
 
 @app.route("/api/fetch-project", methods=["GET"])
 def fetch_project():

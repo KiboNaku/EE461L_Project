@@ -15,38 +15,95 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Project from './pages/profile/components/Project';
+import React, { Component } from 'react';
+import * as tokenCalls from './api_calls/tokenCalls';
+import * as adm from './api_calls/admission';
 
-function App() {
-	return (
-		<Router>
-			<div className="App">
-                <Header />
-				<Switch>
-					<Route exact path="/">
-						<Home />
-					</Route>
-					<Route path="/login">
-						<Login />
-					</Route>
-					<Route path="/project-details">
-						<ProjectDetails />
-					</Route>
-					<Route path="/project-add">
-						<ProjectAdd />
-					</Route>
-					<Route path="/profile">
-						<Profile />
-					</Route>
-					<Route path="/browse">
-						<Browse />
-					</Route>
-					<Route path="/hardware">
-						<Hardware />
-					</Route>
-				</Switch>
-			</div>
-		</Router>
-	);
+class App extends Component {
+
+	constructor() {
+		super();
+		this.state = {
+			loggedIn: false,
+		}
+		this.logIn = this.logIn.bind(this);
+		this.logOut = this.logOut.bind(this);
+		this.validateToken = this.validateToken.bind(this);
+	}
+
+	logIn() {
+		this.setState({ loggedIn: true });
+	}
+
+	logOut() {
+		console.log("logged out")
+		this.setState({ loggedIn: false });
+		localStorage.removeItem("token");
+		adm
+			.logout()
+			.then(res => {
+				// TODO
+			})
+			.catch(err => {
+				// TODO
+			});
+	}
+
+	validateToken() {
+
+		// TODO: consider refreshing the page when the token expires
+		let token = localStorage.getItem("token");
+		if (token !== null && token !== "undefined") {
+			tokenCalls
+				.validate({ "token": localStorage.getItem("token") })
+				.then(res => {
+					this.logIn();
+				})
+				.catch(err => {
+					this.logOut();
+					if (err.response.status === 403) {
+						this.setState({ loggedIn: false });
+					}
+				});
+		}
+	}
+
+	componentDidMount() {
+		this.validateToken();
+	}
+
+	render() {
+		return (
+			<Router>
+				<div className="App">
+					<Header loggedIn={this.state.loggedIn} />
+					<Switch>
+						<Route exact path="/">
+							<Home />
+						</Route>
+						<Route path="/login">
+							<Login login = {this.logIn}/>
+						</Route>
+						<Route path="/project-details">
+							<ProjectDetails />
+						</Route>
+						<Route path="/project-add">
+							<ProjectAdd />
+						</Route>
+						<Route path="/profile">
+							<Profile logout = {this.logOut}/>
+						</Route>
+						<Route path="/browse">
+							<Browse />
+						</Route>
+						<Route path="/hardware">
+							<Hardware />
+						</Route>
+					</Switch>
+				</div>
+			</Router>
+		);
+	}
 }
 
 export default App;
