@@ -34,6 +34,7 @@ class Login extends Component {
                     this.setState({ loginError: error });
                 } else {
                     localStorage.setItem("token", token);
+                    this.props.login();
                 }
             });
     }

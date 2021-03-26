@@ -6,13 +6,10 @@ import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
 class Header extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			loggedIn: false
-		}
-		// TODO: get login information from backend  
 	}
 
 	render() {
+		console.log(this.state);
 		return (
 			<div>
 				<nav className="navbar navbar-expand-lg justify-content-between">
@@ -39,7 +36,7 @@ class Header extends Component {
 								<Link className="a-dark" to="/profile"> Profile</Link>
 							</li>
 							{/* Toggle Profile if login true */}
-							{this.state.loggedIn ?
+							{this.props.loggedIn ?
 								<li className="nav-item nav-link">
 									<Link className="a-dark" to="/profile"><AccountCircleIcon /></Link>
 								</li>

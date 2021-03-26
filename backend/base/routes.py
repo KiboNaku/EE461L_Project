@@ -6,6 +6,32 @@ from models.hardware import Hardware
 import json
 import jwt
 import datetime
+from functools import wraps
+
+
+def token_required(function):
+    @wraps(function)
+    def decorated(*args, **kwargs):
+        token = request.get_json()["token"]
+
+        if not token:
+            return jsonify({'error' : 'Token is missing!'}), 403
+
+        try: 
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+        except:
+            return jsonify({'error' : 'Token is invalid!'}), 403
+
+        return function(*args, **kwargs, token_data=data)
+
+    return decorated
+
+
+@app.route("/api/validate-token", methods=["POST"])
+@token_required
+def validate_token(token_data):
+    r_val = {"email": None, "success": 0, "error": None}
+    return r_val
 
 
 @app.route("/api/register", methods=["POST"])
@@ -58,7 +84,7 @@ def login():
             token = jwt.encode(
                 {
                     'user': user["username"],
-                    'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=20)
                 },
                 app.config['SECRET_KEY'])
             r_val["token"] = token.decode('UTF-8')
