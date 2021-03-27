@@ -27,12 +27,20 @@ class HardwareDatasets extends Component {
         this.checkOut = this.checkOut.bind(this);
     }
 
+    componentDidMount(){
+        this.retrieveHWInfo();
+    }
+
     retrieveHWInfo() {
         handleHardware.fetchHW().then(response => {
             console.log(response.data)
             // fromJson(response.data) // take the given data in json form and put it into hwlist
-            this.setState({ hwList: response.data })
-            // return response.data
+            this.setState({ hwList: response.data.HWSets })
+            // for(let i = 0; i < response.data.length; i++){
+            //     // hwList[i] = response.data[i];
+            //     console.log(response.data[i])
+            // }
+            // console.log(this.state.hwList)
         })
     }
 
@@ -57,7 +65,7 @@ class HardwareDatasets extends Component {
                             onClick={this.retrieveHWInfo}>
                             log info
                             </button>
-                        <table id="fixed-table" class="table table-striped table-bordered">
+                        <table id="fixed-table" className="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th style={{ width: 200 }}>Name</th>
@@ -67,13 +75,15 @@ class HardwareDatasets extends Component {
                             </thead>
                             <tbody>
                                 {this.state.hwList.map((item, i) => (
-                                    <tr>
+                                    <tr key={i}>
                                         <td>{item.hardware_name}</td>
                                         {/* TODO: fix this value to reflect hwset1 */}
                                         <td>{item.available_count}</td>
-                                        <Form>
-                                            <Form.Control name={i} type="number" placeholder="Desired Checkout Amount" min="0" value={item.available_count} onChange={this.handleChange} />
-                                        </Form>
+                                        <td>
+                                            <Form>
+                                                <Form.Control name={i} type="number" placeholder="Desired Checkout Amount" min="0" value={item.available_count} onChange={this.handleChange} />
+                                            </Form>
+                                        </td>
                                     </tr>
                                 ))}
                                 {/* <tr>
@@ -128,7 +138,7 @@ class HardwareDatasets extends Component {
                                 </tr> */}
                             </tbody>
                         </table>
-                        <div class="row justify-content-center">
+                        <div className="row justify-content-center">
                             <button id="modalButton" type="button" className="btn btn-primary btn-md"
                                 data-toggle="modal" data-target="#check-modal" onClick={this.displayCart}>
                                 Checkout
@@ -141,7 +151,7 @@ class HardwareDatasets extends Component {
                 <Card className="light-background text-light" style={{ margin: 20 }}>
                     <Card.Header>DataSets</Card.Header>
                     <Card.Body>
-                        <table class="table table-bordered hardware-table text-light">
+                        <table className="table table-bordered hardware-table text-light">
                             <thead>
                                 <tr>
                                     <th>Title</th>
