@@ -22,7 +22,7 @@ class CheckCart extends Component {
     render() {
         return (
             <div className="modal-dialog dark-modal">
-                <div className="modal-content">
+                <div className="modal-content dark-background">
                     <div className="modal-header">
                         <h4 className="mx-auto">Finalize your Cart</h4>
                     </div>
@@ -35,7 +35,7 @@ class CheckCart extends Component {
                         <p id="hwSet5Info">{this.fixString(this.props.hwSet5)} of HWSet5</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-primary" data-dismiss="modal">Checkout</button>
+                        <button type="button" className="btn button-primary" data-dismiss="modal">Checkout</button>
                     </div>
                 </div>
             </div>

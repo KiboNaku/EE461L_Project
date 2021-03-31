@@ -64,13 +64,13 @@ a:hover {
 .button-primary {
     background-color: #23967f;
     color: white;
-    border-color: #13866f;
+    border-color: #23967f;
 }
 
 .button-primary:hover {
     background-color: #13866f;
     color: white;
-    border-color: #13866f;
+    border-color: #23967f;
 }
 
 .text-light {

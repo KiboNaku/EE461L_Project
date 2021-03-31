@@ -89,7 +89,7 @@ class HardwareDatasets extends Component {
                             </tbody>
                         </table>
                         <div className="row justify-content-center">
-                            <button id="modalButton" type="button" className="btn btn-primary btn-md"
+                            <button id="modalButton" type="button" className="btn button-primary btn-md"
                                 data-toggle="modal" data-target="#check-modal">
                                 Checkout
                             </button>

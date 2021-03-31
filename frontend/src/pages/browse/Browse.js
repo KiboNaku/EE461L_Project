@@ -112,7 +112,10 @@ class Browse extends Component {
 
 	joinProject(id) {
 		// get user information => if not logged in, go to login page instead 
-		let user = localStorage.token
+		if(!this.props.loggedIn){
+			window.open("/login", "_blank")
+		}
+		let user = null
 		let project = null
 		this.state.projects.map(p => {
 			if (p.id == id) {

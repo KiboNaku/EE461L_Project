@@ -6,7 +6,7 @@ class ErrorMessage extends Component {
     render() {
         return (
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content dark-background">
                     <div class="modal-header">
                         <h4 class="mx-auto">Error</h4>
                     </div>

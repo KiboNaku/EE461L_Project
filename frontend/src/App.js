@@ -62,7 +62,7 @@ class App extends Component {
 				.catch(err => {
 					this.logOut();
 					let response = err.response;
-					if(response !== null && response !== "undefined"){
+					if (response !== null && response !== "undefined") {
 						if (response.status === 403) {
 							this.setState({ loggedIn: false });
 						}
@@ -85,7 +85,7 @@ class App extends Component {
 							<Home />
 						</Route>
 						<Route path="/login">
-							<Login login = {this.logIn}/>
+							<Login login={this.logIn} />
 						</Route>
 						<Route path="/project-details">
 							<ProjectDetails />
@@ -94,10 +94,11 @@ class App extends Component {
 							<ProjectAdd />
 						</Route>
 						<Route path="/profile">
-							<Profile logout = {this.logOut}/>
+							<Profile logout={this.logOut} />
 						</Route>
 						<Route path="/browse">
-							<Browse />
+							<Browse
+								loggedIn={this.state.loggedIn} />
 						</Route>
 						<Route path="/hardware">
 							<Hardware />
