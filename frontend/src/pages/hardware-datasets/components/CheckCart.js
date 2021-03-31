@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "../Hardware-Datasets"
+import "./Modal.css"
 
 class CheckCart extends Component {
     constructor() {
@@ -20,7 +21,7 @@ class CheckCart extends Component {
 
     render() {
         return (
-            <div className="modal-dialog">
+            <div className="modal-dialog dark-modal">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h4 className="mx-auto">Finalize your Cart</h4>
