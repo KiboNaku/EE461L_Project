@@ -17,6 +17,7 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
                             <Card.Body>
                                 <p>Some info about project</p>
                             </Card.Body>
+                            {/** TODO:make link active to project page */}
                             <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
                         </Card>
                     </div>
@@ -26,6 +27,7 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
                             <Card.Body>
                                 <p>Some info about project</p>
                             </Card.Body>
+                            {/** TODO:make link active to project page */}
                             <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
                         </Card>
                     </div>
@@ -35,6 +37,7 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
                             <Card.Body>
                                 <p>Some info about project</p>
                             </Card.Body>
+                            {/** TODO:make link active to project page */}
                             <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
                         </Card>
                     </div>
@@ -44,6 +47,7 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
                             <Card.Body>
                                 <p>Some info about project</p>
                             </Card.Body>
+                            {/** TODO:make link active to project page */}
                             <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
                         </Card>
                     </div>
@@ -56,6 +60,7 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
                             <Card.Body>
                                 <p>Some info about project</p>
                             </Card.Body>
+                            {/** TODO:make link active to project page */}
                             <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
                         </Card>
                     </div>
@@ -65,6 +70,8 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
                             <Card.Body>
                                 <p>Some info about project</p>
                             </Card.Body>
+                            {/** TODO:make link active to project page */}
+                            <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
                         </Card>
                     </div>
                     <div class="mb-3">
@@ -73,6 +80,7 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
                             <Card.Body>
                                 <p>Some info about project</p>
                             </Card.Body>
+                            {/** TODO:make link active to project page */}
                             <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
                         </Card>
                     </div>
@@ -82,6 +90,7 @@ import { Button, Card, Container, Row, Col } from "react-bootstrap";
                             <Card.Body>
                                 <p>Some info about project</p>
                             </Card.Body>
+                            {/** TODO:make link active to project page */}
                             <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
                         </Card>
                     </div>

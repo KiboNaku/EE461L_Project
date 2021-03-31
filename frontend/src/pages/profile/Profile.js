@@ -15,7 +15,7 @@ class Profile extends Component {
     /*Things to display on profile page */
     render(){
         return (
-            <div className="full-screen-height">
+            <div className="height=100%">
                 <Dashboard logout ={this.props.logout}/>
             </div>
         )  
