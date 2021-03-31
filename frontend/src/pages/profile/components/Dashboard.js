@@ -54,10 +54,10 @@ class Dashboard extends Component {
         }
         
         return (
-            <div className="container-fluid dark-background text-light">
-                <div className="row">
-                    <nav className="col-md-2 d-none d-md-block bg-light sidebar px-0">
-                    <div className="sidebar-sticky ">
+            <div className="container-fluid dark-background text-light height=100%">
+                <div className="row height=100%">
+                    <nav className="col-md-2 d-none d-md-block bg-light sidebar px-0 height=100%">
+                    <div className="sidebar-sticky height=100%">
                         <ul className="nav flex-column">
                         <li className="nav-item">
                             <a className="nav-link active a-dark" href="#menu" onClick={this.profileClick}>
@@ -93,7 +93,7 @@ class Dashboard extends Component {
                     </div>
                     </nav>
 
-                    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 height=100%">
                         {page}
                     </main>
                 </div>
