@@ -4,7 +4,7 @@ from models.user import User
 from models.project import Project
 from models.hardware import Hardware
 import json
-import jwt
+# import jwt
 import datetime
 from functools import wraps
 
@@ -140,3 +140,12 @@ def fetch_hardware():
 
     result = jsonify({"HWSets": hardware_sets})
     return result
+
+@app.route("/api/rent-hardware", methods=["POST"])
+# @token_required
+def rent_hardware():
+    # hardware_list = Hardware.objects()
+    r_val = {"success": 0, "error": None, "token": None, "data": ""}
+    hardware_request = request.get_json()
+    print(hardware_request)
+    return r_val

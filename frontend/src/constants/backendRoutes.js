@@ -5,4 +5,5 @@ export const REGISTER_ROUTE = "/api/register";
 export const FETCH_PROJECT_ROUTE = "/api/fetch-project";
 export const JOIN_PROJECT = "/api/join-project";
 export const FETCH_HARDWARE_ROUTE = "/api/fetch-hardware";
+export const RENT_HARDWARE_ROUTE = "/api/rent-hardware";
 export const VALIDATE_TOKEN = "/api/validate-token";
