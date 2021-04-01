@@ -6,6 +6,9 @@ class ProfileHome extends Component {
     constructor() {
         super();
         this.state = {
+            username: "",
+            password: "",
+            email: "",
         }
         /* TODO: Need to get info from database*/
     }
@@ -18,7 +21,7 @@ class ProfileHome extends Component {
                 </div>
                 {/* TODO: need better way to implement avatar */}
                 <div id="avatar" className='mb-3'>
-                    <Avatar name="User Name" />
+                    <Avatar name= {this.state.username} />
                 </div>
                 {/* TODO: fill personal info from login */}
                 <div id="personal-info" className='mb-3'>
@@ -40,17 +43,17 @@ class ProfileHome extends Component {
                                     {/**Changing info is optional, need to get info from database */}
                                     <tr>
                                         <td>Username: </td>
-                                        <td>Temporary</td>
+                                        <td>{this.state.username}</td>
                                         <td><input type="text" placeholder="Change Username (Optional)"/></td>
                                     </tr>
                                     <tr>
                                         <td>Password: </td>
-                                        <td>Temporary</td>
+                                        <td>{this.state.password}</td>
                                         <td><input type="text" placeholder="Change Password (Optional)"/></td>
                                     </tr>
                                     <tr>
                                         <td>Email: </td>
-                                        <td>Temporary</td>
+                                        <td>{this.state.email}</td>
                                         <td><input type="text" placeholder="Change Email (Optional)"/></td>
                                     </tr>
                                 </tbody>
