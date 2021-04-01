@@ -4,7 +4,7 @@ from models.user import User
 from models.project import Project
 from models.hardware import Hardware
 import json
-# import jwt
+import jwt
 import datetime
 from functools import wraps
 
@@ -15,11 +15,13 @@ def token_required(function):
         token = request.get_json()["token"]
 
         if not token:
+            app.logger.debug("Token is missing")
             return jsonify({'error' : 'Token is missing!'}), 403
 
         try: 
             data = jwt.decode(token, app.config['SECRET_KEY'])
-        except:
+        except Exception as e:
+            app.logger.debug("Token is invalid", e)
             return jsonify({'error' : 'Token is invalid!'}), 403
 
         return function(*args, **kwargs, token_data=data)
@@ -149,3 +151,30 @@ def rent_hardware():
     hardware_request = request.get_json()
     print(hardware_request)
     return r_val
+
+@app.route("/api/add-project", methods=["POST"])
+@token_required
+def add_project(token_data):
+    r_val = {"error": None}
+    project = request.get_json()["project"]
+    
+    user = User.objects(username=token_data['user']).first()
+    if user:
+        project = Project(
+            project_name=project["name"],
+            owner=user.to_dbref(),
+            description=project["description"],
+            tags=project["tags"]
+        )
+        # TODO: add hardware references and find total cost
+        project.total_cost = 0
+        project.save()
+        
+        user.update(add_to_set__owned_projects=[project.to_dbref()])
+        return r_val
+        
+    else:
+        app.logger.debug("Username is invalid. Could not add project.")
+        r_val["error"] = "Username is invalid"
+        return r_val, 403
+    

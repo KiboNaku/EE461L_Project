@@ -18,6 +18,7 @@ class Project(db.Document):
     description = db.StringField(max_length=1000)
     tags = db.ListField(db.ReferenceField(Tag))
     total_cost = db.FloatField(required=True)
+    wishlisted_hardware = db.ListField(db.ReferenceField("RentRecord"))
     rented_hardware = db.ListField(db.ReferenceField("RentRecord"))
 
     # def to_json(self):

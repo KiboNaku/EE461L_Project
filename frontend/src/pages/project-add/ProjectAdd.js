@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap'
+import * as projects from './../../api_calls/editProject'
 import '../project-details/project-details.css'
 
 class ProjectAdd extends Component {
@@ -18,10 +19,19 @@ class ProjectAdd extends Component {
         this.addNewWish = this.addNewWish.bind(this);
         this.handleTagChange = this.handleTagChange.bind(this);
         this.handleWishChange = this.handleWishChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit() {
-        // TODO: send to backend
+        projects.addProject(
+            {
+                name: this.state.name,
+                description: this.state.description,
+                checked_list: this.state.checked_list,
+                wish_list: this.state.wish_list,
+                tags: this.state.tags
+            }
+        )
     }
 
     handleGeneralChange(event) {

@@ -9,3 +9,11 @@ export const joinProject = (user, project) => {
 			return response.data
 		})
 }
+
+export const addProject = (project) => {
+	return axios
+		.post(consts.BACKEND_ROUTE + consts.ADD_PROJECT, { "token": localStorage.getItem("token"), "project": project })
+		.then(response => {
+			return response.data
+		})
+}
