@@ -143,6 +143,24 @@ def fetch_hardware():
     result = jsonify({"HWSets": hardware_sets})
     return result
 
+
+@app.route("/api/fetch-user-projects", methods=["POST"])
+@token_required
+def fetch_user_projects(token_data):
+    
+    r_val = {"error": None, "owned-projects": [], "contr-projects": []}
+    user = User.objects(username=token_data['user']).first()
+    owned_projects = user.owned_projects
+    contr_projects = user.contributed_projects
+
+    for project in owned_projects:
+        r_val["owned-projects"].append(project.to_json())
+
+    for project in contr_projects:
+        r_val["contr-projects"].append(project.to_json())
+
+    return r_val
+
 @app.route("/api/rent-hardware", methods=["POST"])
 # @token_required
 def rent_hardware():

@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import * as fetch from "./../../../api_calls/fetchInformation"
 
  class Project extends Component {
+
+    componentDidMount(){
+        fetch.fetchUserProjects();
+    }
+
     render() {
         return (
             // TODO: need backend call to auto update projects that are active/completed

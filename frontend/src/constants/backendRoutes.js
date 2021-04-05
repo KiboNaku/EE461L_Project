@@ -9,3 +9,4 @@ export const FETCH_HARDWARE_ROUTE = "/api/fetch-hardware";
 export const RENT_HARDWARE_ROUTE = "/api/rent-hardware";
 export const VALIDATE_TOKEN = "/api/validate-token";
 export const USER_INFO = "/api/user-info";
+export const USER_PROJECTS = "/api/fetch-user-projects";
