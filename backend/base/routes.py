@@ -148,16 +148,16 @@ def fetch_hardware():
 @token_required
 def fetch_user_projects(token_data):
     
-    r_val = {"error": None, "owned-projects": [], "contr-projects": []}
+    r_val = {"error": None, "owned_projects": [], "contr_projects": []}
     user = User.objects(username=token_data['user']).first()
     owned_projects = user.owned_projects
     contr_projects = user.contributed_projects
 
     for project in owned_projects:
-        r_val["owned-projects"].append(project.to_json())
+        r_val["owned_projects"].append(project.to_json())
 
     for project in contr_projects:
-        r_val["contr-projects"].append(project.to_json())
+        r_val["contr_projects"].append(project.to_json())
 
     return r_val
 
