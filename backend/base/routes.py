@@ -183,8 +183,8 @@ def add_project(token_data):
 # @token_required
 def user_info():
     r_val = {"error": None}
-    record = json.loads(request.data)
-    user = User.objects(username=record['user']).first()
+    user_request = json.loads(request.data["user"])
+    user = User.objects(email=user_request['email']).first()
     result = jsonify({"user": user})
 
     return result
