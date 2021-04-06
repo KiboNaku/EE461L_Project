@@ -113,10 +113,10 @@ def fetch_project():
 @app.route("/api/join-project", methods=["POST"])
 def join_project():
     r_val = {"success": 0, "error": None}
-
-    user_request = json.loads(request.data["user"])
-    user = User.objects(email=user_request['email']).first()
-    project_request = json.loads(request.data["project"])
+    data = json.loads(request.data).get("user")
+    user_request = data.get("user")
+    user = User.objects(username=user_request['username']).first()
+    project_request = data.get("project")
     project = Project.objects(id=project_request['id']).first()
 
     if not project:
