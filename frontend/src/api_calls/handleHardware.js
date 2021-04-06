@@ -6,3 +6,9 @@ export const fetchHW = () => {
 	return axios
 		.get(fetchHWUrl)
 }
+
+export const rentHW = hardware => {
+    let rentHWUrl = consts.BACKEND_ROUTE + consts.RENT_HARDWARE_ROUTE;
+	return axios
+		.post(rentHWUrl, hardware)
+}

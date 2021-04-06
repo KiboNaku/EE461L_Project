@@ -14,18 +14,11 @@ class HardwareDatasets extends Component {
         super();
         this.state = {
             hwList: [],
-            // hwSet1: "",
-            // hwSet2: "",
-            // hwSet3: "",
-            // hwSet4: "",
-            // hwSet5: "",
             errorString: "",
             error: false // currently is never set to true
         }
         this.retrieveHWInfo = this.retrieveHWInfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.displayCart = this.displayCart.bind(this);
-        this.checkOut = this.checkOut.bind(this);
     }
 
     componentDidMount(){
@@ -41,16 +34,7 @@ class HardwareDatasets extends Component {
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
-        console.log(event.target.name + " was set to " + event.target.value)
-    }
-
-    displayCart(){
-
-    }
-
-    checkOut() {
-        // TODO: write this function so that it accurately decrements all of the hardware sets that the user checks out,
-        // as well as checking that there are enough sets to match what the user is asking for
+        // console.log(event.target.name + " was set to " + event.target.value)
     }
 
     /*Things to display on hardware-datasets page */
@@ -61,10 +45,6 @@ class HardwareDatasets extends Component {
                 <Card className="hardware-card light-background text-light" style={{ margin: 20 }}>
                     <Card.Header>Hardware Sets</Card.Header>
                     <Card.Body>
-                        {/* <button type="button" className="btn btn-primary btn-md"
-                            onClick={this.retrieveHWInfo}>
-                            log info
-                            </button> */}
                         <table id="fixed-table" className="table table-striped table-bordered hardware-table text-light">
                             <thead>
                                 <tr>

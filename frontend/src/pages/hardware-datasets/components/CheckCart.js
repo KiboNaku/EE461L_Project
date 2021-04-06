@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "../Hardware-Datasets"
-import "./Modal.css"
+import * as handleHardware from '../../../api_calls/handleHardware'
 
 class CheckCart extends Component {
     constructor() {
@@ -8,6 +8,7 @@ class CheckCart extends Component {
         this.state = {
         }
         this.fixString = this.fixString.bind(this);
+        this.checkOut = this.checkOut.bind(this);
     }
     
     fixString(hardware) {
@@ -19,9 +20,19 @@ class CheckCart extends Component {
         }
     }
 
+    checkOut() {
+        // TODO: write this function so that it accurately decrements all of the hardware sets that the user checks out,
+        // as well as checking that there are enough sets to match what the user is asking for
+        handleHardware.rentHW({HWSet1: this.fixString(this.props.hwSet1), 
+            HWSet2: this.fixString(this.props.hwSet2), HWSet3: this.fixString(this.props.hwSet3), 
+            HWSet4: this.fixString(this.props.hwSet4), HWSet5: this.fixString(this.props.hwSet5)
+        })
+        // TODO: handle the return value from handleHardware.rentHW(), including displaying errors and fixing the available hardware nums
+    }
+
     render() {
         return (
-            <div className="modal-dialog dark-modal">
+            <div className="modal-dialog">
                 <div className="modal-content dark-background">
                     <div className="modal-header">
                         <h4 className="mx-auto">Finalize your Cart</h4>
@@ -35,7 +46,7 @@ class CheckCart extends Component {
                         <p id="hwSet5Info">{this.fixString(this.props.hwSet5)} of HWSet5</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn button-primary" data-dismiss="modal">Checkout</button>
+                        <button type="button" className="btn button-primary" data-dismiss="modal" onClick={this.checkOut}>Checkout</button>
                     </div>
                 </div>
             </div>

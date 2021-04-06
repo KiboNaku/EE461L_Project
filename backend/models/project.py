@@ -18,33 +18,36 @@ class Project(db.Document):
     description = db.StringField(max_length=1000)
     tags = db.ListField(db.ReferenceField(Tag))
     total_cost = db.FloatField(required=True)
+    wishlisted_hardware = db.ListField(db.ReferenceField("RentRecord"))
     rented_hardware = db.ListField(db.ReferenceField("RentRecord"))
 
-    # def to_json(self):
-    #     data = self.to_mongo()
-    #     data["owner"] = {
-    #         "User": {
-    #             "username": self.owner.username,
-    #         }
-    #     }
+    def to_json(self):
 
-    #     # I don't actually know if this works
-    #     for contributor in data["contributors"]:
-    #         contributor = {
-    #             "User": {
-    #                 "first_name": contributor.first_name,
-    #                 "last_name": contributor.last_name
-    #             }
-    #         }
+        json_data = {
+            "name": self.project_name,
+            "owner": self.owner.username,
+            "created_time": str(self.created_time),
+            "last_edited_time": str(self.last_edited_time),
+            "description": self.description,
+            "total_cost": self.total_cost,
+            "contributers": [],
+            "tags": [],
+            "wishlisted_hardware": [],
+            "rented_hardware": []
+        }
 
-    #     for tag in data["tags"]:
-    #         tag = {
-    #             "Tag": {
-    #                 "tag_name": tag.tag_name,
-    #                 "tag_type": tag.tag_type
-    #             }
-    #         }
+        for contributor in self.contributors:
+            json_data["contributers"].apppend(contributer.username)
 
-    #     # write out details for hardware sets
+        # TODO: deal with tags
+        # for tag in self.tags:
+        #     json_data["tags"].append({
+        #             "tag": {
+        #                 "tag_name": tag.name,
+        #                 "tag_type": tag.type
+        #             }
+        #     })
 
-    #     return json_util.dumps(data)
+        # TODO: write out details for hardware sets
+
+        return json_data
