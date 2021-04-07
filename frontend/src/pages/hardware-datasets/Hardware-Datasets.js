@@ -59,7 +59,7 @@ class HardwareDatasets extends Component {
             this.setState({successString: res.data.data});  // shows a success banner when hw is rented
         }).catch(err => {
             let response = err.response;        // this correctly shows an error banner when the user tries 
-            if (response !== null && response !== "undefined") {    // to rent hw when they are not logged in
+            if (response !== null && typeof response !== "undefined") {    // to rent hw when they are not logged in
                 if (response.status === 403) {
                     this.setState({ errorString: "You need to be logged in to rent hardware." });
                 }

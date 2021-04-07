@@ -43,7 +43,7 @@ class ProfileHardware extends Component {
 
                                         <tr>
                                             <td>{hw.name}</td>
-                                            <td>{hw.num_rented}</td>
+                                            <td>{hw.amount}</td>
                                             <td>$$$</td>
                                         </tr>
                                     })

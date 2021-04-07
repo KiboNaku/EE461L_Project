@@ -28,11 +28,11 @@ class RentRecord(db.Document):
     user = db.ReferenceField("User", required=True)
     hardware = db.ReferenceField("Hardware", required=True)
     amount = db.IntField(required=True)
-    # date_rented = db.DateTimeField(required=True)
-    # date_expired = db.DateTimeField(required=True)
+    date_rented = db.DateTimeField(required=True)
+    date_expired = db.DateTimeField(required=True)
     def to_json(self):
         return {
-            "user": self.user.username,
+            # "user": self.user.username,
             "name": self.hardware.hardware_name,
             "num_rented": self.num_rented
         }
