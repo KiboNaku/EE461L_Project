@@ -53,7 +53,7 @@ class App extends Component {
 
 		// TODO: consider refreshing the page when the token expires
 		let token = localStorage.getItem("token");
-		if (token !== null && token !== "undefined") {
+		if (token !== null && typeof token !== 'undefined') {
 			tokenCalls
 				.validate({ "token": localStorage.getItem("token") })
 				.then(res => {
@@ -62,7 +62,7 @@ class App extends Component {
 				.catch(err => {
 					this.logOut();
 					let response = err.response;
-					if (response !== null && response !== "undefined") {
+					if (response !== null && typeof response !== "undefined") {
 						if (response.status === 403) {
 							this.setState({ loggedIn: false });
 						}

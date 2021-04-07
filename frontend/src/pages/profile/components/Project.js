@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
 import * as fetch from "./../../../api_calls/fetchInformation"
 
- class Project extends Component {
+class Project extends Component {
 
     constructor(){
         super();
