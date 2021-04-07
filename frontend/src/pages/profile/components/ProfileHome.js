@@ -42,7 +42,6 @@ class ProfileHome extends Component {
     }
 
     render() {
-        console.log(this.state.projectTitles);
         return (
             <div>
                 <div id="profile" className=" pb-2 mb-3 border-bottom">
@@ -98,9 +97,9 @@ class ProfileHome extends Component {
                             <Table className="text-light" borderless={true} size="sm">
                                 <tbody>
                                     {
-                                        this.state.projectTitles.map((title) => {
+                                        this.state.projectTitles.map((title, i) => {
                                             return (
-                                                <tr>
+                                                <tr key={i}>
                                                     <td>{title}</td>
                                                 </tr>
                                             );
