@@ -1,3 +1,4 @@
+from models.user import RentRecord
 from flask import Flask, jsonify, request
 from base import app, db
 from models.user import User
@@ -162,29 +163,40 @@ def fetch_user_projects(token_data):
 
     return r_val
 
-
-@app.route("/api/fetch-user-hardware", methods=["POST"])
-@token_required
-def fetch_user_hardware(token_data):
-
-    r_val = {"error": None, "wished_hardare": [], "rented_hardware": []}
-    user = User.objects(username=token_data['user']).first()
-    rented = user.rented_hardware
-
-    for r in rented:
-        r_val["rented_hardware"].append(
-            r.to_json()
-        )
-
-    return r_val
-
+# the below function is what i worked on
+# it seems to effectively rent out hw to the logged in user but does not save the changed hw available count
+# also, we need to implement a way for users to return hardware that they rent out, currently they
+# will own that hardware indefinitely
 @app.route("/api/rent-hardware", methods=["POST"])
-# @token_required
-def rent_hardware():
-    # hardware_list = Hardware.objects()
-    r_val = {"success": 0, "error": None, "token": None, "data": ""}
-    hardware_request = request.get_json()
-    print(hardware_request)
+@token_required
+def rent_hardware(token_data):
+    first = True
+    hardware_list = Hardware.objects()  # This all works from what i can tell
+    r_val = {"success": 0, "error": None, "data": ""}
+    hardware = request.get_json()["hardware"]
+    user = User.objects(username=token_data['user']).first()
+    r_val["data"] = "User " + str(user.username) + " rented the following hardware:"
+    if user:
+        for ware in range(5):
+            check = "HWSet" + str(ware + 1)
+            if(int(hardware[check]) > 0):
+                if(int(hardware[check]) <= int(hardware_list[ware].available_count)):
+                    if not first:
+                        r_val["data"] += ", " + hardware[check] + " of " + check
+                    else: 
+                        r_val["data"] += " " + hardware[check] + " of " + check
+                        first = False
+                record = RentRecord(
+                    user=token_data["user"],
+                    hardware=check,
+                    amount=hardware[check],
+                    date_rented=datetime.date.today(),
+                    date_expired=datetime.date.today()  # this should be edited to a future date, maybe
+                )                                       # a month from today 
+                record.save()
+                user.update(add_to_set__rented_hardware=[record.to_dbref()])
+                hardware_list[ware].available_count -= int(hardware[check])
+                # currently does not accurately save the new hardware availability
     return r_val
 
 
