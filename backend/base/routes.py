@@ -30,6 +30,7 @@ def token_required(function):
     return decorated
 
 
+
 @app.route("/api/validate-token", methods=["POST"])
 @token_required
 def validate_token(token_data):
