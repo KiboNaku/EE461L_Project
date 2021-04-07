@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Form, Card } from 'react-bootstrap'
-// import Header from "../home/components/Header"
 import "../home/Home.css"
 import CheckCart from "./components/CheckCart.js"
 import ErrorMessage from "./components/ErrorMessage.js" //currently never displayed
@@ -14,6 +13,7 @@ class HardwareDatasets extends Component {
         super();
         this.state = {
             hwList: [],
+            successString: "",
             errorString: "",
             error: 0 
         }
@@ -38,7 +38,7 @@ class HardwareDatasets extends Component {
 
     retrieveHWInfo() {
         handleHardware.fetchHW().then(response => {
-            // console.log(response.data);
+            console.log(response.data);
             this.setState({ hwList: response.data.HWSets });
         })
     }
@@ -49,22 +49,22 @@ class HardwareDatasets extends Component {
     }
 
     checkOut() {
-        // TODO: write this function so that it accurately decrements all of the hardware sets that the user checks out,
-        // as well as checking that there are enough sets to match what the user is asking for
+        this.setState({successString: ""})
         this.setState({errorString: ""})
-        handleHardware.rentHW({HWSet1: this.fixString(this.props.hwSet1), 
-            HWSet2: this.fixString(this.props.hwSet2), HWSet3: this.fixString(this.props.hwSet3), 
-            HWSet4: this.fixString(this.props.hwSet4), HWSet5: this.fixString(this.props.hwSet5)
+        handleHardware.rentHW({HWSet1: this.fixString(this.state.HWSet1), 
+            HWSet2: this.fixString(this.state.HWSet2), HWSet3: this.fixString(this.state.HWSet3), 
+            HWSet4: this.fixString(this.state.HWSet4), HWSet5: this.fixString(this.state.HWSet5)
         }).then(res => {
             console.log("tried to rent, backend response:", res);
-            let errorNum = res.data.success;
-            let error = res.data.error;
-            if(errorNum < 0){
-                this.setState({errorString: error});
-                console.log(error)
+            this.setState({successString: res.data.data});  // shows a success banner when hw is rented
+        }).catch(err => {
+            let response = err.response;        // this correctly shows an error banner when the user tries 
+            if (response !== null && response !== "undefined") {    // to rent hw when they are not logged in
+                if (response.status === 403) {
+                    this.setState({ errorString: "You need to be logged in to rent hardware." });
+                }
             }
-        })
-        // TODO: handle the return value from handleHardware.rentHW(), including displaying errors and fixing the available hardware nums
+        });
     }
 
     /*Things to display on hardware-datasets page */
@@ -72,10 +72,11 @@ class HardwareDatasets extends Component {
         return (
             <div className="dark-background hardware-page">
                 <div className="full-screen-height">
-                {/* TODO: figure out how the next line works (if it does) */}
+                {/* TODO: figure out how the next lines work */}
+                {this.state.successString != "" && <Card.Text className="text-light">Success! {this.state.successString}</Card.Text>}
                 {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
                 <Card className="hardware-card light-background text-light" style={{ margin: 20 }}>
-                    <Card.Header>Hardware Sets</Card.Header>
+                    <Card.Header className="display-4">Hardware Sets</Card.Header>
                     <Card.Body>
                         <table id="fixed-table" className="table table-striped table-bordered hardware-table text-light">
                             <thead>
@@ -112,7 +113,7 @@ class HardwareDatasets extends Component {
                     </Card.Body>
                 </Card>
                 <Card className="light-background text-light" style={{ margin: 20 }}>
-                    <Card.Header>DataSets</Card.Header>
+                    <Card.Header className="display-4">DataSets</Card.Header>
                     <Card.Body>
                         <table className="table table-bordered hardware-table text-light">
                             <thead>

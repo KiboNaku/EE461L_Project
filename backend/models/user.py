@@ -27,6 +27,7 @@ class RentRecord(db.Document):
     # user, hardware, date rented out, date expiring
     user = db.ReferenceField("User", required=True)
     hardware = db.ReferenceField("Hardware", required=True)
+    amount = db.IntField(required=True)
     date_rented = db.DateTimeField(required=True)
     date_expired = db.DateTimeField(required=True)
 

@@ -163,26 +163,40 @@ def fetch_user_projects(token_data):
 
     return r_val
 
-
+# the below function is what i worked on
+# it seems to effectively rent out hw to the logged in user but does not save the changed hw available count
+# also, we need to implement a way for users to return hardware that they rent out, currently they
+# will own that hardware indefinitely
 @app.route("/api/rent-hardware", methods=["POST"])
 @token_required
 def rent_hardware(token_data):
-    # hardware_list = Hardware.objects()
-    r_val = {"success": 0, "error": None, "token": None, "data": ""}
+    first = True
+    hardware_list = Hardware.objects()  # This all works from what i can tell
+    r_val = {"success": 0, "error": None, "data": ""}
     hardware = request.get_json()["hardware"]
-    if(User.objects(username=token_data["user"]).first()):
+    user = User.objects(username=token_data['user']).first()
+    r_val["data"] = "User " + str(user.username) + " rented the following hardware:"
+    if user:
         for ware in range(5):
             check = "HWSet" + str(ware + 1)
-            # print(check)
-            # print(hardware[check])
             if(int(hardware[check]) > 0):
-                print("renting", hardware[check], "of", check)
-                # record = RentRecord(
-                #     user=token_data["user"]
-                    
-                # )
-    # print(hardware)
-    # print(token_data)
+                if(int(hardware[check]) <= int(hardware_list[ware].available_count)):
+                    if not first:
+                        r_val["data"] += ", " + hardware[check] + " of " + check
+                    else: 
+                        r_val["data"] += " " + hardware[check] + " of " + check
+                        first = False
+                record = RentRecord(
+                    user=token_data["user"],
+                    hardware=check,
+                    amount=hardware[check],
+                    date_rented=datetime.date.today(),
+                    date_expired=datetime.date.today()  # this should be edited to a future date, maybe
+                )                                       # a month from today 
+                record.save()
+                user.update(add_to_set__rented_hardware=[record.to_dbref()])
+                hardware_list[ware].available_count -= int(hardware[check])
+                # currently does not accurately save the new hardware availability
     return r_val
 
 
