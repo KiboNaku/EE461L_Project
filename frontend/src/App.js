@@ -98,7 +98,8 @@ class App extends Component {
 						</Route>
 						<Route path="/browse">
 							<Browse
-								loggedIn={this.state.loggedIn} />
+								loggedIn={this.state.loggedIn}
+								validateToken={this.validateToken} />
 						</Route>
 						<Route path="/hardware">
 							<Hardware />

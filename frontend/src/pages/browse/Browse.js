@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Header from "./../home/components/Header";
 import Filter from "./components/Filter";
 import BrowsingItems from "./components/BrowsingItems";
 import { fetchProjects } from "./../../api_calls/fetchInformation";
@@ -13,49 +12,7 @@ class Browse extends Component {
 	constructor() {
 		super();
 		this.state = {
-			projects: [
-				// temporary data
-				{
-					id: 0,
-					name: "Project 1",
-					owner: "User A",
-					tag1: ["A"],
-					tag2: [],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 1,
-					name: "Project 2",
-					owner: "User B",
-					tag1: ["B", "C"],
-					tag2: ["a"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 2,
-					name: "Project 3",
-					owner: "User C",
-					tag1: ["A"],
-					tag2: ["b"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 3,
-					name: "Project 4",
-					owner: "User D",
-					tag1: [],
-					tag2: ["c", "a"],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-				{
-					id: 4,
-					name: "Project 5",
-					owner: "User E",
-					tag1: ["C", "A", "B"],
-					tag2: [],
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et purus accumsan dui maximus consequat."
-				},
-			],
+			projects: [],
 			filter: {
 				tag1A: true,
 				tag1B: true,
@@ -79,11 +36,12 @@ class Browse extends Component {
 			if (res.error) {
 				alert(res.error)
 			} else {
-				let data = res.profile_pics
+				let data = res.projects
 				let list = []
 				for (const i in data) {
-					list.push(data[i]['project'])
+					list.push(data[i])
 				}
+				console.log(list)
 				this.setState({ projects: list })
 			}
 		})
@@ -111,23 +69,25 @@ class Browse extends Component {
 	}
 
 	joinProject(id) {
+		this.props.validateToken()
 		// get user information => if not logged in, go to login page instead 
-		if(!this.props.loggedIn){
+		if (!this.props.loggedIn) {
 			window.open("/login", "_blank")
 		}
-		let user = null
-		let project = null
-		this.state.projects.map(p => {
-			if (p.id == id) {
-				project = p;
-			}
-		})
+		else {
+			let project = null
+			this.state.projects.map(p => {
+				if (p.id == id) {
+					project = p;
+				}
+			})
 
-		joinProject(user, project).then(res => {
-			if (res.error) {
-				alert(res.error)
-			}
-		})
+			joinProject(localStorage.getItem("token"), project).then(res => {
+				if (res.error) {
+					alert(res.error)
+				}
+			})
+		}
 	}
 
 	handleFilterChange = (event) => {
@@ -154,7 +114,7 @@ class Browse extends Component {
 	}
 
 	render() {
-		return ( 
+		return (
 			<div className="container dark-background ">
 				<div className="row">
 					<div className="col browse-filter text-light">
