@@ -1,3 +1,4 @@
+from models.user import RentRecord
 from flask import Flask, jsonify, request
 from base import app, db
 from models.user import User
@@ -162,12 +163,24 @@ def fetch_user_projects(token_data):
     return r_val
 
 @app.route("/api/rent-hardware", methods=["POST"])
-# @token_required
-def rent_hardware():
+@token_required
+def rent_hardware(token_data):
     # hardware_list = Hardware.objects()
     r_val = {"success": 0, "error": None, "token": None, "data": ""}
-    hardware_request = request.get_json()
-    print(hardware_request)
+    hardware = request.get_json()["hardware"]
+    if(User.objects(username=token_data["user"]).first()):
+        for ware in range(5):
+            check = "HWSet" + str(ware + 1)
+            # print(check)
+            # print(hardware[check])
+            if(int(hardware[check]) > 0):
+                print("renting", hardware[check], "of", check)
+                # record = RentRecord(
+                #     user=token_data["user"]
+                    
+                # )
+    # print(hardware)
+    # print(token_data)
     return r_val
 
 @app.route("/api/add-project", methods=["POST"])
