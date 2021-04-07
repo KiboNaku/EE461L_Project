@@ -1,7 +1,24 @@
 import React, { Component } from 'react'
 import { Card, Table } from "react-bootstrap";
+import * as fetch from "./../../../api_calls/fetchInformation"
 
 class ProfileHardware extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            rented: []
+        }
+    }
+
+    componentDidMount() {
+        fetch
+            .fetchUserHardware()
+            .then(res => {
+                this.setState({ rented: res.data.rented_hardware });
+            });
+    }
+
     render() {
         return (
             <div>
@@ -20,31 +37,22 @@ class ProfileHardware extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>HWSet1</td>
-                                    <td>1</td>
-                                    <td>$$$</td>
-                                </tr>
-                                <tr>
-                                    <td>HWSet2</td>
-                                    <td>1</td>
-                                    <td>$$$</td>
-                                </tr>
-                                <tr>
-                                    <td>HWSet3</td>
-                                    <td>3</td>
-                                    <td>$$$</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Total: $$$</td>
-                                </tr>
+
+                                {
+                                    this.state.rented.map(hw => {
+
+                                        <tr>
+                                            <td>{hw.name}</td>
+                                            <td>{hw.num_rented}</td>
+                                            <td>$$$</td>
+                                        </tr>
+                                    })
+                                }
                             </tbody>
                         </Table>
                     </Card.Body>
                 </Card>
-                <Card className="light-background">
+                {/* <Card className="light-background">
                     <Card.Header>Hardware Wishlist</Card.Header>
                     <Card.Body>
                         <Table className="text-light profile-table" bordered>
@@ -79,7 +87,7 @@ class ProfileHardware extends Component {
                             </tbody>
                         </Table>
                     </Card.Body>
-                </Card>
+                </Card> */}
             </div>
         )
     }

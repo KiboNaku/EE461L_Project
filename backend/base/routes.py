@@ -163,6 +163,21 @@ def fetch_user_projects(token_data):
     return r_val
 
 
+@app.route("/api/fetch-user-hardware", methods=["POST"])
+@token_required
+def fetch_user_hardware(token_data):
+
+    r_val = {"error": None, "wished_hardare": [], "rented_hardware": []}
+    user = User.objects(username=token_data['user']).first()
+    rented = user.rented_hardware
+
+    for r in rented:
+        r_val["rented_hardware"].append(
+            r.to_json()
+        )
+
+    return r_val
+
 @app.route("/api/rent-hardware", methods=["POST"])
 # @token_required
 def rent_hardware():
