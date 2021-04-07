@@ -50,7 +50,6 @@ class User(db.Document):
 
     def to_json(self):
         return {
-            "username": self.first_name,
-            "email": self.email,
-            "password": self.password
+            "username": self.username,
+            "email": self.email
         }

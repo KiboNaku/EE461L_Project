@@ -10,6 +10,12 @@ export const fetchProjects = () => {
 		})
 }
 
+export const userInfo = () => {
+    let userInfoUrl = consts.BACKEND_ROUTE + consts.USER_INFO;
+    return axios
+        .post(userInfoUrl, { "token": localStorage.getItem("token") })
+}
+
 export const fetchUserProjects = () => {
 	let fetchProjectUrl = consts.BACKEND_ROUTE + consts.USER_PROJECTS;
 	return axios

@@ -226,15 +226,10 @@ def add_project(token_data):
         r_val["error"] = "Username is invalid"
         return r_val, 403
 
-# TODO: still needs more defining
 
-
-@app.route("/api/user-info/", methods=["GET"])
-# @token_required
-def user_info():
-    r_val = {"error": None}
-    record = json.loads(request.data)
-    user = User.objects(username=record['user']).first()
-    result = jsonify({"user": user})
-
-    return result
+@app.route("/api/user-info", methods=["POST"])
+@token_required
+def user_info(token_data):
+    user_request = token_data["user"]
+    user = User.objects(username=user_request).first()
+    return {"user": user.to_json()}

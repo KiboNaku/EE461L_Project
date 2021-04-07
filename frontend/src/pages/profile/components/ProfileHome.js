@@ -1,16 +1,44 @@
 import React, { Component } from 'react'
 import Avatar from 'react-avatar';
 import { Card, Tab, Table } from 'react-bootstrap';
+import * as fetch from "./../../../api_calls/fetchInformation"
 
 class ProfileHome extends Component {
     constructor() {
         super();
         this.state = {
             username: "",
-            password: "",
+            password: "*********",
             email: "",
+            projectTitles: [],
         }
-        /* TODO: Need to get info from database*/
+    }
+
+    componentDidMount() {
+        fetch
+            .userInfo()
+            .then(res => {
+                this.setState({ username: res.data.user.username, email: res.data.user.email });
+            });
+
+        fetch
+            .fetchUserProjects()
+            .then(res => {
+
+                let owned = res.data.owned_projects;
+                let contr = res.data.contr_projects;
+                let allNames = [];
+
+                for (let i = 0; i < owned.length; i++) {
+                    allNames.push(owned[i].name);
+                }
+
+                for (let i = 0; i < contr.length; i++) {
+                    allNames.push(contr[i].name);
+                }
+
+                this.setState({ projectTitles: allNames });
+            });
     }
 
     render() {
@@ -21,7 +49,7 @@ class ProfileHome extends Component {
                 </div>
                 {/* TODO: need better way to implement avatar */}
                 <div id="avatar" className='mb-3'>
-                    <Avatar name= {this.state.username} />
+                    <Avatar name={this.state.username} />
                 </div>
                 {/* TODO: fill personal info from login */}
                 <div id="personal-info" className='mb-3'>
@@ -44,17 +72,17 @@ class ProfileHome extends Component {
                                     <tr>
                                         <td>Username: </td>
                                         <td>{this.state.username}</td>
-                                        <td><input type="text" placeholder="Change Username (Optional)"/></td>
+                                        {/* <td><input type="text" placeholder="Change Username (Optional)"/></td> */}
                                     </tr>
                                     <tr>
                                         <td>Password: </td>
                                         <td>{this.state.password}</td>
-                                        <td><input type="text" placeholder="Change Password (Optional)"/></td>
+                                        {/* <td><input type="text" placeholder="Change Password (Optional)"/></td> */}
                                     </tr>
                                     <tr>
                                         <td>Email: </td>
                                         <td>{this.state.email}</td>
-                                        <td><input type="text" placeholder="Change Email (Optional)"/></td>
+                                        {/* <td><input type="text" placeholder="Change Email (Optional)"/></td> */}
                                     </tr>
                                 </tbody>
                             </Table>
@@ -68,18 +96,15 @@ class ProfileHome extends Component {
                         <Card.Body>
                             <Table className="text-light" borderless={true} size="sm">
                                 <tbody>
-                                    <tr>
-                                        <td>Project 1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 4</td>
-                                    </tr>
+                                    {
+                                        this.state.projectTitles.map((title, i) => {
+                                            return (
+                                                <tr key={i}>
+                                                    <td>{title}</td>
+                                                </tr>
+                                            );
+                                        })
+                                    }
                                 </tbody>
                             </Table>
                         </Card.Body>
