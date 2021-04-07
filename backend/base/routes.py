@@ -211,7 +211,13 @@ def rent_hardware(token_data):
                 )                                       # a month from today 
                 record.save()
                 user.update(add_to_set__rented_hardware=[record.to_dbref()])
-                hardware_list[ware].available_count -= int(hardware[check])
+                # hardware_list[ware].available_count -= int(hardware[check])
+                hwset = Hardware.objects(hardware_name=check).first()
+                hwset.update(set__available_count=hardware_list[ware].available_count - int(hardware[check]))
+                hwset.reload()
+                # hwset = { "hardware_name": check}
+                # update = { "$set": {"available_count": hardware_list[ware].available_count - int(hardware[check])}}
+                # db.Hardware.update([hwset, update])
                 # currently does not accurately save the new hardware availability
     return r_val
 
