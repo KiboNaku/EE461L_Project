@@ -20,6 +20,8 @@ class ProfileHardware extends Component {
     }
 
     render() {
+
+        console.log(this.state)
         return (
             <div>
                 <div id="ProfileHardware" className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -39,13 +41,14 @@ class ProfileHardware extends Component {
                             <tbody>
 
                                 {
-                                    this.state.rented.map(hw => {
-
-                                        <tr>
-                                            <td>{hw.name}</td>
-                                            <td>{hw.amount}</td>
-                                            <td>$$$</td>
-                                        </tr>
+                                    this.state.rented.map((hw, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td>{hw.name}</td>
+                                                <td>{hw.amount}</td>
+                                                <td>$$$</td>
+                                            </tr>
+                                        );
                                     })
                                 }
                             </tbody>
