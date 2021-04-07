@@ -55,9 +55,14 @@ class HardwareDatasets extends Component {
             HWSet2: this.fixString(this.state.HWSet2), HWSet3: this.fixString(this.state.HWSet3), 
             HWSet4: this.fixString(this.state.HWSet4), HWSet5: this.fixString(this.state.HWSet5)
         }).then(res => {
-            console.log("tried to rent, backend response:", res);
-            this.setState({successString: res.data.data});  // shows a success banner when hw is rented
-            this.retrieveHWInfo();
+            // console.log("tried to rent, backend response:", res);
+            if(res.data.success === 0){
+                this.setState({successString: res.data.data});  // shows a success banner when hw is rented
+                this.retrieveHWInfo();
+            }
+            else{
+                this.setState({ errorString: res.data.error })
+            }
         }).catch(err => {
             let response = err.response;        // this correctly shows an error banner when the user tries 
             if (response !== null && typeof response !== "undefined") {    // to rent hw when they are not logged in
