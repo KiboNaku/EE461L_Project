@@ -57,6 +57,7 @@ class HardwareDatasets extends Component {
         }).then(res => {
             console.log("tried to rent, backend response:", res);
             this.setState({successString: res.data.data});  // shows a success banner when hw is rented
+            this.retrieveHWInfo();
         }).catch(err => {
             let response = err.response;        // this correctly shows an error banner when the user tries 
             if (response !== null && typeof response !== "undefined") {    // to rent hw when they are not logged in
@@ -72,7 +73,6 @@ class HardwareDatasets extends Component {
         return (
             <div className="dark-background hardware-page">
                 <div className="full-screen-height">
-                {/* TODO: figure out how the next lines work */}
                 {this.state.successString != "" && <Card.Text className="text-light">Success! {this.state.successString}</Card.Text>}
                 {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
                 <Card className="hardware-card light-background text-light" style={{ margin: 20 }}>
