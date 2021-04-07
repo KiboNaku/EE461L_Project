@@ -5,11 +5,7 @@ from models.hardware import Hardware
 from flask import Flask, render_template,send_from_directory,request, jsonify, make_response
 from flask_cors import CORS
 
-app = Flask(__name__ 
-    ,static_folder='../frontend/build',static_url_path='')
-cors = CORS(app)
-
-@app.rout('/')
+@app.route('/')
 def serve():
     return send_from_directory(app.static_folder,'index.html')
 

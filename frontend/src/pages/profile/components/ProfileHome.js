@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Avatar from 'react-avatar';
 import { Card, Tab, Table } from 'react-bootstrap';
-import * as userInfo from '../../api_calls/userInfo'
+// import * as userInfo from '../../api_calls/userInfo'
 
 class ProfileHome extends Component {
     constructor() {

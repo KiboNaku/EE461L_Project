@@ -13,7 +13,7 @@ def create_mongo():
 
 
 def create_app():
-    new_app = Flask(__name__)
+    new_app = Flask(__name__,static_folder='../frontend/build',static_url_path='')
     # new_app.config['MONGO_URI'] = 'mongodb+srv://ee461L-user:dXFeMfeocMJnIygo@cluster0.5n8qc.mongodb.net/db?retryWrites=true&w=majority'
 
     # mongo.init_app(new_app)
