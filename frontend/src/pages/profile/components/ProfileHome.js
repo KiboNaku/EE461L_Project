@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Avatar from 'react-avatar';
 import { Card, Tab, Table } from 'react-bootstrap';
-import * as fetch from "./../../../api_calls/userInfo"
+import * as fetch from "./../../../api_calls/fetchInformation"
 
 class ProfileHome extends Component {
     constructor() {
@@ -10,18 +10,39 @@ class ProfileHome extends Component {
             username: "",
             password: "*********",
             email: "",
+            projectTitles: [],
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         fetch
             .userInfo()
             .then(res => {
-                this.setState({username: res.data.user.username, email: res.data.user.email});
+                this.setState({ username: res.data.user.username, email: res.data.user.email });
+            });
+
+        fetch
+            .fetchUserProjects()
+            .then(res => {
+
+                let owned = res.data.owned_projects;
+                let contr = res.data.contr_projects;
+                let allNames = [];
+
+                for (let i = 0; i < owned.length; i++) {
+                    allNames.push(owned[i].name);
+                }
+
+                for (let i = 0; i < contr.length; i++) {
+                    allNames.push(contr[i].name);
+                }
+
+                this.setState({ projectTitles: allNames });
             });
     }
 
     render() {
+        console.log(this.state.projectTitles);
         return (
             <div>
                 <div id="profile" className=" pb-2 mb-3 border-bottom">
@@ -29,7 +50,7 @@ class ProfileHome extends Component {
                 </div>
                 {/* TODO: need better way to implement avatar */}
                 <div id="avatar" className='mb-3'>
-                    <Avatar name= {this.state.username} />
+                    <Avatar name={this.state.username} />
                 </div>
                 {/* TODO: fill personal info from login */}
                 <div id="personal-info" className='mb-3'>
@@ -76,18 +97,15 @@ class ProfileHome extends Component {
                         <Card.Body>
                             <Table className="text-light" borderless={true} size="sm">
                                 <tbody>
-                                    <tr>
-                                        <td>Project 1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 4</td>
-                                    </tr>
+                                    {
+                                        this.state.projectTitles.map((title) => {
+                                            return (
+                                                <tr>
+                                                    <td>{title}</td>
+                                                </tr>
+                                            );
+                                        })
+                                    }
                                 </tbody>
                             </Table>
                         </Card.Body>
