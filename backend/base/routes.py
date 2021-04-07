@@ -249,3 +249,10 @@ def user_info(token_data):
     user_request = token_data["user"]
     user = User.objects(username=user_request).first()
     return {"user": user.to_json()}
+
+
+@app.route("/api/fetch-project-info", methods=["POST"])
+def fetch_project_info():
+    project_id = request.get_json()["project_id"]
+    project = Project.objects(pk=project_id).first()
+    return {"project": project.to_json()}

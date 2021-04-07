@@ -27,3 +27,9 @@ export const fetchUserHardware = () => {
 	return axios
 		.post(fetchHardwareURL, { "token": localStorage.getItem("token") })
 }
+
+export const fetchProjectInfo = (projectId) => {
+	let fetchProjectURL = consts.BACKEND_ROUTE + consts.FETCH_PROJECT_INFO;
+	return axios
+		.post(fetchProjectURL, {"project_id": projectId})
+}
