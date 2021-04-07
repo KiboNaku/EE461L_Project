@@ -21,7 +21,16 @@ class ProjectDetails extends Component {
         fetch
             .fetchProjectInfo("606e370393c745c9ee7f61f1")
             .then(res => {
-                console.log(res.data)
+                console.log(res)
+                let project = res.data.project
+                this.setState({
+                    
+                    projectName: project.name,
+                    members: [project.owner] + project.contr_names,
+                    // TODO: add functionality for tags
+                    description: project.description,
+                    checkedHw: project.rented_hardware
+                });
             })
     }
 
