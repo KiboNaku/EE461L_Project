@@ -1,10 +1,10 @@
 import axios from 'axios';
 import * as consts from '../constants/backendRoutes';
 
-export const joinProject = (user, project) => {
+export const joinProject = (token, project) => {
 	let joinProjectUrl = consts.BACKEND_ROUTE + consts.JOIN_PROJECT;
 	return axios
-		.post(joinProjectUrl, { "user": user, "project": project })
+		.post(joinProjectUrl, { "token": token, "project": project })
 		.then(response => {
 			return response.data
 		})

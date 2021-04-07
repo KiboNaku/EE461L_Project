@@ -16,7 +16,7 @@ class Project(db.Document):
     created_time = db.DateTimeField()
     last_edited_time = db.DateTimeField()
     description = db.StringField(max_length=1000)
-    tags = db.ListField(db.ReferenceField(Tag))
+    tags = db.ListField(db.ReferenceField("Tag"))
     total_cost = db.FloatField(required=True)
     wishlisted_hardware = db.ListField(db.ReferenceField("RentRecord"))
     rented_hardware = db.ListField(db.ReferenceField("RentRecord"))
@@ -24,30 +24,17 @@ class Project(db.Document):
     def to_json(self):
 
         json_data = {
+            "id": str(self.pk),
             "name": self.project_name,
             "owner": self.owner.username,
             "created_time": str(self.created_time),
             "last_edited_time": str(self.last_edited_time),
             "description": self.description,
             "total_cost": self.total_cost,
-            "contributers": [],
-            "tags": [],
-            "wishlisted_hardware": [],
-            "rented_hardware": []
+            "contributers": self.contributors,
+            "tags": json_util.dumps(self.tags),
+            "wishlisted_hardware": self.wishlisted_hardware,
+            "rented_hardware": self.rented_hardware
         }
-
-        for contributor in self.contributors:
-            json_data["contributers"].apppend(contributer.username)
-
-        # TODO: deal with tags
-        # for tag in self.tags:
-        #     json_data["tags"].append({
-        #             "tag": {
-        #                 "tag_name": tag.name,
-        #                 "tag_type": tag.type
-        #             }
-        #     })
-
-        # TODO: write out details for hardware sets
 
         return json_data
