@@ -34,7 +34,7 @@ class RentRecord(db.Document):
         return {
             # "user": self.user.username,
             "name": self.hardware.hardware_name,
-            "num_rented": self.num_rented
+            "amount": self.amount
         }
 
 

@@ -205,7 +205,7 @@ def rent_hardware(token_data):
                         first = False
                 record = RentRecord(
                     user=user.to_dbref(),
-                    hardware=check,
+                    hardware=Hardware.objects(hardware_name=check).first().to_dbref(),
                     amount=hardware[check],
                     date_rented=datetime.date.today(),
                     date_expired=datetime.date.today()  # this should be edited to a future date, maybe
