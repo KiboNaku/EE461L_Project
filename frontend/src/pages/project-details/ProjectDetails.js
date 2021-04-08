@@ -19,7 +19,6 @@ class ProjectDetails extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         fetch
             .fetchProjectInfo(this.props.location.state.projectId)
             .then(res => {
