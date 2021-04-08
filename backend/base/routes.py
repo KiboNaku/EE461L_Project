@@ -153,11 +153,13 @@ def fetch_user_hardware(token_data):
     r_val = {"error": None, "wished_hardare": [], "rented_hardware": []}
     user = User.objects(username=token_data['user']).first()
     rented = user.rented_hardware
+    for item in rented:
+        print(item.hardware.hardware_name)
 
-    for r in rented:
-        r_val["rented_hardware"].append(
-            r.to_json()
-        )
+    # for r in rented:
+    #     r_val["rented_hardware"].append(
+    #         r.to_json()
+    #     )
 
     return r_val
 
