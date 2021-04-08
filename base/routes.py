@@ -124,7 +124,7 @@ def join_project(token_data):
 
     if not project:
         r_val["success"] = -1
-        r_val["error"] = "No project found."
+        r_val["error"] = "No project found on query."
     elif not user:
         r_val["success"] = -1
         r_val["error"] = "No user found."
