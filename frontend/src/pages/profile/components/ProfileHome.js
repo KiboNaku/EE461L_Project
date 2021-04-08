@@ -11,6 +11,7 @@ class ProfileHome extends Component {
             username: "",
             password: "*********",
             email: "",
+            projectTitles: [],
         }
     }
 
@@ -20,6 +21,24 @@ class ProfileHome extends Component {
             .then(res => {
                 this.setState({username: res.data.user.username, email: res.data.user.email});
             });
+            fetch
+                .fetchUserProjects()
+                .then(res => {
+
+                    let owned = res.data.owned_projects;
+                    let contr = res.data.contr_projects;
+                    let allNames = [];
+
+                    for (let i = 0; i < owned.length; i++) {
+                        allNames.push(owned[i].name);
+                    }
+
+                    for (let i = 0; i < contr.length; i++) {
+                        allNames.push(contr[i].name);
+                    }
+
+                    this.setState({ projectTitles: allNames });
+                });
     }
 
     render() {
@@ -66,18 +85,15 @@ class ProfileHome extends Component {
                         <Card.Body>
                             <Table className="text-light" borderless={true} size="sm">
                                 <tbody>
-                                    <tr>
-                                        <td>Project 1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Project 4</td>
-                                    </tr>
+                                    {
+                                        this.state.projectTitles.map((title) => {
+                                            return (
+                                                <tr>
+                                                    <td>{title}</td>
+                                                </tr>
+                                            );
+                                        })
+                                    }
                                 </tbody>
                             </Table>
                         </Card.Body>
