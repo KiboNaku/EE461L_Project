@@ -61,7 +61,7 @@ class Project(db.Document):
             "last_edited_time": str(self.last_edited_time),
             "description": self.description,
             "total_cost": self.total_cost,
-            "contributers": contr_names,
+            "contributors": contr_names,
             # "tags": tags,
             # "wishlisted_hardware": self.wishlisted_hardware,
             "rented_hardware": rented_hw

@@ -23,7 +23,7 @@ class ProjectDetails extends Component {
             .fetchProjectInfo(this.props.location.state.projectId)
             .then(res => {
                 let project = res.data.project
-                let mems = project.contributers
+                let mems = project.contributors
                 mems.unshift(project.owner)
                 this.setState({
                     
