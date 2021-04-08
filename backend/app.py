@@ -2,17 +2,15 @@
 from base import app
 from base.routes import *
 from models.hardware import Hardware
-from flask import Flask, render_template,send_from_directory,request, jsonify, make_response
-from flask_cors import CORS
-
-@app.route('/')
-def serve():
-    return send_from_directory(app.static_folder,'index.html')
+import os
+# from flask import Flask, render_template,send_from_directory,request, jsonify, make_response
+# from flask_cors import CORS
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
 
-
+# if __name__ == "__main__":
+#     app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
 
     # hardware = Hardware(
     #         hardware_name="HWSet1",

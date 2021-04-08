@@ -36,3 +36,12 @@
 	position: absolute;
 	right: 0;
 }
+
+.searchbar {
+	margin-top: 20px;
+	margin-right: 20px;
+}
+
+.searchbar-button {
+	margin-top: 20px;
+}

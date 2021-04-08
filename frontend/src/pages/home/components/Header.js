@@ -26,12 +26,9 @@ class Header extends Component {
 								<Link className="a-dark" to="/browse"> Projects</Link>
 							</li>
 							<li className="nav-item nav-link">
-								<Link className="a-dark" to="/"> Services</Link>
-							</li>
-							<li className="nav-item nav-link">
 								<Link className="a-dark" to="/hardware"> Hardware/Datasets</Link>
 							</li>
-							<li className="navbar-item nav-link">
+							<li className="nav-item nav-link">
 								<Link className="a-dark" to="/profile"> Profile</Link>
 							</li>
 							{/* Toggle Profile if login true */}

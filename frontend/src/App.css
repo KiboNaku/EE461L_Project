@@ -76,3 +76,15 @@ a:hover {
 .text-light {
     color: white;
 }
+
+.textbox {
+    background-color: #111c22;
+    color: white;
+    border-color: #23967f;
+}
+
+.textbox:focus{
+    background-color: #111c22;
+    color: white;
+    border-color: #23967f;
+}

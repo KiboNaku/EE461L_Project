@@ -1,17 +1,25 @@
 import React, { Component } from 'react'
 import Avatar from 'react-avatar';
 import { Card, Tab, Table } from 'react-bootstrap';
-// import * as userInfo from '../../api_calls/userInfo'
+import * as fetch from '../../../api_calls/fetchInformation'
+import {Link} from "react-router-dom"
 
 class ProfileHome extends Component {
     constructor() {
         super();
         this.state = {
             username: "",
-            password: "",
+            password: "*********",
             email: "",
         }
-        /* TODO: Need to get info from database*/
+    }
+
+    componentDidMount(){
+        fetch
+            .userInfo()
+            .then(res => {
+                this.setState({username: res.data.user.username, email: res.data.user.email});
+            });
     }
 
     render() {
@@ -34,17 +42,17 @@ class ProfileHome extends Component {
                                     <tr>
                                         <td>Username: </td>
                                         <td>{this.state.username}</td>
-                                        <td><input type="text" placeholder="Change Username (Optional)"/></td>
+                                        {/* <td><input type="text" placeholder="Change Username (Optional)"/></td> */}
                                     </tr>
                                     <tr>
                                         <td>Password: </td>
                                         <td>{this.state.password}</td>
-                                        <td><input type="text" placeholder="Change Password (Optional)"/></td>
+                                        {/* <td><input type="text" placeholder="Change Password (Optional)"/></td> */}
                                     </tr>
                                     <tr>
                                         <td>Email: </td>
                                         <td>{this.state.email}</td>
-                                        <td><input type="text" placeholder="Change Email (Optional)"/></td>
+                                        {/* <td><input type="text" placeholder="Change Email (Optional)"/></td> */}
                                     </tr>
                                 </tbody>
                             </Table>
@@ -75,7 +83,7 @@ class ProfileHome extends Component {
                         </Card.Body>
                         <Card.Footer>
                             {/* TODO: create link to project page */}
-                            <a className="a-light" href="/profile#project">View All</a>
+                            <Link className="a-light" to="/profile#project">View All</Link>
                         </Card.Footer>
                     </Card>
                 </div>

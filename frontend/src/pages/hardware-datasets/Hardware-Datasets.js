@@ -109,7 +109,7 @@ class HardwareDatasets extends Component {
                                             <td>{item.available_count}</td>
                                             <td>
                                                 <Form>
-                                                    <Form.Control name={item.hardware_name} type="number" placeholder="Desired Checkout Amount" min="0" max={item.available_count} onChange={this.handleChange} />
+                                                    <Form.Control className="textbox" name={item.hardware_name} type="number" placeholder="Desired Checkout Amount" min="0" max={item.available_count} onChange={this.handleChange} />
                                                 </Form>
                                             </td>
                                         </tr>
