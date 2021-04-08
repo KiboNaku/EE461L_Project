@@ -130,6 +130,7 @@ def join_project(token_data):
         r_val["error"] = "No user found."
     else:
         project.update(add_to_set__contributors=[user])
+        user.update(add_to_set__contributed_projects=[project])
 
     return r_val
 
