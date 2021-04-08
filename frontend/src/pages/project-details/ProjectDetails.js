@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
+import { Link } from 'react-dom'
 import * as fetch from "./../../api_calls/fetchInformation"
 import './project-details.css'
 
 class ProjectDetails extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isLogin: true,
             projectName: "",
-            members: [],
+            members: "",
             tags: [],
             description: "",
             checkedHw: []
@@ -18,15 +19,17 @@ class ProjectDetails extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props)
         fetch
-            .fetchProjectInfo("606e370393c745c9ee7f61f1")
+            .fetchProjectInfo(this.props.location.state.projectId)
             .then(res => {
-                console.log(res)
                 let project = res.data.project
+                let mems = project.contributers
+                mems.unshift(project.owner)
                 this.setState({
                     
                     projectName: project.name,
-                    members: [project.owner] + project.contr_names,
+                    members: mems.join(", "),
                     // TODO: add functionality for tags
                     description: project.description,
                     checkedHw: project.rented_hardware
@@ -42,7 +45,7 @@ class ProjectDetails extends Component {
                     <div className="col-6 float-left justify-content-center align-items-center row h-100">
                         <div className="">
                             <div className="project-name text-left">{this.state.projectName}</div>
-                            {/* <div className="project-members">{this.state.members.map(name => { return(<span>{name} </span>) })}</div> */}
+                            <div className="project-members">{this.state.members}</div>
                             <div className="project-tags">
                                 <p>Tags:</p>
                                 {
