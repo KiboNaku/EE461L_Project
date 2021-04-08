@@ -179,48 +179,50 @@ def fetch_user_projects(token_data):
 
     return r_val
 
-# the below function is what i worked on
-# it seems to effectively rent out hw to the logged in user but does not save the changed hw available count
-# also, we need to implement a way for users to return hardware that they rent out, currently they
-# will own that hardware indefinitely
 @app.route("/api/rent-hardware", methods=["POST"])
 @token_required
 def rent_hardware(token_data):
     first = True
-    hardware_list = Hardware.objects()  # This all works from what i can tell
+    hardware_list = Hardware.objects() 
     r_val = {"success": 0, "error": None, "data": ""}
     hardware = request.get_json()["hardware"]
     user = User.objects(username=token_data['user']).first()
     r_val["data"] = "User " + str(user.username) + " rented the following hardware:"
     if user:
-        for ware in range(5):
-            check = "HWSet" + str(ware + 1)
-            if(int(hardware[check]) > 0):
-                if(int(hardware[check]) <= int(hardware_list[ware].available_count)):
+        if(enough_available_hardware(hardware)):
+            for ware in range(5):
+                check = "HWSet" + str(ware + 1)
+                if(int(hardware[check]) > 0):
                     if not first:
                         r_val["data"] += ", " + hardware[check] + " of " + check
                     else: 
                         r_val["data"] += " " + hardware[check] + " of " + check
                         first = False
-                record = RentRecord(
-                    user=user.to_dbref(),
-                    hardware=Hardware.objects(hardware_name=check).first().to_dbref(),
-                    amount=hardware[check],
-                    date_rented=datetime.date.today(),
-                    date_expired=datetime.date.today()  # this should be edited to a future date, maybe
-                )                                       # a month from today 
-                record.save()
-                user.update(add_to_set__rented_hardware=[record.to_dbref()])
-                # hardware_list[ware].available_count -= int(hardware[check])
-                hwset = Hardware.objects(hardware_name=check).first()
-                hwset.update(set__available_count=hardware_list[ware].available_count - int(hardware[check]))
-                hwset.reload()
-                # hwset = { "hardware_name": check}
-                # update = { "$set": {"available_count": hardware_list[ware].available_count - int(hardware[check])}}
-                # db.Hardware.update([hwset, update])
-                # currently does not accurately save the new hardware availability
-    return r_val
+                    record = RentRecord(
+                        user=user.to_dbref(),
+                        hardware=Hardware.objects(hardware_name=check).first().to_dbref(),
+                        amount=hardware[check],
+                        date_rented=datetime.date.today(),
+                        date_expired=datetime.date.today()  # this should be edited to a future date, maybe
+                    )                                       # a month from today 
+                    record.save()
+                    user.update(add_to_set__rented_hardware=[record.to_dbref()])
+                    hwset = Hardware.objects(hardware_name=check).first()
+                    hwset.update(set__available_count=hardware_list[ware].available_count - int(hardware[check]))
+                    hwset.reload()
+        else:
+            r_val["success"] = -1
+            r_val["error"] = "You cannot rent more hardware than is currently available."
+            return r_val
+        return r_val
 
+def enough_available_hardware(hardware):
+    hardware_list = Hardware.objects()
+    for ware in range(5):
+        check = "HWSet" + str(ware + 1)
+        if int(hardware[check]) > int(hardware_list[ware].available_count):
+            return False
+    return True
 
 @app.route("/api/add-project", methods=["POST"])
 @token_required
