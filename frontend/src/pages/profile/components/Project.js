@@ -34,7 +34,7 @@ class Project extends Component {
                     </Card.Body>
                     {/** TODO:make link active to project page */}
                     <Card.Footer>
-                        <Link to={{
+                        <Link className="a-light" to={{
                             pathname:"/project-details/" + projectInfo.id, 
                             state: { projectId: projectInfo.id }
                         }}>View Project</Link>

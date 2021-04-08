@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Avatar from 'react-avatar';
 import { Card, Tab, Table } from 'react-bootstrap';
 import * as fetch from '../../../api_calls/fetchInformation'
+import {Link} from "react-router-dom"
 
 class ProfileHome extends Component {
     constructor() {
@@ -82,7 +83,7 @@ class ProfileHome extends Component {
                         </Card.Body>
                         <Card.Footer>
                             {/* TODO: create link to project page */}
-                            <a className="a-light" href="/profile#project">View All</a>
+                            <Link className="a-light" to="/profile#project">View All</Link>
                         </Card.Footer>
                     </Card>
                 </div>
