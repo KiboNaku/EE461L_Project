@@ -198,7 +198,6 @@ def rent_hardware(token_data):
                     else: 
                         r_val["data"] += " " + wanted_hardware[check] + " of " + check
                         first = False
-
                     hw = Hardware.objects(hardware_name=check).first()
                     old_record = RentRecord.objects(hardware=hw.pk, user=user.pk).first()
                     print(old_record)
@@ -236,7 +235,7 @@ def enough_available_hardware(hardware):
     return True
 
 @app.route("/api/return-hardware", methods=["POST"])
-@token_required # DO NOT TRUST THIS FUNCTION!!!! It is currently broken
+@token_required
 def return_hardware(token_data):
     return_hardware = request.get_json()["hardware"]
     hardware_list = Hardware.objects()
@@ -244,37 +243,33 @@ def return_hardware(token_data):
     user = User.objects(username=token_data['user']).first()
     if user:
         user_hw = get_user_hw(user)
-        print(user_hw)
         for hardware in return_hardware:
-            # the following lines are a huge issue. they increase the num of hw the user has each time, idk why
-            print("user has " + str(user_hw[int(get_hardware_digit(hardware))-1]) + " of " + hardware)
-            if int(return_hardware[hardware]) <= user_hw[int(get_hardware_digit(hardware))-1]:
-                hardware_list[int(get_hardware_digit(hardware))-1].update(set__available_count=
-                    hardware_list[int(get_hardware_digit(hardware))]
-                    .available_count + int(return_hardware[hardware]))
-                hw = Hardware.objects(hardware_name=hardware).first()
-                old_record = RentRecord.objects(hardware=hw.pk, user=user.pk).first()
-                old_record.update(set__amount=user_hw[int(get_hardware_digit(hardware))-1] - int(return_hardware[hardware]))
-                old_record.reload()
-            else:
-                r_val["success"] = -1
-                r_val["error"] = "You cannot rent more hardware than is currently available."
-                return r_val
+            if int(return_hardware[hardware]) > 0:
+                if int(return_hardware[hardware]) <= user_hw[int(get_hardware_digit(hardware))-1]:
+                    hardware_list[int(get_hardware_digit(hardware))-1].update(set__available_count=
+                        hardware_list[int(get_hardware_digit(hardware))-1]
+                        .available_count + int(return_hardware[hardware]))
+                    hw = Hardware.objects(hardware_name=hardware).first()
+                    record = RentRecord.objects(hardware=hw.pk, user=user.pk).first()
+                    record.update(set__amount=user_hw[int(get_hardware_digit(hardware))-1] - int(return_hardware[hardware]))
+                    record.reload()
+                else:
+                    r_val["success"] = -1
+                    r_val["error"] = "You cannot return more hardware than you own."
+                    return r_val
     return r_val
 
-def get_user_hw(user):  # may be wrong
+def get_user_hw(user):
     rented = user.rented_hardware
     user_hw = [0, 0, 0, 0, 0]
     for r in rented:
-        digit = get_hardware_digit(r)
-        user_hw[int(digit)] += r.amount
+        digit = get_hardware_digit(r.hardware.hardware_name)
+        user_hw[int(digit) - 1] += r.amount
     return user_hw
 
-def get_hardware_digit(r):  # may be wrong
-    print(r)
+def get_hardware_digit(r): 
     for char in r:
         if char.isdigit():
-            print(char)
             return char
     return 0
 

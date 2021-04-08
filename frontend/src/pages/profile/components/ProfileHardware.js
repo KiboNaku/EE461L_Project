@@ -9,7 +9,8 @@ class ProfileHardware extends Component {
         super();
         this.state = {
             rented: [],
-            price_per_unit: [20, 10, 50, 15, 5]
+            price_per_unit: [20, 10, 50, 15, 5], // currently unused
+            errorString: ""
         }
         this.handleChange = this.handleChange.bind(this);
         this.fixString = this.fixString.bind(this);
@@ -39,8 +40,7 @@ class ProfileHardware extends Component {
     }
 
     returnHW() {
-        console.log(this.state.HWSet1)
-        console.log(this.state.HWSet2)
+        this.state.errorString = "";
         handleHardware.returnHW({
             HWSet1: this.fixString(this.state.HWSet1),
             HWSet2: this.fixString(this.state.HWSet2), HWSet3: this.fixString(this.state.HWSet3),
@@ -48,20 +48,14 @@ class ProfileHardware extends Component {
         }).then(res => {
             if (res.data.success === 0) {
                 // this.setState({ successString: res.data.data });  // shows a success banner when hw is rented
-                this.retrieveHWInfo();
+                fetch.fetchUserHardware().then(res => {
+                    this.setState({ rented: res.data.rented_hardware });
+            });
             }
             else {
                 this.setState({ errorString: res.data.error })
             }
          })
-        //  .catch(err => {
-        //     let response = err.response;        // this correctly shows an error banner when the user tries 
-        //     if (response !== null && typeof response !== "undefined") {    // to rent hw when they are not logged in
-        //         if (response.status === 403) {
-        //             this.setState({ errorString: "Something went wrong" });
-        //         }
-        //     }
-        // });
     }
 
     render() {
@@ -73,6 +67,7 @@ class ProfileHardware extends Component {
                     <h1 className="h2">Hardware</h1>
                 </div>
                 <Card className="mb-3 light-background">
+                {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
                     <Card.Header>Checked Out Hardware</Card.Header>
                     <Card.Body>
                         <Table className="text-light profile-table" bordered >
