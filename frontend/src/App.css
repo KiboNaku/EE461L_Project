@@ -83,8 +83,9 @@ a:hover {
     border-color: #23967f;
 }
 
-.textbox:focus{
+.textbox:focus {
     background-color: #111c22;
     color: white;
     border-color: #23967f;
+    box-shadow: rgba(35,150,127, 0.35) 0px 5px 15px;
 }

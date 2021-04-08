@@ -15,7 +15,7 @@ function Project(props) {
 							onClick={() => props.joinProject(props.data.id)}
 						/>
 						<Link className="a-dark" to={{
-							pathname: "/project-details/" + props.data.id, 
+							pathname: "/project-details/" + props.data.id,
 							state: { projectId: props.data.id }
 						}}>
 							<h5 className="card-title">{props.data.name}</h5>
@@ -34,6 +34,12 @@ function Project(props) {
 						})
 					} */}
 					< p className="card-text project-description">{props.data.description}</p>
+					<Link className="a-dark" to={{
+						pathname: "/project-details/" + props.data.id,
+						state: { projectId: props.data.id }
+					}}>
+						<small>View Details</small>
+					</Link>
 				</div>
 			</div>
 		</div >

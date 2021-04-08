@@ -95,6 +95,8 @@ class Browse extends Component {
 			joinProject(localStorage.getItem("token"), project).then(res => {
 				if (res.error) {
 					alert(res.error)
+				} else {
+					alert("Joined project sucessfully!")
 				}
 			})
 		}
