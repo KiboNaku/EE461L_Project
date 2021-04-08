@@ -1,3 +1,4 @@
+from models.user import RentRecord
 from flask import Flask, jsonify, request
 from base import app, db
 from models.user import User
@@ -145,6 +146,24 @@ def fetch_hardware():
     return result
 
 
+@app.route("/api/fetch-user-hardware", methods=["POST"])
+@token_required
+def fetch_user_hardware(token_data):
+
+    r_val = {"error": None, "wished_hardare": [], "rented_hardware": []}
+    user = User.objects(username=token_data['user']).first()
+    rented = user.rented_hardware
+    for item in rented:
+        print(item.hardware.hardware_name)
+
+    # for r in rented:
+    #     r_val["rented_hardware"].append(
+    #         r.to_json()
+    #     )
+
+    return r_val
+
+
 @app.route("/api/fetch-user-projects", methods=["POST"])
 @token_required
 def fetch_user_projects(token_data):
@@ -162,16 +181,50 @@ def fetch_user_projects(token_data):
 
     return r_val
 
-
 @app.route("/api/rent-hardware", methods=["POST"])
-# @token_required
-def rent_hardware():
-    # hardware_list = Hardware.objects()
-    r_val = {"success": 0, "error": None, "token": None, "data": ""}
-    hardware_request = request.get_json()
-    print(hardware_request)
-    return r_val
+@token_required
+def rent_hardware(token_data):
+    first = True
+    hardware_list = Hardware.objects() 
+    r_val = {"success": 0, "error": None, "data": ""}
+    hardware = request.get_json()["hardware"]
+    user = User.objects(username=token_data['user']).first()
+    r_val["data"] = "User " + str(user.username) + " rented the following hardware:"
+    if user:
+        if(enough_available_hardware(hardware)):
+            for ware in range(5):
+                check = "HWSet" + str(ware + 1)
+                if(int(hardware[check]) > 0):
+                    if not first:
+                        r_val["data"] += ", " + hardware[check] + " of " + check
+                    else: 
+                        r_val["data"] += " " + hardware[check] + " of " + check
+                        first = False
+                    record = RentRecord(
+                        user=user.to_dbref(),
+                        hardware=Hardware.objects(hardware_name=check).first().to_dbref(),
+                        amount=hardware[check],
+                        date_rented=datetime.date.today(),
+                        date_expired=datetime.date.today()  # this should be edited to a future date, maybe
+                    )                                       # a month from today 
+                    record.save()
+                    user.update(add_to_set__rented_hardware=[record.to_dbref()])
+                    hwset = Hardware.objects(hardware_name=check).first()
+                    hwset.update(set__available_count=hardware_list[ware].available_count - int(hardware[check]))
+                    hwset.reload()
+        else:
+            r_val["success"] = -1
+            r_val["error"] = "You cannot rent more hardware than is currently available."
+            return r_val
+        return r_val
 
+def enough_available_hardware(hardware):
+    hardware_list = Hardware.objects()
+    for ware in range(5):
+        check = "HWSet" + str(ware + 1)
+        if int(hardware[check]) > int(hardware_list[ware].available_count):
+            return False
+    return True
 
 @app.route("/api/add-project", methods=["POST"])
 @token_required
@@ -199,15 +252,17 @@ def add_project(token_data):
         r_val["error"] = "Username is invalid"
         return r_val, 403
 
-# TODO: still needs more defining
+
+@app.route("/api/user-info", methods=["POST"])
+@token_required
+def user_info(token_data):
+    user_request = token_data["user"]
+    user = User.objects(username=user_request).first()
+    return {"user": user.to_json()}
 
 
-@app.route("/api/user-info/", methods=["GET"])
-# @token_required
-def user_info():
-    r_val = {"error": None}
-    record = json.loads(request.data)
-    user = User.objects(username=record['user']).first()
-    result = jsonify({"user": user})
-
-    return result
+@app.route("/api/fetch-project-info", methods=["POST"])
+def fetch_project_info():
+    project_id = request.get_json()["project_id"]
+    project = Project.objects(pk=project_id).first()
+    return {"project": project.to_json()}

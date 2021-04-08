@@ -1,14 +1,39 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
+import { Link } from 'react-dom'
+import * as fetch from "./../../api_calls/fetchInformation"
 import './project-details.css'
 
 class ProjectDetails extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isLogin: true,
+            projectName: "",
+            members: "",
+            tags: [],
+            description: "",
+            checkedHw: []
         };
+    }
+
+    componentDidMount() {
+        fetch
+            .fetchProjectInfo(this.props.location.state.projectId)
+            .then(res => {
+                let project = res.data.project
+                let mems = project.contributers
+                mems.unshift(project.owner)
+                this.setState({
+                    
+                    projectName: project.name,
+                    members: mems.join(", "),
+                    // TODO: add functionality for tags
+                    description: project.description,
+                    checkedHw: project.rented_hardware
+                });
+            })
     }
 
     render() {
@@ -18,15 +43,17 @@ class ProjectDetails extends Component {
                 <div className="project-title-panel block-color-title px-5 py-5 w-100 h-50  mx-0 my-0">
                     <div className="col-6 float-left justify-content-center align-items-center row h-100">
                         <div className="">
-                            <div className="project-name text-left">Project Name</div>
-                            <div className="project-members">Owner, User 1, User 2, ...</div>
+                            <div className="project-name text-left">{this.state.projectName}</div>
+                            <div className="project-members">{this.state.members}</div>
                             <div className="project-tags">
                                 <p>Tags:</p>
-                                <span className="project-tag">tag1</span>
-                                <span className="project-tag">tag2</span>
-                                <span className="project-tag">tag3</span>
-                                <span className="project-tag">tag4</span>
-                                <span className="project-tag">tag5</span>
+                                {
+                                    this.state.tags.map((tag, i) => {
+                                        return (
+                                            <span key={i} className="project-tag">{tag}</span>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
 
@@ -34,7 +61,7 @@ class ProjectDetails extends Component {
                     <div className="col-6 float-left justify-content-center align-items-center row h-100">
                         <div className="px-5 py-5">
                             <h4>Description:</h4>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing</p>
+                            <p>{this.state.description}</p>
                         </div>
                     </div>
                 </div>
@@ -45,54 +72,28 @@ class ProjectDetails extends Component {
                         <thead>
                             <tr>
                                 <th scope="col">Checked</th>
-                                <th scope="col"></th>
-                                <th scope="col">Wishlist</th>
-                                <th scope="col"></th>
+                                <th scope="col">Count</th>
+                                {/* <th scope="col">Wishlist</th>
+                                <th scope="col"></th> */}
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Item 1</td>
-                                <td>$20</td>
-                                <td>Wish 1</td>
-                                <td>$20</td>
-                            </tr>
-                            <tr>
-                                <td>Item 2</td>
-                                <td>$20</td>
-                                <td>Wish 2</td>
-                                <td>$20</td>
-                            </tr>
-                            <tr>
-                                <td>Item 3</td>
-                                <td>$10</td>
-                                <td>Wish 3</td>
-                                <td>$20</td>
-                            </tr>
-                            <tr>
-                                <td>Item 4</td>
-                                <td>$1</td>
-                                <td>Wish 4</td>
-                                <td>$20</td>
-                            </tr>
+
+                            {
+                                this.state.checkedHw.map((hwInfo, i) => {
+                                    <tr>
+                                        <td>{hwInfo.name}</td>
+                                        <td>{hwInfo.amount}</td>
+                                    </tr>
+                                })
+                            }
+
                             {/* <tr>
-                                <td>Item 5</td>
-                                <td>$1000</td>
-                                <td>Wish 5</td>
-                                <td>$20</td>
-                            </tr>
-                            <tr>
-                                <td>Item 6</td>
-                                <td>$20000</td>
-                                <td>Wish 6</td>
-                                <td>$20</td>
-                            </tr> */}
-                            <tr>
                                 <td className="font-weight-bold">Total:</td>
                                 <td>$20000</td>
                                 <td></td>
                                 <td>$200</td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>
                 </div>
