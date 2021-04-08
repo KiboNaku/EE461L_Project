@@ -1,14 +1,23 @@
 import React, { Component } from 'react'
-import { Card, Table } from "react-bootstrap";
+import { Form, Card, Table, Dropdown, DropdownButton } from "react-bootstrap";
 import * as fetch from "./../../../api_calls/fetchInformation"
+import * as handleHardware from '../../../api_calls/handleHardware'
 
 class ProfileHardware extends Component {
 
     constructor() {
         super();
         this.state = {
-            rented: []
+            rented: [],
+            price_per_unit: [20, 10, 50, 15, 5], // currently unused
+            errorString: "",
+            projects: []
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.fixString = this.fixString.bind(this);
+        this.returnHW = this.returnHW.bind(this);
+
+        this.assignHW = this.assignHW.bind(this);
     }
 
     componentDidMount() {
@@ -17,6 +26,49 @@ class ProfileHardware extends Component {
             .then(res => {
                 this.setState({ rented: res.data.rented_hardware });
             });
+
+        fetch    
+            .fetchUserProjects()
+            .then(res => {
+                this.setState({projects: res.data.owned_projects});
+            });
+    }
+
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+        console.log(event.target.name + " was set to " + event.target.value)
+    }
+
+    fixString(hardware) {
+        if (!hardware) {
+            return "0";
+        }
+        else {
+            return hardware
+        }
+    }
+
+    returnHW() {
+        this.state.errorString = "";
+        handleHardware.returnHW({
+            HWSet1: this.fixString(this.state.HWSet1),
+            HWSet2: this.fixString(this.state.HWSet2), HWSet3: this.fixString(this.state.HWSet3),
+            HWSet4: this.fixString(this.state.HWSet4), HWSet5: this.fixString(this.state.HWSet5)
+        }).then(res => {
+            if (res.data.success === 0) {
+                // this.setState({ successString: res.data.data });  // shows a success banner when hw is rented
+                fetch.fetchUserHardware().then(res => {
+                    this.setState({ rented: res.data.rented_hardware });
+            });
+            }
+            else {
+                this.setState({ errorString: res.data.error })
+            }
+         })
+    }
+
+    assignHW(){
+        
     }
 
     render() {
@@ -28,6 +80,7 @@ class ProfileHardware extends Component {
                     <h1 className="h2">Hardware</h1>
                 </div>
                 <Card className="mb-3 light-background">
+                {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
                     <Card.Header>Checked Out Hardware</Card.Header>
                     <Card.Body>
                         <Table className="text-light profile-table" bordered >
@@ -36,23 +89,73 @@ class ProfileHardware extends Component {
                                     <th>Name</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
+                                    <th>Return</th>
                                 </tr>
                             </thead>
                             <tbody>
-
                                 {
                                     this.state.rented.map((hw, i) => {
                                         return (
                                             <tr key={i}>
                                                 <td>{hw.name}</td>
                                                 <td>{hw.amount}</td>
-                                                <td>$$$</td>
+                                                {/* TODO: make this display the actual cost of the rented HW */}
+                                                <td id="hw_price">$$$</td>
+                                                <td>
+                                                <Form>
+                                                    <Form.Control name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount} onChange={this.handleChange} />
+                                                </Form>
+                                                </td>
                                             </tr>
                                         );
                                     })
                                 }
                             </tbody>
                         </Table>
+                        <button type="button" className="btn button-primary" onClick={this.returnHW}>Return Hardware</button>
+                    </Card.Body>
+                </Card>
+                <Card className="mb-3 light-background">
+                    <Card.Header>Projects</Card.Header>
+                    <Card.Body>
+                        <Table className="text-light profile-table" bordered >
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Hardware</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    // needs to be projects not rented
+                                    this.state.projects.map((project, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td>{project.name}</td>
+                                                {
+                                                    this.state.rented.map((hw, i) => {
+                                                        return(
+                                                            <td>
+                                                                <DropdownButton key={i} className="" title="Select Hardware">
+                                                                    <Dropdown.Item>{hw.name}</Dropdown.Item>
+                                                                </DropdownButton>
+                                                            </td>
+                                                        );
+                                                    })
+                                                }
+                                                <td>
+                                                <Form>
+                                                    <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0"/>
+                                                </Form>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                }
+                            </tbody>
+                        </Table>
+                        <button type="button" className="btn button-primary" onClick={this.assignHW}>Assign</button>
                     </Card.Body>
                 </Card>
                 {/* <Card className="light-background">

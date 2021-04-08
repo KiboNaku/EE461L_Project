@@ -1,7 +1,7 @@
 from models.user import RentRecord
 from flask import Flask, jsonify, request
 from base import app, db
-from models.user import User
+from models.user import User, RentRecord
 from models.project import Project
 from models.hardware import Hardware
 import json
@@ -151,16 +151,14 @@ def fetch_hardware():
 @token_required
 def fetch_user_hardware(token_data):
 
-    r_val = {"error": None, "wished_hardare": [], "rented_hardware": []}
+    r_val = {"error": None, "rented_hardware": []}
     user = User.objects(username=token_data['user']).first()
     rented = user.rented_hardware
-    for item in rented:
-        print(item.hardware.hardware_name)
 
-    # for r in rented:
-    #     r_val["rented_hardware"].append(
-    #         r.to_json()
-    #     )
+    for r in rented:
+        r_val["rented_hardware"].append(
+            r.to_json()
+        )
 
     return r_val
 
@@ -188,30 +186,40 @@ def rent_hardware(token_data):
     first = True
     hardware_list = Hardware.objects() 
     r_val = {"success": 0, "error": None, "data": ""}
-    hardware = request.get_json()["hardware"]
+    wanted_hardware = request.get_json()["hardware"]
     user = User.objects(username=token_data['user']).first()
     r_val["data"] = "User " + str(user.username) + " rented the following hardware:"
     if user:
-        if(enough_available_hardware(hardware)):
+        if(enough_available_hardware(wanted_hardware)):
             for ware in range(5):
                 check = "HWSet" + str(ware + 1)
-                if(int(hardware[check]) > 0):
+                if(int(wanted_hardware[check]) > 0):
                     if not first:
-                        r_val["data"] += ", " + hardware[check] + " of " + check
+                        r_val["data"] += ", " + wanted_hardware[check] + " of " + check
                     else: 
-                        r_val["data"] += " " + hardware[check] + " of " + check
+                        r_val["data"] += " " + wanted_hardware[check] + " of " + check
                         first = False
-                    record = RentRecord(
-                        user=user.to_dbref(),
-                        hardware=Hardware.objects(hardware_name=check).first().to_dbref(),
-                        amount=hardware[check],
-                        date_rented=datetime.date.today(),
-                        date_expired=datetime.date.today()  # this should be edited to a future date, maybe
-                    )                                       # a month from today 
-                    record.save()
-                    user.update(add_to_set__rented_hardware=[record.to_dbref()])
+                    hw = Hardware.objects(hardware_name=check).first()
+                    old_record = RentRecord.objects(hardware=hw.pk, user=user.pk).first()
+                    print(old_record)
+                    if old_record != None:
+                        old_value = old_record.amount
+                        old_record.update(set__amount=old_value + int(wanted_hardware[check]))
+                        old_record.save()
+                    else:
+                        today = datetime.date.today()
+                        expiration = datetime.date(today.year + (today.month + 6)//12, (today.month + 6) % 12, today.day)
+                        record = RentRecord(
+                            user=user.to_dbref(),
+                            hardware=Hardware.objects(hardware_name=check).first().to_dbref(),
+                            amount=wanted_hardware[check],
+                            date_rented=today,
+                            date_expired=expiration
+                        )
+                        record.save()
+                        user.update(add_to_set__rented_hardware=[record.to_dbref()])
                     hwset = Hardware.objects(hardware_name=check).first()
-                    hwset.update(set__available_count=hardware_list[ware].available_count - int(hardware[check]))
+                    hwset.update(set__available_count=hardware_list[ware].available_count - int(wanted_hardware[check]))
                     hwset.reload()
         else:
             r_val["success"] = -1
@@ -226,6 +234,45 @@ def enough_available_hardware(hardware):
         if int(hardware[check]) > int(hardware_list[ware].available_count):
             return False
     return True
+
+@app.route("/api/return-hardware", methods=["POST"])
+@token_required
+def return_hardware(token_data):
+    return_hardware = request.get_json()["hardware"]
+    hardware_list = Hardware.objects()
+    r_val = { "success": 0, "error": None }
+    user = User.objects(username=token_data['user']).first()
+    if user:
+        user_hw = get_user_hw(user)
+        for hardware in return_hardware:
+            if int(return_hardware[hardware]) > 0:
+                if int(return_hardware[hardware]) <= user_hw[int(get_hardware_digit(hardware))-1]:
+                    hardware_list[int(get_hardware_digit(hardware))-1].update(set__available_count=
+                        hardware_list[int(get_hardware_digit(hardware))-1]
+                        .available_count + int(return_hardware[hardware]))
+                    hw = Hardware.objects(hardware_name=hardware).first()
+                    record = RentRecord.objects(hardware=hw.pk, user=user.pk).first()
+                    record.update(set__amount=user_hw[int(get_hardware_digit(hardware))-1] - int(return_hardware[hardware]))
+                    record.reload()
+                else:
+                    r_val["success"] = -1
+                    r_val["error"] = "You cannot return more hardware than you own."
+                    return r_val
+    return r_val
+
+def get_user_hw(user):
+    rented = user.rented_hardware
+    user_hw = [0, 0, 0, 0, 0]
+    for r in rented:
+        digit = get_hardware_digit(r.hardware.hardware_name)
+        user_hw[int(digit) - 1] += r.amount
+    return user_hw
+
+def get_hardware_digit(r): 
+    for char in r:
+        if char.isdigit():
+            return char
+    return 0
 
 @app.route("/api/add-project", methods=["POST"])
 @token_required

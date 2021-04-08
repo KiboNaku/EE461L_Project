@@ -12,3 +12,9 @@ export const rentHW = hardware => {
 	return axios
 		.post(rentHWUrl, { hardware : hardware, "token": localStorage.getItem("token") })
 }
+
+export const returnHW = hardware => {
+    let returnHWUrl = consts.BACKEND_ROUTE + consts.RETURN_HARDWARE_ROUTE;
+	return axios
+		.post(returnHWUrl, { hardware : hardware, "token": localStorage.getItem("token") })
+}
