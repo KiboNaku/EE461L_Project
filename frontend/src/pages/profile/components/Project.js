@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import {Link} from "react-router-dom"
 import * as fetch from "./../../../api_calls/fetchInformation"
 
 class Project extends Component {
@@ -21,10 +22,10 @@ class Project extends Component {
             });
     }
 
-    getProjectDiv(projectInfo){
+    getProjectDiv(projectInfo, i){
         return(
             
-            <div class="mb-3">
+            <div className="mb-3" key={i}>
                 <Card className="light-background" style={{ marginInline:"auto", width: "60%", height: "auto" }}>
                     <Card.Header>{projectInfo.name}</Card.Header>
                     <Card.Body>
@@ -32,7 +33,12 @@ class Project extends Component {
                         <p>{projectInfo.description}</p>
                     </Card.Body>
                     {/** TODO:make link active to project page */}
-                    <Card.Footer><a className="a-light" href="#">Project Page</a></Card.Footer>
+                    <Card.Footer>
+                        <Link to={{
+                            pathname:"/project-details/" + projectInfo.id, 
+                            state: { projectId: projectInfo.id }
+                        }}>View Project</Link>
+                    </Card.Footer>
                 </Card>
             </div>
         )
@@ -48,13 +54,13 @@ class Project extends Component {
                 <div id="owned-projects" className="mb-5">
                     <h3 >Owned:</h3>
                     {
-                        this.state.owned.map(project => this.getProjectDiv(project))
+                        this.state.owned.map((project, i) => this.getProjectDiv(project, i))
                     }
                 </div>
                 <div id="contr-projects">
                     <h3>Contributed:</h3>
                     {
-                        this.state.contr.map(project => this.getProjectDiv(project))
+                        this.state.contr.map((project, i) => this.getProjectDiv(project, i))
                     }
                 </div>
             </div>

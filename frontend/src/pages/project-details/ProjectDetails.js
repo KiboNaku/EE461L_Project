@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
+import { Link } from 'react-dom'
 import * as fetch from "./../../api_calls/fetchInformation"
 import './project-details.css'
 
 class ProjectDetails extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isLogin: true,
             projectName: "",
@@ -18,8 +19,9 @@ class ProjectDetails extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props)
         fetch
-            .fetchProjectInfo("606e370393c745c9ee7f61f1")
+            .fetchProjectInfo(this.props.location.state.projectId)
             .then(res => {
                 console.log(res)
                 let project = res.data.project
