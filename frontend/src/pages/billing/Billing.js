@@ -28,7 +28,7 @@ class Billing extends Component {
 					<Container fluid>
 						<Row>
 							<Col md={8}>
-								<div style={{ display: "flex" }} class="mb-3">
+								<div style={{ display: "flex" }} className="mb-3">
 									<Card className="light-background" style={{ marginRight: "auto", width: "80%", height: "auto" }}>
 										<Card.Header>
 											<h4>Shipping Information</h4>
@@ -38,7 +38,7 @@ class Billing extends Component {
 										</Card.Body>
 									</Card>
 								</div>
-								<div style={{ display: "flex" }} class="mb-3">
+								<div style={{ display: "flex" }} className="mb-3">
 									<Card className="light-background" style={{ marginRight: "auto", width: "auto", height: "auto" }}>
 										<Card.Header>
 											<h4>Payment Information</h4>
@@ -48,13 +48,13 @@ class Billing extends Component {
 										</Card.Body>
 									</Card>
 								</div>
-								<div style={{ display: "flex" }} class="mb-3">
+								<div style={{ display: "flex" }} className="mb-3">
 									<span>
 										<input type="checkbox" onClick={this.toggleBilling}></input>
 										<label>Is your billing diffferent from your shipping?</label>
 									</span>
 								</div>
-								<div style={{ display: "flex" }} class="mb-3">
+								<div style={{ display: "flex" }} className="mb-3">
 									{billingAddress && (
 										<Card className="light-background" style={{ marginRight: "auto", width: "80%", height: "auto" }}>
 											<Card.Header>

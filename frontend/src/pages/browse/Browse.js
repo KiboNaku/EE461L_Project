@@ -5,6 +5,7 @@ import { fetchProjects } from "./../../api_calls/fetchInformation";
 import { joinProject } from "./../../api_calls/editProject";
 import Project from "./components/Project";
 import SearchBar from "./components/SearchBar";
+import {Link} from "react-router-dom"
 
 import "./Browse.css";
 
@@ -136,6 +137,9 @@ class Browse extends Component {
 		return (
 			<div className="container dark-background ">
 				<SearchBar search={this.search} />
+				<div className="mt-3">
+					<Link to="/project-add" className="btn button-primary">+ Add Project</Link>
+				</div>
 				<div className="row">
 					{/* <div className="col browse-filter text-light">
 						<Filter

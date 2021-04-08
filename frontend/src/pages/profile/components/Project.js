@@ -51,6 +51,9 @@ class Project extends Component {
                 <div id="Project" className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                     <h1 className="h2">Projects</h1>
                 </div>
+                <div className="mb-3">
+                    <Link to="/project-add" className="btn button-primary">+ Add Project</Link>
+                </div>
                 <div id="owned-projects" className="mb-5">
                     <h3 >Owned:</h3>
                     {
