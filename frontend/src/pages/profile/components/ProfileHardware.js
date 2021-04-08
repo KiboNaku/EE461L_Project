@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Card, Table } from "react-bootstrap";
+import { Form, Card, Table, Dropdown, DropdownButton } from "react-bootstrap";
 import * as fetch from "./../../../api_calls/fetchInformation"
 import * as handleHardware from '../../../api_calls/handleHardware'
 
@@ -9,11 +9,14 @@ class ProfileHardware extends Component {
         super();
         this.state = {
             rented: [],
-            price_per_unit: [20, 10, 50, 15, 5]
+            price_per_unit: [20, 10, 50, 15, 5],
+            projects: [],
         }
         this.handleChange = this.handleChange.bind(this);
         this.fixString = this.fixString.bind(this);
         this.returnHW = this.returnHW.bind(this);
+
+        this.assignHW = this.assignHW.bind(this);
     }
 
     componentDidMount() {
@@ -21,6 +24,12 @@ class ProfileHardware extends Component {
             .fetchUserHardware()
             .then(res => {
                 this.setState({ rented: res.data.rented_hardware });
+            });
+
+        fetch    
+            .fetchUserProjects()
+            .then(res => {
+                this.setState({projects: res.data.owned_projects});
             });
     }
 
@@ -64,6 +73,10 @@ class ProfileHardware extends Component {
         // });
     }
 
+    assignHW(){
+        
+    }
+
     render() {
 
         console.log(this.state)
@@ -105,6 +118,49 @@ class ProfileHardware extends Component {
                             </tbody>
                         </Table>
                         <button type="button" className="btn button-primary" onClick={this.returnHW}>Return Hardware</button>
+                    </Card.Body>
+                </Card>
+                <Card className="mb-3 light-background">
+                    <Card.Header>Projects</Card.Header>
+                    <Card.Body>
+                        <Table className="text-light profile-table" bordered >
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Hardware</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    // needs to be projects not rented
+                                    this.state.projects.map((project, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td>{project.name}</td>
+                                                {
+                                                    this.state.rented.map((hw, i) => {
+                                                        return(
+                                                            <td>
+                                                                <DropdownButton key={i} className="" title="Select Hardware">
+                                                                    <Dropdown.Item>{hw.name}</Dropdown.Item>
+                                                                </DropdownButton>
+                                                            </td>
+                                                        );
+                                                    })
+                                                }
+                                                <td>
+                                                <Form>
+                                                    <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0"/>
+                                                </Form>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                }
+                            </tbody>
+                        </Table>
+                        <button type="button" className="btn button-primary" onClick={this.assignHW}>Assign</button>
                     </Card.Body>
                 </Card>
                 {/* <Card className="light-background">
