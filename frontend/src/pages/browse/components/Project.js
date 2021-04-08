@@ -1,5 +1,6 @@
-import React from 'react'
+import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
+import { Link } from "react-router-dom";
 
 function Project(props) {
 
@@ -13,10 +14,16 @@ function Project(props) {
 							className="project-add a-dark"
 							onClick={() => props.joinProject(props.data.id)}
 						/>
-						<h5 className="card-title">{props.data.name}</h5>
+						<Link className="a-dark" to={{
+							pathname: "/project-details/" + props.data.id, 
+							state: { projectId: props.data.id }
+						}}>
+							<h5 className="card-title">{props.data.name}</h5>
+						</Link>
 					</div>
+					<small className="project-owner">ID: {props.data.id}</small>
 					<small className="project-owner">Created by: {props.data.owner}</small>
-					{props.data.tag1 &&
+					{/* {props.data.tag1 &&
 						props.data.tag1.map(tag => {
 							return <span className="badge badge-info project-tag"> {tag}</span>
 						})
@@ -25,7 +32,7 @@ function Project(props) {
 						props.data.tag2.map(tag => {
 							return <span className="badge badge-danger project-tag"> {tag}</span>
 						})
-					}
+					} */}
 					< p className="card-text project-description">{props.data.description}</p>
 				</div>
 			</div>
