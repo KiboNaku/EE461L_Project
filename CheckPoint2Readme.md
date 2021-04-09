@@ -23,3 +23,6 @@ To access the hardware sets and datasets, click on the hardware/dataset tab and 
 To view which hardware sets you have checked out, you will need to go to your profile and then click on the hardware tab loacted in the profile. There you can see which hardware you have checked out and how many.
 Located on the same page as where you can view which hardware you can check out, you can also check in hardaware by inputing the amount you want to check back in and pressing the check in button
 Similarly to assign hardware sets to specific projects, go the hardware tab located on your profile page. From there you can see which projects you own and select which hardware and the quantity that you want to assign to a project
+
+## Sign Out
+To sign out, go to your profile page and click on the "Sign Out" tab
