@@ -9,10 +9,12 @@ After clicking on the link, to create an account or login, you will want to clic
 
 Once, you have clicked on the link, you will be prompted to login, however if you do not have an account, there is and option to register.
 
-After registering, you will need login in to access your personal profile information (now located where the login button was) as well as the projects and hardware information (located in their respective tabs). 
+If you register a new account, you will need login after registering in order to access your personal profile information, projects, and hardware information (located in their respective tabs).
+
+If you already have an account, simply click on the login tab and login.
 
 ## Profile
-To access any profile information, you must be logged in. If you are logged in, click on the profile icon located on the right side of the header. From there you can view all personal information including your login credentials, hardware that you've rented, and projects that you are a part of.
+To access any profile information, you must be logged in. If you are logged in, the login button will be replaced with a profile icon. Click on the profile icon located on the right side of the header. From there you can view all personal information including your login credentials, hardware that you've rented, and projects that you are a part of.
 
 ## Projects
 There are two ways you can add a new project:
