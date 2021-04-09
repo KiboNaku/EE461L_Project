@@ -13,7 +13,7 @@ def create_mongo():
 
 
 def create_app():
-    new_app = Flask(__name__,static_folder='frontend/build',static_url_path='')
+    new_app = Flask(__name__)
     # new_app.config['MONGO_URI'] = 'mongodb+srv://ee461L-user:dXFeMfeocMJnIygo@cluster0.5n8qc.mongodb.net/db?retryWrites=true&w=majority'
 
     # mongo.init_app(new_app)
@@ -28,11 +28,3 @@ def create_app():
 db = create_mongo()
 app = create_app()
 CORS(app)
-
-@app.route('/')
-def index():
-    return send_from_directory(app.static_folder,'index.html')
-
-# @app.errorhandler(404)
-# def not_found(e):
-#     return app.send_static_file('index.html')
