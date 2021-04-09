@@ -8,7 +8,13 @@ class ProfileHardware extends Component {
     constructor() {
         super();
         this.state = {
-            rented: [],
+            rented: [{
+                name: "a",
+                amount: 6
+            }, {
+                name: "b",
+                amount: 2
+            }],
             price_per_unit: [20, 10, 50, 15, 5], // currently unused
             errorString: "",
             projects: []
@@ -21,16 +27,16 @@ class ProfileHardware extends Component {
     }
 
     componentDidMount() {
-        fetch
-            .fetchUserHardware()
-            .then(res => {
-                this.setState({ rented: res.data.rented_hardware });
-            });
+        // fetch
+        //     .fetchUserHardware()
+        //     .then(res => {
+        //         this.setState({ rented: res.data.rented_hardware });
+        //     });
 
-        fetch    
+        fetch
             .fetchUserProjects()
             .then(res => {
-                this.setState({projects: res.data.owned_projects});
+                this.setState({ projects: res.data.owned_projects });
             });
     }
 
@@ -59,16 +65,18 @@ class ProfileHardware extends Component {
                 // this.setState({ successString: res.data.data });  // shows a success banner when hw is rented
                 fetch.fetchUserHardware().then(res => {
                     this.setState({ rented: res.data.rented_hardware });
-            });
+                });
             }
             else {
                 this.setState({ errorString: res.data.error })
             }
-         })
+        })
     }
 
-    assignHW(){
-        
+    assignHW() {
+        handleHardware.assignHW({
+
+        })
     }
 
     render() {
@@ -80,7 +88,7 @@ class ProfileHardware extends Component {
                     <h1 className="h2">Hardware</h1>
                 </div>
                 <Card className="mb-3 light-background">
-                {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
+                    {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
                     <Card.Header>Checked Out Hardware</Card.Header>
                     <Card.Body>
                         <Table className="text-light profile-table" bordered >
@@ -102,9 +110,9 @@ class ProfileHardware extends Component {
                                                 {/* TODO: make this display the actual cost of the rented HW */}
                                                 <td id="hw_price">$$$</td>
                                                 <td>
-                                                <Form>
-                                                    <Form.Control name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount} onChange={this.handleChange} />
-                                                </Form>
+                                                    <Form>
+                                                        <Form.Control name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount} onChange={this.handleChange} />
+                                                    </Form>
                                                 </td>
                                             </tr>
                                         );
@@ -133,21 +141,27 @@ class ProfileHardware extends Component {
                                         return (
                                             <tr key={i}>
                                                 <td>{project.name}</td>
-                                                {
-                                                    this.state.rented.map((hw, i) => {
-                                                        return(
-                                                            <td>
-                                                                <DropdownButton key={i} className="" title="Select Hardware">
-                                                                    <Dropdown.Item>{hw.name}</Dropdown.Item>
-                                                                </DropdownButton>
-                                                            </td>
-                                                        );
-                                                    })
-                                                }
                                                 <td>
-                                                <Form>
-                                                    <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0"/>
-                                                </Form>
+                                                    <select className="form-select form-select-lg">
+                                                        <option selected>Choose hardware</option>
+                                                        {/* <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option> */}
+                                                        {
+                                                            this.state.rented.map((hw, i) => {
+                                                                return (
+                                                                    // <Dropdown.Toggle key={i} className="" title="Select Hardware">
+                                                                    <option value={hw.name}>{hw.name}</option>
+                                                                    // </Dropdown.Toggle>
+                                                                );
+                                                            })
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <Form>
+                                                        <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0" />
+                                                    </Form>
                                                 </td>
                                             </tr>
                                         );

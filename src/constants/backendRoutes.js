@@ -13,3 +13,4 @@ export const USER_INFO = "/api/user-info";
 export const USER_PROJECTS = "/api/fetch-user-projects";
 export const USER_HARDWARE = "/api/fetch-user-hardware";
 export const FETCH_PROJECT_INFO = "/api/fetch-project-info";
+export const ASSIGN_HARDWARE = "/api/assign-hardware"

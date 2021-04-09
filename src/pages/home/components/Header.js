@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
 
@@ -27,9 +27,6 @@ class Header extends Component {
 							</li>
 							<li className="nav-item nav-link">
 								<Link className="a-dark" to="/hardware"> Hardware/Datasets</Link>
-							</li>
-							<li className="nav-item nav-link">
-								<Link className="a-dark" to="/profile"> Profile</Link>
 							</li>
 							{/* Toggle Profile if login true */}
 							{this.props.loggedIn ?
