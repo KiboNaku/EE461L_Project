@@ -14,7 +14,7 @@ There are two ways you can add a new project:
 1. You can directly create the project from the projects tab (located in the header)
 2. You can go into your profile, click on the projects tab located in the profile, and create a project from there
 To seacrch for project, you can go to the projects page and search a project by its ID.\
-Alteratively, you can browse through all the available projects on the prjects page.\
+Alteratively, you can browse through all the available projects on the prjects page.\\
 To make yourself a contributor to someone else's project, you can simply click the "+" button on the project card after you have searched for it.\
 To check which projects you own or are a contributor of, you can click on the projects tab located on your profile page. From there, you can view which projects you are in
 
