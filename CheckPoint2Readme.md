@@ -41,5 +41,5 @@ Similarly, to assign hardware sets to specific projects, go the hardware tab loc
 ## Sign Out
 To sign out, go to your profile page and click on the "Sign Out" tab
 
-#Issues
+# Issues
 Currently at this stage, our team does not have any known issues
