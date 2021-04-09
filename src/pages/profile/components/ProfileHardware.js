@@ -8,30 +8,26 @@ class ProfileHardware extends Component {
     constructor() {
         super();
         this.state = {
-            rented: [{
-                name: "a",
-                amount: 6
-            }, {
-                name: "b",
-                amount: 2
-            }],
+            rented: [],
             price_per_unit: [20, 10, 50, 15, 5], // currently unused
             errorString: "",
-            projects: []
+            projects: [],
+            assigned: [],
+            selectValue: "default",
         }
         this.handleChange = this.handleChange.bind(this);
         this.fixString = this.fixString.bind(this);
         this.returnHW = this.returnHW.bind(this);
-
         this.assignHW = this.assignHW.bind(this);
+        this.handleAssignChange = this.handleAssignChange.bind(this);
     }
 
     componentDidMount() {
-        // fetch
-        //     .fetchUserHardware()
-        //     .then(res => {
-        //         this.setState({ rented: res.data.rented_hardware });
-        //     });
+        fetch
+            .fetchUserHardware()
+            .then(res => {
+                this.setState({ rented: res.data.rented_hardware });
+            });
 
         fetch
             .fetchUserProjects()
@@ -73,15 +69,28 @@ class ProfileHardware extends Component {
         })
     }
 
-    assignHW() {
-        handleHardware.assignHW({
+    handleAssignChange = project => (event) => {
+        let assigned = {
+            "project": project,
+            "hw": this.state.selectValue,
+            "num": event.target.value,
+        }
+        console.log(assigned)
 
+        this.setState({ assigned: this.state.assigned.concat(assigned) })
+    }
+
+    assignHW() {
+        handleHardware.assignHW(localStorage.getItem("token"), this.state.assigned).then(res => {
+            if (res.error) {
+                alert(res.error)
+            }
         })
     }
 
     render() {
 
-        console.log(this.state)
+        // console.log(this.state)
         return (
             <div>
                 <div id="ProfileHardware" className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -135,37 +144,31 @@ class ProfileHardware extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    // needs to be projects not rented
-                                    this.state.projects.map((project, i) => {
-                                        return (
-                                            <tr key={i}>
-                                                <td>{project.name}</td>
-                                                <td>
-                                                    <select className="form-select form-select-lg">
-                                                        <option selected>Choose hardware</option>
-                                                        {/* <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option> */}
-                                                        {
-                                                            this.state.rented.map((hw, i) => {
-                                                                return (
-                                                                    // <Dropdown.Toggle key={i} className="" title="Select Hardware">
-                                                                    <option value={hw.name}>{hw.name}</option>
-                                                                    // </Dropdown.Toggle>
-                                                                );
-                                                            })
-                                                        }
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <Form>
-                                                        <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0" />
-                                                    </Form>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
+                                {this.state.projects.map((project, i) => {
+                                    return (
+                                        <tr key={i}>
+                                            <td>{project.name}</td>
+                                            <td>
+                                                <select className="form-select form-select-lg" name="selectValue" value={this.state.selectValue}
+                                                    onChange={this.handleChange}>
+                                                    <option value="default">Choose hardware</option>
+                                                    {
+                                                        this.state.rented.map((hw) => {
+                                                            return (
+                                                                <option value={hw.name}>{hw.name}</option>
+                                                            );
+                                                        })
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <Form>
+                                                    <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0" onChange={this.handleAssignChange(project)} />
+                                                </Form>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
                                 }
                             </tbody>
                         </Table>

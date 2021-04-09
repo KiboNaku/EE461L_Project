@@ -2,7 +2,7 @@ from models.user import RentRecord
 from flask import Flask, jsonify, request
 from base import app, db
 from models.user import User, RentRecord
-from models.project import Project
+from models.project import AssignedRecord, Project
 from models.hardware import Hardware
 import json
 import jwt
@@ -180,52 +180,63 @@ def fetch_user_projects(token_data):
 
     return r_val
 
+
 @app.route("/api/rent-hardware", methods=["POST"])
 @token_required
 def rent_hardware(token_data):
     first = True
-    hardware_list = Hardware.objects() 
+    hardware_list = Hardware.objects()
     r_val = {"success": 0, "error": None, "data": ""}
     wanted_hardware = request.get_json()["hardware"]
     user = User.objects(username=token_data['user']).first()
-    r_val["data"] = "User " + str(user.username) + " rented the following hardware:"
+    r_val["data"] = "User " + str(user.username) + \
+        " rented the following hardware:"
     if user:
         if(enough_available_hardware(wanted_hardware)):
             for ware in range(5):
                 check = "HWSet" + str(ware + 1)
                 if(int(wanted_hardware[check]) > 0):
                     if not first:
-                        r_val["data"] += ", " + wanted_hardware[check] + " of " + check
-                    else: 
-                        r_val["data"] += " " + wanted_hardware[check] + " of " + check
+                        r_val["data"] += ", " + \
+                            wanted_hardware[check] + " of " + check
+                    else:
+                        r_val["data"] += " " + \
+                            wanted_hardware[check] + " of " + check
                         first = False
                     hw = Hardware.objects(hardware_name=check).first()
-                    old_record = RentRecord.objects(hardware=hw.pk, user=user.pk).first()
+                    old_record = RentRecord.objects(
+                        hardware=hw.pk, user=user.pk).first()
                     print(old_record)
                     if old_record != None:
                         old_value = old_record.amount
-                        old_record.update(set__amount=old_value + int(wanted_hardware[check]))
+                        old_record.update(
+                            set__amount=old_value + int(wanted_hardware[check]))
                         old_record.save()
                     else:
                         today = datetime.date.today()
-                        expiration = datetime.date(today.year + (today.month + 6)//12, (today.month + 6) % 12, today.day)
+                        expiration = datetime.date(
+                            today.year + (today.month + 6)//12, (today.month + 6) % 12, today.day)
                         record = RentRecord(
                             user=user.to_dbref(),
-                            hardware=Hardware.objects(hardware_name=check).first().to_dbref(),
+                            hardware=Hardware.objects(
+                                hardware_name=check).first().to_dbref(),
                             amount=wanted_hardware[check],
                             date_rented=today,
                             date_expired=expiration
                         )
                         record.save()
-                        user.update(add_to_set__rented_hardware=[record.to_dbref()])
+                        user.update(add_to_set__rented_hardware=[
+                                    record.to_dbref()])
                     hwset = Hardware.objects(hardware_name=check).first()
-                    hwset.update(set__available_count=hardware_list[ware].available_count - int(wanted_hardware[check]))
+                    hwset.update(
+                        set__available_count=hardware_list[ware].available_count - int(wanted_hardware[check]))
                     hwset.reload()
         else:
             r_val["success"] = -1
             r_val["error"] = "You cannot rent more hardware than is currently available."
             return r_val
         return r_val
+
 
 def enough_available_hardware(hardware):
     hardware_list = Hardware.objects()
@@ -235,30 +246,33 @@ def enough_available_hardware(hardware):
             return False
     return True
 
+
 @app.route("/api/return-hardware", methods=["POST"])
 @token_required
 def return_hardware(token_data):
     return_hardware = request.get_json()["hardware"]
     hardware_list = Hardware.objects()
-    r_val = { "success": 0, "error": None }
+    r_val = {"success": 0, "error": None}
     user = User.objects(username=token_data['user']).first()
     if user:
         user_hw = get_user_hw(user)
         for hardware in return_hardware:
             if int(return_hardware[hardware]) > 0:
                 if int(return_hardware[hardware]) <= user_hw[int(get_hardware_digit(hardware))-1]:
-                    hardware_list[int(get_hardware_digit(hardware))-1].update(set__available_count=
-                        hardware_list[int(get_hardware_digit(hardware))-1]
-                        .available_count + int(return_hardware[hardware]))
+                    hardware_list[int(get_hardware_digit(hardware))-1].update(set__available_count=hardware_list[int(get_hardware_digit(hardware))-1]
+                                                                              .available_count + int(return_hardware[hardware]))
                     hw = Hardware.objects(hardware_name=hardware).first()
-                    record = RentRecord.objects(hardware=hw.pk, user=user.pk).first()
-                    record.update(set__amount=user_hw[int(get_hardware_digit(hardware))-1] - int(return_hardware[hardware]))
+                    record = RentRecord.objects(
+                        hardware=hw.pk, user=user.pk).first()
+                    record.update(set__amount=user_hw[int(get_hardware_digit(
+                        hardware))-1] - int(return_hardware[hardware]))
                     record.reload()
                 else:
                     r_val["success"] = -1
                     r_val["error"] = "You cannot return more hardware than you own."
                     return r_val
     return r_val
+
 
 def get_user_hw(user):
     rented = user.rented_hardware
@@ -268,11 +282,13 @@ def get_user_hw(user):
         user_hw[int(digit) - 1] += r.amount
     return user_hw
 
-def get_hardware_digit(r): 
+
+def get_hardware_digit(r):
     for char in r:
         if char.isdigit():
             return char
     return 0
+
 
 @app.route("/api/add-project", methods=["POST"])
 @token_required
@@ -314,3 +330,45 @@ def fetch_project_info():
     project_id = request.get_json()["project_id"]
     project = Project.objects(pk=project_id).first()
     return {"project": project.to_json()}
+
+
+@app.route("/api/assign-hardware", methods=["POST"])
+@token_required
+def assign_hardware(token_data):
+    r_val = {"success": 0, "error": None, "error2": []}
+    data = json.loads(request.data)
+    print(data)
+    user = User.objects(username=token_data['user']).first()
+    assign_record = data.get("records")
+
+    if not user:
+        r_val["success"] = -1
+        r_val["error"] = "No user found."
+    else:
+        for record in assign_record:
+            project = Project.objects(pk=record["project"]["id"]).first()
+            hardware = Hardware.objects(hardware_name=record["hw"]).first()
+            rent_record = RentRecord.objects(user=user, hardware=hardware).first()
+            amount = int(record["num"])
+            if rent_record.amount < amount:
+                r_val["success"] = -1
+                r_val["error2"].append(record["project"])
+            else:
+                existing_record = AssignedRecord.objects(project=project, hardware=hardware).first()
+                num = 0
+                if not existing_record:
+                    r = AssignedRecord(
+                        # user=user,
+                        project=project,
+                        hardware=hardware,
+                        amount=amount
+                    )
+                    r.save()
+                    project.update(add_to_set__rented_hardware=[r])
+                else:
+                    num = existing_record.amount
+                    existing_record.update(set__amount=amount)
+                old_amount = rent_record.amount
+                rent_record.update(set__amount=old_amount-amount+num)
+
+    return r_val

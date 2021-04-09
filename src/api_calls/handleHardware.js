@@ -19,10 +19,10 @@ export const returnHW = hardware => {
 		.post(returnHWUrl, { hardware : hardware, "token": localStorage.getItem("token") })
 }
 
-export const assignHW = (token, hardware) => {
-	let assignHWUrl = consts.BACKEND_ROUTE + consts.ASSIGN_HARDWARE;
+export const assignHW = (token, records) => {
+	let assignHWUrl = consts.ASSIGN_HARDWARE;
 	return axios 
-		.post(assignHWUrl, { "token": token, "hardware": hardware })
+		.post(assignHWUrl, { "token": token, "records": records })
 		.then(response => {
 			return response.data
 		})
