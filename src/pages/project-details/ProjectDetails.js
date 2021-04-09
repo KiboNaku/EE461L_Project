@@ -26,7 +26,7 @@ class ProjectDetails extends Component {
                 let mems = project.contributors
                 mems.unshift(project.owner)
                 this.setState({
-                    
+
                     projectName: project.name,
                     members: mems.join(", "),
                     // TODO: add functionality for tags
@@ -37,6 +37,7 @@ class ProjectDetails extends Component {
     }
 
     render() {
+        console.log(this.state.checkedHw)
         return (
             <div className="w-100 dark-background max-height overflow-hidden text-left px-0 py-0 mx-0 my-0 h-100">
 
@@ -71,7 +72,7 @@ class ProjectDetails extends Component {
                     <table className="table borderless col-7 text-light">
                         <thead>
                             <tr>
-                                <th scope="col">Checked</th>
+                                <th scope="col">Checked Hardware</th>
                                 <th scope="col">Count</th>
                                 {/* <th scope="col">Wishlist</th>
                                 <th scope="col"></th> */}
@@ -81,10 +82,12 @@ class ProjectDetails extends Component {
 
                             {
                                 this.state.checkedHw.map((hwInfo, i) => {
-                                    <tr>
-                                        <td>{hwInfo.name}</td>
-                                        <td>{hwInfo.amount}</td>
-                                    </tr>
+                                    return (
+                                        <tr key={i}>
+                                            <td>{hwInfo.hw_name}</td>
+                                            <td>{hwInfo.amount}</td>
+                                        </tr>
+                                    )
                                 })
                             }
 
