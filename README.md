@@ -2,6 +2,8 @@
 
 This project is currently hosted at [Project Link](https://thawing-stream-84291.herokuapp.com/).
 
+The page takes some time to start up. If it shows an application error when you visit that link, refresh the page and the application should show up shortly.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
