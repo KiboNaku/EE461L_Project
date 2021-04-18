@@ -103,7 +103,7 @@ def create_token(username):
 @app.route("/api/logout", methods=["POST"])
 def logout():
     # TODO: consider making a list of blacklisted tokens for logged out users
-    pass
+    return {}
 
 
 @app.route("/api/fetch-project", methods=["GET"])
