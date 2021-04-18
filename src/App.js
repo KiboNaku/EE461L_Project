@@ -85,7 +85,7 @@ class App extends Component {
 							<Home />
 						</Route>
 						<Route path="/login">
-							<Login login={this.logIn} />
+							<Login login={this.logIn} loggedIn={this.state.loggedIn}/>
 						</Route>
 						<Route
 							path={"/project-details/:projectId"}

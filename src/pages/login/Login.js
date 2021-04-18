@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
@@ -9,6 +10,7 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
+            message: null,
             isLogin: true,
             hasLoggedIn: false,
             loginError: null,
@@ -28,7 +30,7 @@ class Login extends Component {
                 console.log("Logged in with response", res);
                 let errorCode = res.data.success;
                 let error = res.data.error;
-                let token = res.data.token
+                let token = res.data.token;
 
                 if (errorCode < 0) {
                     this.setState({ loginError: error });
@@ -43,12 +45,15 @@ class Login extends Component {
         this.setState({ registerError: null });
         admission.register({ username: username, email: email, password: password })
             .then(res => {
-                console.log("Registered with response", res);
                 let errorCode = res.data.success;
                 let error = res.data.error;
+                let token = res.data.token;
 
                 if (errorCode < 0) {
                     this.setState({ registerError: error });
+                } else {
+                    localStorage.setItem("token", token);
+                    this.props.login();
                 }
             });
     }
@@ -66,6 +71,11 @@ class Login extends Component {
     }
 
     render() {
+
+        if(this.props.loggedIn){
+            return <Redirect to='/' />
+        }
+
         return (
             <div className="w-100 dark-background max-height container overflow-hidden">
                 <Container fluid className="vertical-center">
