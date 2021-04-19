@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Card } from 'react-bootstrap'
 import "../home/Home.css"
+import {Link} from "react-router-dom"
 import CheckCart from "./components/CheckCart.js"
 import ErrorMessage from "./components/ErrorMessage.js" //currently never displayed
 import CheckModal from "./components/CheckModal.js"
@@ -25,7 +26,7 @@ class HardwareDatasets extends Component {
             link7: "https://physionet.org/static/published-projects/prcp/physiologic-response-to-changes-in-posture-1.0.0.zip",
             link8: "https://physionet.org/static/published-projects/sleepbrl/sleep-bioradiolocation-database-1.0.0.zip",
             link9: "https://physionet.org/static/published-projects/tappy/tappy-keystroke-data-1.0.0.zip",
-            link10: "https://physionet.org/static/published-projects/wrist/wrist-ppg-during-exercise-1.0.0.zip" 
+            link10: "https://physionet.org/static/published-projects/wrist/wrist-ppg-during-exercise-1.0.0.zip"
         }
         this.fixString = this.fixString.bind(this);
         this.retrieveHWInfo = this.retrieveHWInfo.bind(this);
@@ -108,19 +109,27 @@ class HardwareDatasets extends Component {
                                             {/* TODO: fix this value to reflect hwset1 */}
                                             <td>{item.available_count}</td>
                                             <td>
-                                                <Form>
-                                                    <Form.Control className="textbox" name={item.hardware_name} type="number" placeholder="Desired Checkout Amount" min="0" max={item.available_count} onChange={this.handleChange} />
-                                                </Form>
+                                                {this.props.loggedIn ?
+                                                    <Form>
+                                                        <Form.Control className="textbox" name={item.hardware_name} type="number" placeholder="Desired Checkout Amount" min="0" max={item.available_count} onChange={this.handleChange} />
+                                                    </Form> :
+                                                    <Card.Text>N/A</Card.Text>
+                                                }
+
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                             <div className="row justify-content-center">
-                                <button id="modalButton" type="button" className="btn button-primary btn-md"
-                                    data-toggle="modal" data-target="#check-modal">
-                                    Checkout
-                                </button>
+                                {this.props.loggedIn ?
+                                    <button id="modalButton" type="button" className="btn button-primary btn-md"
+                                        data-toggle="modal" data-target="#check-modal">
+                                        Checkout
+                                    </button>:
+                                    <Card.Text>You must <Link to="/login">login/register</Link> before you can purchase hardware sets.</Card.Text>
+                                }
+
                                 <CheckModal content={this.state.error ? <ErrorMessage errorString={this.state.errorString} /> :
                                     <CheckCart hwSet1={this.state.HWSet1} hwSet2={this.state.HWSet2} hwSet3={this.state.HWSet3}
                                         hwSet4={this.state.HWSet4} hwSet5={this.state.HWSet5} checkOut={this.checkOut} />} />

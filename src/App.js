@@ -104,7 +104,7 @@ class App extends Component {
 								validateToken={this.validateToken} />
 						</Route>
 						<Route path="/hardware">
-							<Hardware />
+							<Hardware loggedIn={this.state.loggedIn}/>
 						</Route>
 					</Switch>
 				</div>
