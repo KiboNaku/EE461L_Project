@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import "./Landing.css"
 
 class Landing extends Component {
@@ -13,7 +15,11 @@ class Landing extends Component {
                         <h1 className="cover-heading">Website Name</h1>
                         <p className="lead">Find your passion project here today.</p>
                         <p className="lead">
-                            <a href="#" className="btn btn-lg btn-secondary">Learn more</a>
+                            <Link to="/browse">
+                                <button className="btn button-primary" >
+                                    Learn More
+                            </button>
+                            </Link>
                         </p>
                     </div>
                 </main>

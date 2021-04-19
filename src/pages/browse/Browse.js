@@ -149,7 +149,7 @@ class Browse extends Component {
 							filter={this.state.filter}
 						/>
 					</div> */}
-					<div className="col-9 browse-content">
+					<div className="col-sm-9 browse-content">
 						<BrowsingItems
 							projects={this.state.projects}
 							setProjectData={this.setProjectData}

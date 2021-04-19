@@ -5,6 +5,8 @@ import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import * as admission from '../../api_calls/admission'
 
+import "./Login.css";
+
 class Login extends Component {
 
     constructor() {
@@ -77,12 +79,11 @@ class Login extends Component {
         }
 
         return (
-            <div className="w-100 dark-background max-height container overflow-hidden">
-                <Container fluid className="vertical-center">
-
+            <div className="dark-background max-height container overflow-hidden">
+                <Container fluid className="vertical-center login-form-container">
                     <Row className="justify-content-center">
-                        <Col xs={4}>
-                            <Card className="text-center px-5 py-5 light-background text-light">
+                        <Col xs={10} sm={9} md={6} lg={5} xl={4}>
+                            <Card className="text-center px-sm-2 py-sm-2 px-md-5 py-md-5 light-background text-light">
                                 {
                                     this.state.isLogin ?
                                         <LoginForm
