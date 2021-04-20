@@ -23,8 +23,9 @@ class App extends Component {
 
 	constructor() {
 		super();
+		let token = localStorage.getItem("token");
 		this.state = {
-			loggedIn: false,
+			loggedIn: token !== null && typeof token !== 'undefined',
 		}
 		this.logIn = this.logIn.bind(this);
 		this.logOut = this.logOut.bind(this);
@@ -33,10 +34,10 @@ class App extends Component {
 
 	logIn() {
 		this.setState({ loggedIn: true });
+		console.log("logged in");
 	}
 
 	logOut() {
-		console.log("logged out")
 		this.setState({ loggedIn: false });
 		localStorage.removeItem("token");
 		adm
@@ -85,17 +86,17 @@ class App extends Component {
 							<Home />
 						</Route>
 						<Route path="/login">
-							<Login login={this.logIn} />
+							<Login login={this.logIn} loggedIn={this.state.loggedIn}/>
 						</Route>
 						<Route
 							path={"/project-details/:projectId"}
 							component={ProjectDetails}
 						/>
 						<Route path="/project-add">
-							<ProjectAdd />
+							<ProjectAdd loggedIn={this.state.loggedIn}/>
 						</Route>
 						<Route path="/profile">
-							<Profile logout={this.logOut} />
+							<Profile loggedIn={this.state.loggedIn} logout={this.logOut} />
 						</Route>
 						<Route path="/browse">
 							<Browse
@@ -103,7 +104,7 @@ class App extends Component {
 								validateToken={this.validateToken} />
 						</Route>
 						<Route path="/hardware">
-							<Hardware />
+							<Hardware loggedIn={this.state.loggedIn}/>
 						</Route>
 					</Switch>
 				</div>

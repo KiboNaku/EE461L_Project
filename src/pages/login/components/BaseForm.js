@@ -16,9 +16,15 @@ class BaseForm extends Component {
                     {this.props.form}
                     <OrHr className="my-4" />
                     <GoogleButton
-                        className="w-100"
+                        className="w-100 google-button"
                         label="Continue with Google"
                         onClick={() => this.props.googleClick()}
+                        style={{
+                            backgroundColor: "#23967f",
+                            color: "white",
+                            borderColor: "#23967f",
+                            borderRadius: ".25rem"
+                        }}
                     />
                 </Card.Body>
                 <Card.Footer>

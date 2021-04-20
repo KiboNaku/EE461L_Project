@@ -5,7 +5,7 @@ import { fetchProjects } from "./../../api_calls/fetchInformation";
 import { joinProject } from "./../../api_calls/editProject";
 import Project from "./components/Project";
 import SearchBar from "./components/SearchBar";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import "./Browse.css";
 
@@ -142,14 +142,14 @@ class Browse extends Component {
 				<div className="mt-3">
 					<Link to="/project-add" className="btn button-primary">+ Add Project</Link>
 				</div>
-				<div className="row">
+				<div className="row" style={{ marginLeft: "0px", marginRight: "0px" }}>
 					{/* <div className="col browse-filter text-light">
 						<Filter
 							handleChange={this.handleFilterChange}
 							filter={this.state.filter}
 						/>
 					</div> */}
-					<div className="col-9 browse-content">
+					<div className="mx-auto col-md-10 browse-content">
 						<BrowsingItems
 							projects={this.state.projects}
 							setProjectData={this.setProjectData}

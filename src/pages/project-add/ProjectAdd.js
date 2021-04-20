@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap'
 import * as projects from './../../api_calls/editProject'
 import '../project-details/project-details.css'
@@ -81,6 +82,9 @@ class ProjectAdd extends Component {
     }
 
     render() {
+        if(!this.props.loggedIn){
+            return <Redirect to='/' />
+        }
 
         return (
             <div className="w-100 dark-background max-height text-left px-0 py-0 mx-0 my-0 h-100">

@@ -89,3 +89,7 @@ a:hover {
     border-color: #23967f;
     box-shadow: rgba(35,150,127, 0.35) 0px 5px 15px;
 }
+
+body {
+    font-family: 'Roboto', sans-serif;
+}

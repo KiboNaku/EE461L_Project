@@ -41,7 +41,7 @@ def validate_token(token_data):
 def register():
 
     #     # initialize return value
-    r_val = {"email": None, "success": 0, "error": None}
+    r_val = {"token": None, "success": 0, "error": None}
 
 #     # get user info
 #     validator, user = User.get_json()
@@ -56,6 +56,7 @@ def register():
             password=record["password"],
         )
         user.save()
+        r_val["token"] = create_token(record["username"])
     else:
         r_val["success"] = -1
         if exist_email:
@@ -84,21 +85,25 @@ def login():
             r_val["success"] = -1
             r_val["error"] = "Invalid email and password combination."
         else:
-            token = jwt.encode(
+            r_val["token"] = create_token(user["username"])
+
+    return r_val
+
+
+def create_token(username):
+    token = jwt.encode(
                 {
-                    'user': user["username"],
+                    'user': username,
                     'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
                 },
                 app.config['SECRET_KEY'])
-            r_val["token"] = token.decode('UTF-8')
-
-    return r_val
+    return token.decode('UTF-8')
 
 
 @app.route("/api/logout", methods=["POST"])
 def logout():
     # TODO: consider making a list of blacklisted tokens for logged out users
-    pass
+    return {}
 
 
 @app.route("/api/fetch-project", methods=["GET"])

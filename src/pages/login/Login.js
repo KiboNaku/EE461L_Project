@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import * as admission from '../../api_calls/admission'
+
+import "./Login.css";
 
 class Login extends Component {
 
     constructor() {
         super();
         this.state = {
+            message: null,
             isLogin: true,
             hasLoggedIn: false,
             loginError: null,
@@ -28,7 +32,7 @@ class Login extends Component {
                 console.log("Logged in with response", res);
                 let errorCode = res.data.success;
                 let error = res.data.error;
-                let token = res.data.token
+                let token = res.data.token;
 
                 if (errorCode < 0) {
                     this.setState({ loginError: error });
@@ -43,12 +47,15 @@ class Login extends Component {
         this.setState({ registerError: null });
         admission.register({ username: username, email: email, password: password })
             .then(res => {
-                console.log("Registered with response", res);
                 let errorCode = res.data.success;
                 let error = res.data.error;
+                let token = res.data.token;
 
                 if (errorCode < 0) {
                     this.setState({ registerError: error });
+                } else {
+                    localStorage.setItem("token", token);
+                    this.props.login();
                 }
             });
     }
@@ -66,13 +73,17 @@ class Login extends Component {
     }
 
     render() {
-        return (
-            <div className="w-100 dark-background max-height container overflow-hidden">
-                <Container fluid className="vertical-center">
 
+        if(this.props.loggedIn){
+            return <Redirect to='/' />
+        }
+
+        return (
+            <div className="dark-background max-height container overflow-hidden">
+                <Container fluid className="vertical-center login-form-container">
                     <Row className="justify-content-center">
-                        <Col xs={4}>
-                            <Card className="text-center px-5 py-5 light-background text-light">
+                        <Col xs={10} sm={9} md={6} lg={5} xl={4}>
+                            <Card className="text-center px-sm-2 py-sm-2 px-md-5 py-md-5 light-background text-light">
                                 {
                                     this.state.isLogin ?
                                         <LoginForm
