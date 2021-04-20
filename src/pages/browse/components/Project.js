@@ -3,6 +3,9 @@ import AddIcon from '@material-ui/icons/Add';
 import { Link } from "react-router-dom";
 
 function Project(props) {
+	// only show the first 200 characters of project description 
+	let description = props.data.description.substring(0, 200)
+	description = props.data.description.length > 200 ? description + " ..." : description
 
 	return (
 		<div className='col-lg-4 col-sm-6 col-md-6 project'>
@@ -33,7 +36,7 @@ function Project(props) {
 							return <span className="badge badge-danger project-tag"> {tag}</span>
 						})
 					} */}
-					< p className="card-text project-description">{props.data.description}</p>
+					< p className="card-text project-description">{description}</p>
 					<Link className="a-dark" to={{
 						pathname: "/project-details/" + props.data.id,
 						state: { projectId: props.data.id }
