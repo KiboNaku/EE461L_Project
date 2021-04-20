@@ -17,6 +17,7 @@ class ProfileHardware extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.fixString = this.fixString.bind(this);
+        this.getFormInfo = this.getFormInfo.bind(this);
         this.returnHW = this.returnHW.bind(this);
         this.assignHW = this.assignHW.bind(this);
         this.handleAssignChange = this.handleAssignChange.bind(this);
@@ -38,7 +39,7 @@ class ProfileHardware extends Component {
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
-        console.log(event.target.name + " was set to " + event.target.value)
+        // console.log(event.target.name + " was set to " + event.target.value)
     }
 
     fixString(hardware) {
@@ -50,15 +51,21 @@ class ProfileHardware extends Component {
         }
     }
 
+    getFormInfo() {
+        var hw = {};
+        this.state.rented.map((item) => (
+            hw[item.name] = this.fixString(this.state[item.name])
+        ))
+        return hw;
+    }
+
     returnHW() {
         this.state.errorString = "";
+        var returnList = this.getFormInfo();
         handleHardware.returnHW({
-            HWSet1: this.fixString(this.state.HWSet1),
-            HWSet2: this.fixString(this.state.HWSet2), HWSet3: this.fixString(this.state.HWSet3),
-            HWSet4: this.fixString(this.state.HWSet4), HWSet5: this.fixString(this.state.HWSet5)
+            returnHW: returnList
         }).then(res => {
             if (res.data.success === 0) {
-                // this.setState({ successString: res.data.data });  // shows a success banner when hw is rented
                 fetch.fetchUserHardware().then(res => {
                     this.setState({ rented: res.data.rented_hardware });
                 });

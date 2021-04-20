@@ -188,29 +188,31 @@ def rent_hardware(token_data):
     hardware_list = Hardware.objects()
     r_val = {"success": 0, "error": None, "data": ""}
     wanted_hardware = request.get_json()["hardware"]
+    wanted_list = wanted_hardware["rentHardware"]
     user = User.objects(username=token_data['user']).first()
     r_val["data"] = "User " + str(user.username) + \
         " rented the following hardware:"
     if user:
-        if(enough_available_hardware(wanted_hardware)):
-            for ware in range(5):
-                check = "HWSet" + str(ware + 1)
-                if(int(wanted_hardware[check]) > 0):
+        if(enough_available_hardware(wanted_list)):
+            for hardware in hardware_list:
+                name = hardware.hardware_name
+                digit = int(get_hardware_digit(name))
+                if(int(wanted_list[digit-1]) > 0):
                     if not first:
                         r_val["data"] += ", " + \
-                            wanted_hardware[check] + " of " + check
+                            wanted_list[digit-1] + " of " + name
                     else:
                         r_val["data"] += " " + \
-                            wanted_hardware[check] + " of " + check
+                            wanted_list[digit-1] + " of " + name
                         first = False
-                    hw = Hardware.objects(hardware_name=check).first()
+                    hw = Hardware.objects(hardware_name=name).first()
                     old_record = RentRecord.objects(
                         hardware=hw.pk, user=user.pk).first()
-                    print(old_record)
+                    # print(old_record)
                     if old_record != None:
                         old_value = old_record.amount
                         old_record.update(
-                            set__amount=old_value + int(wanted_hardware[check]))
+                            set__amount=old_value + int(wanted_list[digit-1]))
                         old_record.save()
                     else:
                         today = datetime.date.today()
@@ -219,30 +221,31 @@ def rent_hardware(token_data):
                         record = RentRecord(
                             user=user.to_dbref(),
                             hardware=Hardware.objects(
-                                hardware_name=check).first().to_dbref(),
-                            amount=wanted_hardware[check],
+                                hardware_name=name).first().to_dbref(),
+                            amount=wanted_list[digit-1],
                             date_rented=today,
                             date_expired=expiration
                         )
                         record.save()
                         user.update(add_to_set__rented_hardware=[
                                     record.to_dbref()])
-                    hwset = Hardware.objects(hardware_name=check).first()
+                    hwset = Hardware.objects(hardware_name=name).first()
                     hwset.update(
-                        set__available_count=hardware_list[ware].available_count - int(wanted_hardware[check]))
+                        set__available_count=hardware_list[digit-1].available_count 
+                            - int(wanted_list[digit-1]))
                     hwset.reload()
         else:
             r_val["success"] = -1
             r_val["error"] = "You cannot rent more hardware than is currently available."
             return r_val
-        return r_val
+    return r_val
 
 
-def enough_available_hardware(hardware):
+def enough_available_hardware(owned):
     hardware_list = Hardware.objects()
-    for ware in range(5):
-        check = "HWSet" + str(ware + 1)
-        if int(hardware[check]) > int(hardware_list[ware].available_count):
+    for hardware in hardware_list:
+        check = hardware.hardware_name
+        if int(owned[int(get_hardware_digit(check))-1]) > int(hardware.available_count):
             return False
     return True
 
@@ -250,22 +253,24 @@ def enough_available_hardware(hardware):
 @app.route("/api/return-hardware", methods=["POST"])
 @token_required
 def return_hardware(token_data):
-    return_hardware = request.get_json()["hardware"]
+    full_return = request.get_json()["hardware"]
+    return_hardware =full_return["returnHW"]
+    # print(return_hardware)
     hardware_list = Hardware.objects()
     r_val = {"success": 0, "error": None}
     user = User.objects(username=token_data['user']).first()
     if user:
         user_hw = get_user_hw(user)
         for hardware in return_hardware:
-            if int(return_hardware[hardware]) > 0:
-                if int(return_hardware[hardware]) <= user_hw[int(get_hardware_digit(hardware))-1]:
+            if int(return_hardware.get(hardware)) > 0:
+                if int(return_hardware.get(hardware)) <= user_hw[int(get_hardware_digit(hardware))-1]:
                     hardware_list[int(get_hardware_digit(hardware))-1].update(set__available_count=hardware_list[int(get_hardware_digit(hardware))-1]
-                                                                              .available_count + int(return_hardware[hardware]))
+                        .available_count + int(return_hardware.get(hardware)))
                     hw = Hardware.objects(hardware_name=hardware).first()
                     record = RentRecord.objects(
                         hardware=hw.pk, user=user.pk).first()
                     record.update(set__amount=user_hw[int(get_hardware_digit(
-                        hardware))-1] - int(return_hardware[hardware]))
+                        hardware))-1] - int(return_hardware.get(hardware)))
                     record.reload()
                 else:
                     r_val["success"] = -1
@@ -275,8 +280,11 @@ def return_hardware(token_data):
 
 
 def get_user_hw(user):
+    hardware_list = Hardware.objects()
     rented = user.rented_hardware
-    user_hw = [0, 0, 0, 0, 0]
+    user_hw = []
+    for hardware in hardware_list:
+        user_hw.append(0)
     for r in rented:
         digit = get_hardware_digit(r.hardware.hardware_name)
         user_hw[int(digit) - 1] += r.amount
