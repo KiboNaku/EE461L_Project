@@ -29,10 +29,7 @@ class CheckCart extends Component {
                     <div className="modal-body">
                         <p>Are these all the hardware sets that you require?</p>
                         {this.props.hw.map((item, i) => (
-                            <>
-                                <p key={i}></p>
-                                <p>{item} of HWSet{i+1}</p>
-                            </>
+                            <p key={i}>{item} of HWSet{i+1}</p>
                         ))}
                     </div>
                     <div className="modal-footer">
