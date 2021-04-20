@@ -7,50 +7,83 @@ import ProfileHardware from './ProfileHardware'
 import ProfileDataset from './ProfileDataset'
 import { Link } from 'react-router-dom';
 
+const profile = "Profile";
+const project = "Project";
+const hardware = "Hardware";
+const dataset = "Dataset";
+const logout = "Logout";
+
+
 class Dashboard extends Component {
-    constructor() {
-        super();
-        this.state = {
-            currentPage: 0,
-        }
+
+    constructor(props) {
+
+        super(props);
+
+        this.getNavObj = this.getNavObj.bind(this);
         this.profileClick = this.profileClick.bind(this);
-        this.billingClick = this.billingClick.bind(this);
+        // this.billingClick = this.billingClick.bind(this);
         this.projectClick = this.projectClick.bind(this);
         this.hardwareClick = this.hardwareClick.bind(this);
         this.datasetClick = this.datasetClick.bind(this);
+        this.logoutClick = this.logoutClick.bind(this);
+
+        this.state = {
+            currentPage: profile,
+            pages: [profile, project, hardware, dataset, logout],
+            navClick: [
+                this.getNavObj(profile, this.profileClick),
+                this.getNavObj(project, this.projectClick),
+                this.getNavObj(hardware, this.hardwareClick),
+                this.getNavObj(dataset, this.datasetClick),
+                this.getNavObj(logout, this.logoutClick)
+            ]
+        };
 
     }
+
+    getNavObj(name, call){
+        return {
+            name: name,
+            call: call
+        }
+    }
+
     profileClick() {
-        this.setState({ currentPage: 0 })
+        this.setState({ currentPage: profile })
     }
-    billingClick() {
-        this.setState({ currentPage: 1 })
-    }
+
     projectClick() {
-        this.setState({ currentPage: 2 })
+        this.setState({ currentPage: project })
     }
+
     hardwareClick() {
-        this.setState({ currentPage: 3 })
+        this.setState({ currentPage: hardware })
     }
+
     datasetClick() {
-        this.setState({ currentPage: 4 })
+        this.setState({ currentPage: dataset })
+    }
+
+    logoutClick() {
+        this.props.logout();
     }
 
     render() {
         var page
-        if (this.state.currentPage == 0) {
+        if (this.state.currentPage === profile) {
             page = <ProfileHome />
         }
-        else if (this.state.currentPage == 1) {
-            page = <Billing />
-        }
-        else if (this.state.currentPage == 2) {
+        // else if (this.state.currentPage === ) {
+        //     page = <Billing />
+        // }
+        else if (this.state.currentPage === project) {
             page = <Project />
         }
-        else if (this.state.currentPage == 3) {
+        else if (this.state.currentPage === hardware) {
             page = <ProfileHardware />
         }
-        else if (this.state.currentPage == 4) {
+        else if (this.state.currentPage === dataset) {
             page = <ProfileDataset />
         }
 
@@ -60,15 +93,23 @@ class Dashboard extends Component {
                     <nav className="col-md-2 d-none d-md-block bg-light sidebar px-0 height=100%">
                         <div className="sidebar-sticky height=100%">
                             <ul className="nav flex-column">
-                                <li className="nav-item">
-                                    <a className="nav-link active a-dark" href="#menu" onClick={this.profileClick}>
-                                        Profile <span className="sr-only">(current)</span>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
+
+                                {
+                                    this.state.navClick.map((nav, i)=> {
+                                        return (
+                                            
+                                            <li className= {"nav-item" + nav.name === this.state.currentPage? " ": ""}>
+                                                <a className="nav-link active a-dark" href="#menu" onClick={nav.call}>
+                                                    {nav.name}
+                                                </a>
+                                            </li>
+                                        )
+                                    })
+                                }
+                                {/* <li className="nav-item">
                                     <a className="nav-link a-dark" href="#billing" onClick={this.billingClick}>
                                         Billing
-                            </a>
+                                    </a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link a-dark" href="#project" onClick={this.projectClick}>
@@ -84,14 +125,11 @@ class Dashboard extends Component {
                                     <a className="nav-link a-dark" href="#dataset" onClick={this.datasetClick}>
                                         Dataset
                             </a>
-                                </li>
-                                <li className="nav-item">
+                                </li> */}
+                                {/* <li className="nav-item">
                                     <Link className="nav-link a-dark" to="/" onClick={this.props.logout}> Sign Out</Link>
 
-                                    {/* <a className="nav-link a-dark" href="#" onClick={this.props.logout}>
-                                        Sign Out
-                                        </a> */}
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </nav>
