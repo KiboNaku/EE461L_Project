@@ -27,11 +27,11 @@ class LoginForm extends Component {
         let form = (
             <Form>
                 <Form.Group>
-                    <Form.Control name="email" type="email" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
+                    <Form.Control className="textbox" name="email" type="email" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Control name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
+                    <Form.Control className="textbox" name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
                 </Form.Group>
 
                 <Button onClick={this.onSubmit} className="w-100 button-primary">

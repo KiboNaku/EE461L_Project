@@ -1,13 +1,40 @@
-.hardware-page{
-	padding-top: 20px;
+.hardware-page {
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
-.hardware-card{
-	margin-bottom: 20px;
-	margin-left: 20px;
-	margin-right: 20px;
+.hardware-card {
+	margin: 20px;
+}
+
+.hardware-card-body {
+	overflow-x: auto;
+	margin-right: 1.25rem;
 }
 
 .hardware-table tbody tr:nth-of-type(odd) {
-    background-color: rgba(0,0,0,.15);
+	background-color: rgba(0, 0, 0, .15);
+}
+
+.table-header {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 100;
+	font-size: 32px;
+}
+
+@media (min-width: 300px) {
+	.table-header {
+		font-size: 40px;
+	}
+
+	.hardware-card-body {
+		overflow-x: auto;
+		margin-right: 0rem;
+	}
+}
+
+@media (min-width: 576px) {
+	.table-header {
+		font-size: 64px;
+	}
 }

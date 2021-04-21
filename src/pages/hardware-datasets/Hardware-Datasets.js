@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Card } from 'react-bootstrap'
 import "../home/Home.css"
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 import CheckCart from "./components/CheckCart.js"
 import ErrorMessage from "./components/ErrorMessage.js" //currently never displayed
 import CheckModal from "./components/CheckModal.js"
@@ -17,16 +17,38 @@ class HardwareDatasets extends Component {
             successString: "",
             errorString: "",
             error: 0,
-            link1: "https://physionet.org/static/published-projects/bpssrat/blood-pressure-in-salt-sensitive-dahl-rats-1.0.0.zip",
-            link2: "https://physionet.org/static/published-projects/culm/complex-upper-limb-movements-1.0.0.zip",
-            link3: "https://physionet.org/static/published-projects/ecgiddb/ecg-id-database-1.0.0.zip",
-            link4: "https://physionet.org/static/published-projects/iafdb/intracardiac-atrial-fibrillation-database-1.0.0.zip",
-            link5: "https://physionet.org/static/published-projects/fantasia/fantasia-database-1.0.0.zip",
-            link6: "https://physionet.org/static/published-projects/nesfdb/noise-enhancement-of-sensorimotor-function-1.0.0.zip",
-            link7: "https://physionet.org/static/published-projects/prcp/physiologic-response-to-changes-in-posture-1.0.0.zip",
-            link8: "https://physionet.org/static/published-projects/sleepbrl/sleep-bioradiolocation-database-1.0.0.zip",
-            link9: "https://physionet.org/static/published-projects/tappy/tappy-keystroke-data-1.0.0.zip",
-            link10: "https://physionet.org/static/published-projects/wrist/wrist-ppg-during-exercise-1.0.0.zip"
+            links: [
+                {
+                    link1: "https://physionet.org/static/published-projects/bpssrat/blood-pressure-in-salt-sensitive-dahl-rats-1.0.0.zip"
+                },
+                {
+                    link2: "https://physionet.org/static/published-projects/culm/complex-upper-limb-movements-1.0.0.zip"
+                },
+                {
+                    link3: "https://physionet.org/static/published-projects/ecgiddb/ecg-id-database-1.0.0.zip"
+                },
+                {
+                    link4: "https://physionet.org/static/published-projects/iafdb/intracardiac-atrial-fibrillation-database-1.0.0.zip"
+                },
+                {
+                    link5: "https://physionet.org/static/published-projects/fantasia/fantasia-database-1.0.0.zip"
+                },
+                {
+                    link6: "https://physionet.org/static/published-projects/nesfdb/noise-enhancement-of-sensorimotor-function-1.0.0.zip"
+                },
+                {
+                    link7: "https://physionet.org/static/published-projects/prcp/physiologic-response-to-changes-in-posture-1.0.0.zip"
+                },
+                {
+                    link8: "https://physionet.org/static/published-projects/sleepbrl/sleep-bioradiolocation-database-1.0.0.zip"
+                },
+                {
+                    link9: "https://physionet.org/static/published-projects/tappy/tappy-keystroke-data-1.0.0.zip"
+                },
+                {
+                    link10: "https://physionet.org/static/published-projects/wrist/wrist-ppg-during-exercise-1.0.0.zip"
+                }
+            ]
         }
         this.fixString = this.fixString.bind(this);
         this.retrieveHWInfo = this.retrieveHWInfo.bind(this);
@@ -91,10 +113,10 @@ class HardwareDatasets extends Component {
                 <div className="dark-background hardware-page" >
                     {this.state.successString != "" && <Card.Text className="text-light">Success! {this.state.successString}</Card.Text>}
                     {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
-                    <Card className="hardware-card light-background text-light" style={{ margin: 20 }}>
-                        <Card.Header className="display-4">Hardware Sets</Card.Header>
-                        <Card.Body>
-                            <table id="fixed-table" className="table table-striped table-bordered hardware-table text-light">
+                    <Card className="hardware-card light-background text-light">
+                        <Card.Header className="table-header">Hardware Sets</Card.Header>
+                        <Card.Body className="hardware-card-body">
+                            <table id="fixed-table" className="table table-bordered hardware-table text-light">
                                 <thead>
                                     <tr>
                                         <th style={{ width: 200 }}>Name</th>
@@ -126,7 +148,7 @@ class HardwareDatasets extends Component {
                                     <button id="modalButton" type="button" className="btn button-primary btn-md"
                                         data-toggle="modal" data-target="#check-modal">
                                         Checkout
-                                    </button>:
+                                    </button> :
                                     <Card.Text>You must <Link to="/login">login/register</Link> before you can purchase hardware sets.</Card.Text>
                                 }
 
@@ -136,9 +158,9 @@ class HardwareDatasets extends Component {
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="light-background text-light" style={{ margin: 20 }}>
-                        <Card.Header className="display-4">DataSets</Card.Header>
-                        <Card.Body>
+                    <Card className="hardware-card light-background text-light">
+                        <Card.Header className="table-header">DataSets</Card.Header>
+                        <Card.Body className="hardware-card-body">
                             <table className="table table-bordered hardware-table text-light">
                                 <thead>
                                     <tr>
@@ -150,61 +172,61 @@ class HardwareDatasets extends Component {
                                     <tr>
                                         <td>Blood Pressure in Salt-Sensitive Dahl Rats</td>
                                         <td>
-                                            <a href={this.state.link1}>Click to download</a>
+                                            <a className="a-light" href={this.state.link1}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Complex Upper-Limb Movements</td>
                                         <td>
-                                            <a href={this.state.link2}>Click to download</a>
+                                            <a className="a-light" href={this.state.link2}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>ECG-ID Database</td>
                                         <td>
-                                            <a href={this.state.link3}>Click to download</a>
+                                            <a className="a-light" href={this.state.link3}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Fantasia Database</td>
                                         <td>
-                                            <a href={this.state.link4}>Click to download</a>
+                                            <a className="a-light" href={this.state.link4}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Intracardiac Atrial Fibrillation Database</td>
                                         <td>
-                                            <a href={this.state.link5}>Click to download</a>
+                                            <a className="a-light" href={this.state.link5}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Noise Enhancement of Sensorimotor Function</td>
                                         <td>
-                                            <a href={this.state.link6}>Click to download</a>
+                                            <a className="a-light" href={this.state.link6}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Physiologic Response to Changes in Posture</td>
                                         <td>
-                                            <a href={this.state.link7}>Click to download</a>
+                                            <a className="a-light" href={this.state.link7}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Sleep Bioradiolocation Database</td>
                                         <td>
-                                            <a href={this.state.link8}>Click to download</a>
+                                            <a className="a-light" href={this.state.link8}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Tappy Keystroke Data</td>
                                         <td>
-                                            <a href={this.state.link9}>Click to download</a>
+                                            <a className="a-light" href={this.state.link9}>Click to download</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Wrist PPG During Exercise</td>
                                         <td>
-                                            <a href={this.state.link10}>Click to download</a>
+                                            <a className="a-light" href={this.state.link10}>Click to download</a>
                                         </td>
                                     </tr>
                                 </tbody>
