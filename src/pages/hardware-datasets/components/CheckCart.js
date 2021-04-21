@@ -8,7 +8,6 @@ class CheckCart extends Component {
         this.state = {
         }
         this.fixString = this.fixString.bind(this);
-        // this.checkOut = this.checkOut.bind(this);
     }
     
     fixString(hardware) {
@@ -29,11 +28,9 @@ class CheckCart extends Component {
                     </div>
                     <div className="modal-body">
                         <p>Are these all the hardware sets that you require?</p>
-                        <p id="hwSet1Info">{this.fixString(this.props.hwSet1)} of HWSet1</p>
-                        <p id="hwSet2Info">{this.fixString(this.props.hwSet2)} of HWSet2</p>
-                        <p id="hwSet3Info">{this.fixString(this.props.hwSet3)} of HWSet3</p>
-                        <p id="hwSet4Info">{this.fixString(this.props.hwSet4)} of HWSet4</p>
-                        <p id="hwSet5Info">{this.fixString(this.props.hwSet5)} of HWSet5</p>
+                        {this.props.hw.map((item, i) => (
+                            <p key={i}>{item} of HWSet{i+1}</p>
+                        ))}
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn button-primary" data-dismiss="modal" onClick={this.props.checkOut}>Checkout</button>

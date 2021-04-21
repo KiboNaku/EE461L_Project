@@ -14,6 +14,7 @@ class HardwareDatasets extends Component {
         super();
         this.state = {
             hwList: [],
+            // hwInput: [],
             successString: "",
             errorString: "",
             error: 0,
@@ -53,6 +54,7 @@ class HardwareDatasets extends Component {
         this.fixString = this.fixString.bind(this);
         this.retrieveHWInfo = this.retrieveHWInfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.getFormInfo = this.getFormInfo.bind(this);
         this.checkOut = this.checkOut.bind(this);
     }
 
@@ -71,7 +73,7 @@ class HardwareDatasets extends Component {
 
     retrieveHWInfo() {
         handleHardware.fetchHW().then(response => {
-            console.log(response.data);
+            // console.log(response.data);
             this.setState({ hwList: response.data.HWSets });
         })
     }
@@ -81,13 +83,21 @@ class HardwareDatasets extends Component {
         // console.log(event.target.name + " was set to " + event.target.value)
     }
 
+    getFormInfo() {
+        var hw = [];
+        this.state.hwList.map((item) => (
+            hw.push(this.fixString(this.state[item.hardware_name]))
+        ))
+        // console.log(hw);
+        return hw;
+    }
+
     checkOut() {
-        this.setState({ successString: "" })
-        this.setState({ errorString: "" })
+        this.setState({ successString: "" });
+        this.setState({ errorString: "" });
+        var hwInput = this.getFormInfo();
         handleHardware.rentHW({
-            HWSet1: this.fixString(this.state.HWSet1),
-            HWSet2: this.fixString(this.state.HWSet2), HWSet3: this.fixString(this.state.HWSet3),
-            HWSet4: this.fixString(this.state.HWSet4), HWSet5: this.fixString(this.state.HWSet5)
+            rentHardware: hwInput
         }).then(res => {
             if (res.data.success === 0) {
                 this.setState({ successString: res.data.data });  // shows a success banner when hw is rented
@@ -128,7 +138,6 @@ class HardwareDatasets extends Component {
                                     {this.state.hwList.map((item) => (
                                         <tr key={item.hardware_name}>
                                             <td>{item.hardware_name}</td>
-                                            {/* TODO: fix this value to reflect hwset1 */}
                                             <td>{item.available_count}</td>
                                             <td>
                                                 {this.props.loggedIn ?
@@ -153,8 +162,7 @@ class HardwareDatasets extends Component {
                                 }
 
                                 <CheckModal content={this.state.error ? <ErrorMessage errorString={this.state.errorString} /> :
-                                    <CheckCart hwSet1={this.state.HWSet1} hwSet2={this.state.HWSet2} hwSet3={this.state.HWSet3}
-                                        hwSet4={this.state.HWSet4} hwSet5={this.state.HWSet5} checkOut={this.checkOut} />} />
+                                    <CheckCart hw={this.getFormInfo()} checkOut={this.checkOut} />} />
                             </div>
                         </Card.Body>
                     </Card>
