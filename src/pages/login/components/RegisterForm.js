@@ -47,6 +47,7 @@ class RegisterForm extends Component {
         return (
             <div id="login-page-div">
                 <BaseForm 
+                    loading={this.props.loading}
                     error={this.props.error}
                     title={title} 
                     subtitle={subtitle}
