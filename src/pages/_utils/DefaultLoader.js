@@ -12,11 +12,11 @@ class DefaultLoader extends Component {
     }
 
     render() {
-        const color = "#111c22";
+        const color = "#53c6af";
         const override = css`
             display: block;
             margin: 0 auto;
-            border-color: #53c6af;
+            border-color: #ffffff;
         `;
         return (
             <PuffLoader color={color} loading={this.props.loading} css={override} size={150} />

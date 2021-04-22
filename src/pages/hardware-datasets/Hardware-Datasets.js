@@ -6,6 +6,7 @@ import CheckCart from "./components/CheckCart.js"
 import ErrorMessage from "./components/ErrorMessage.js" //currently never displayed
 import CheckModal from "./components/CheckModal.js"
 import * as handleHardware from '../../api_calls/handleHardware'
+import DefaultLoader from "./../_utils/DefaultLoader";
 import "./Hardware.css"
 
 class HardwareDatasets extends Component {
@@ -13,6 +14,7 @@ class HardwareDatasets extends Component {
     constructor() {
         super();
         this.state = {
+            loading: true,
             hwList: [],
             // hwInput: [],
             successString: "",
@@ -74,7 +76,7 @@ class HardwareDatasets extends Component {
     retrieveHWInfo() {
         handleHardware.fetchHW().then(response => {
             // console.log(response.data);
-            this.setState({ hwList: response.data.HWSets });
+            this.setState({ hwList: response.data.HWSets, loading: false });
         })
     }
 
@@ -93,8 +95,7 @@ class HardwareDatasets extends Component {
     }
 
     checkOut() {
-        this.setState({ successString: "" });
-        this.setState({ errorString: "" });
+        this.setState({ successString: "", errorString: "", loading: true });
         var hwInput = this.getFormInfo();
         handleHardware.rentHW({
             rentHardware: hwInput
@@ -106,6 +107,7 @@ class HardwareDatasets extends Component {
             else {
                 this.setState({ errorString: res.data.error })
             }
+            this.setState({loading: false});
         }).catch(err => {
             let response = err.response;        // this correctly shows an error banner when the user tries 
             if (response !== null && typeof response !== "undefined") {    // to rent hw when they are not logged in
@@ -113,6 +115,7 @@ class HardwareDatasets extends Component {
                     this.setState({ errorString: "You need to be logged in to rent hardware." });
                 }
             }
+            this.setState({loading: false});
         });
     }
 
@@ -135,21 +138,25 @@ class HardwareDatasets extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.hwList.map((item) => (
-                                        <tr key={item.hardware_name}>
-                                            <td>{item.hardware_name}</td>
-                                            <td>{item.available_count}</td>
-                                            <td>
-                                                {this.props.loggedIn ?
-                                                    <Form>
-                                                        <Form.Control className="textbox" name={item.hardware_name} type="number" placeholder="Desired Checkout Amount" min="0" max={item.available_count} onChange={this.handleChange} />
-                                                    </Form> :
-                                                    <Card.Text>N/A</Card.Text>
-                                                }
-
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {this.state.loading? 
+                                        <tr>
+                                            <td colspan="3"><DefaultLoader loading={this.state.loading}/></td>
+                                        </tr>: 
+                                        this.state.hwList.map((item) => (
+                                            <tr key={item.hardware_name}>
+                                                <td>{item.hardware_name}</td>
+                                                <td>{item.available_count}</td>
+                                                <td>
+                                                    {this.props.loggedIn ?
+                                                        <Form>
+                                                            <Form.Control className="textbox" name={item.hardware_name} type="number" placeholder="Desired Checkout Amount" min="0" max={item.available_count} onChange={this.handleChange} />
+                                                        </Form> :
+                                                        <Card.Text>N/A</Card.Text>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
                                 </tbody>
                             </table>
                             <div className="row justify-content-center">
