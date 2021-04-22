@@ -6,6 +6,7 @@ import { joinProject } from "./../../api_calls/editProject";
 import Project from "./components/Project";
 import SearchBar from "./components/SearchBar";
 import { Link } from "react-router-dom"
+import DefaultLoader from "./../_utils/DefaultLoader"
 
 import "./Browse.css";
 
@@ -138,6 +139,7 @@ class Browse extends Component {
 	render() {
 		return (
 			<div className="container dark-background ">
+				<DefaultLoader/>
 				<SearchBar search={this.search} />
 				<div className="mt-3">
 					<Link to="/project-add" className="btn button-primary">+ Add Project</Link>
