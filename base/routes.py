@@ -4,6 +4,7 @@ from base import app, db
 from models.user import User, RentRecord
 from models.project import AssignedRecord, Project
 from models.hardware import Hardware
+from models.dataset import Dataset
 import json
 import jwt
 import datetime
@@ -260,7 +261,6 @@ def enough_available_hardware(owned):
 def return_hardware(token_data):
     full_return = request.get_json()["hardware"]
     return_hardware =full_return["returnHW"]
-    # print(return_hardware)
     hardware_list = Hardware.objects()
     r_val = {"success": 0, "error": None}
     user = User.objects(username=token_data['user']).first()
@@ -301,6 +301,18 @@ def get_hardware_digit(r):
         if char.isdigit():
             return char
     return 0
+
+@app.route("/api/fetch-datasets", methods=["GET"])
+def fetch_datasets():
+    dataset_list = Dataset.objects()
+
+    datasets = []
+    for dataset in dataset_list:
+        datasets.append(dataset.to_json())
+
+    print(datasets)
+    result = jsonify({"Datasets": datasets})
+    return result
 
 
 @app.route("/api/add-project", methods=["POST"])

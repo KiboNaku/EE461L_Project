@@ -6,6 +6,7 @@ import CheckCart from "./components/CheckCart.js"
 import ErrorMessage from "./components/ErrorMessage.js" //currently never displayed
 import CheckModal from "./components/CheckModal.js"
 import * as handleHardware from '../../api_calls/handleHardware'
+import * as fetchDatasets from '../../api_calls/datasets'
 import DefaultLoader from "./../_utils/DefaultLoader";
 import "./Hardware.css"
 
@@ -16,45 +17,14 @@ class HardwareDatasets extends Component {
         this.state = {
             loading: true,
             hwList: [],
-            // hwInput: [],
             successString: "",
             errorString: "",
             error: 0,
-            links: [
-                {
-                    link1: "https://physionet.org/static/published-projects/bpssrat/blood-pressure-in-salt-sensitive-dahl-rats-1.0.0.zip"
-                },
-                {
-                    link2: "https://physionet.org/static/published-projects/culm/complex-upper-limb-movements-1.0.0.zip"
-                },
-                {
-                    link3: "https://physionet.org/static/published-projects/ecgiddb/ecg-id-database-1.0.0.zip"
-                },
-                {
-                    link4: "https://physionet.org/static/published-projects/iafdb/intracardiac-atrial-fibrillation-database-1.0.0.zip"
-                },
-                {
-                    link5: "https://physionet.org/static/published-projects/fantasia/fantasia-database-1.0.0.zip"
-                },
-                {
-                    link6: "https://physionet.org/static/published-projects/nesfdb/noise-enhancement-of-sensorimotor-function-1.0.0.zip"
-                },
-                {
-                    link7: "https://physionet.org/static/published-projects/prcp/physiologic-response-to-changes-in-posture-1.0.0.zip"
-                },
-                {
-                    link8: "https://physionet.org/static/published-projects/sleepbrl/sleep-bioradiolocation-database-1.0.0.zip"
-                },
-                {
-                    link9: "https://physionet.org/static/published-projects/tappy/tappy-keystroke-data-1.0.0.zip"
-                },
-                {
-                    link10: "https://physionet.org/static/published-projects/wrist/wrist-ppg-during-exercise-1.0.0.zip"
-                }
-            ]
+            datasets: []
         }
         this.fixString = this.fixString.bind(this);
         this.retrieveHWInfo = this.retrieveHWInfo.bind(this);
+        this.retrieveDatasetInfo = this.retrieveDatasetInfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.getFormInfo = this.getFormInfo.bind(this);
         this.checkOut = this.checkOut.bind(this);
@@ -71,12 +41,20 @@ class HardwareDatasets extends Component {
 
     componentDidMount() {
         this.retrieveHWInfo();
+        this.retrieveDatasetInfo();
     }
 
     retrieveHWInfo() {
         handleHardware.fetchHW().then(response => {
             // console.log(response.data);
             this.setState({ hwList: response.data.HWSets, loading: false });
+        })
+    }
+
+    retrieveDatasetInfo() {
+        fetchDatasets.fetchDatasets().then(response => {
+            // console.log(response.data);
+            this.setState({ datasets: response.data.Datasets, loading: false });
         })
     }
 
@@ -184,66 +162,19 @@ class HardwareDatasets extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Blood Pressure in Salt-Sensitive Dahl Rats</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link1}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Complex Upper-Limb Movements</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link2}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>ECG-ID Database</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link3}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fantasia Database</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link4}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Intracardiac Atrial Fibrillation Database</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link5}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Noise Enhancement of Sensorimotor Function</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link6}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Physiologic Response to Changes in Posture</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link7}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sleep Bioradiolocation Database</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link8}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tappy Keystroke Data</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link9}>Click to download</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Wrist PPG During Exercise</td>
-                                        <td>
-                                            <a className="a-light" href={this.state.link10}>Click to download</a>
-                                        </td>
-                                    </tr>
+                                {this.state.loading? 
+                                        <tr>
+                                            <td colspan="3"><DefaultLoader loading={this.state.loading}/></td>
+                                        </tr>: 
+                                        this.state.datasets.map((item) => (
+                                            <tr key={item.dataset_name}>
+                                                <td>{item.dataset_name}</td>
+                                                <td>
+                                                    <a className="a-light" href={item.download_link}>Click to download</a>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
                                 </tbody>
                             </table>
                         </Card.Body>
