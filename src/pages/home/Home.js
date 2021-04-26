@@ -15,7 +15,7 @@ class Home extends Component {
     /*Objects to be shown on Homepage*/
     render() {
         return (
-            <div className="full-screen-height">
+            <div className="full-screen-height" title="landing">
                 <Landing />
             </div>
         )

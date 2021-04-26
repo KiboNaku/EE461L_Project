@@ -71,16 +71,16 @@ class Dashboard extends Component {
     render() {
         var page
         if (this.state.currentPage === profile) {
-            page = <ProfileHome />
+            page = <ProfileHome title="profHome"/>
         }
         // else if (this.state.currentPage === ) {
         //     page = <Billing />
         // }
         else if (this.state.currentPage === project) {
-            page = <Project />
+            page = <Project title="profProject"/>
         }
         else if (this.state.currentPage === hardware) {
-            page = <ProfileHardware />
+            page = <ProfileHardware title="profHardware"S/>
         }
         // else if (this.state.currentPage === dataset) {
         //     page = <ProfileDataset />
@@ -90,7 +90,7 @@ class Dashboard extends Component {
             <div className="container-fluid dark-background text-light height=100%">
                 <div className="row height=100%">
                     <nav className="col-md-2 d-none d-md-block bg-light sidebar px-0 height=100%">
-                        <div className="sidebar-sticky height=100%">
+                        <div className="sidebar-sticky height=100%" title="profPages">
                             <ul className="nav flex-column">
 
                                 {
@@ -111,12 +111,12 @@ class Dashboard extends Component {
                                     </a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link a-dark" href="#project" onClick={this.projectClick}>
+                                    <a className="nav-link a-dark" href="#project" onClick={this.projectClick} title="projectclick">
                                         Projects
                             </a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link a-dark" href="#hardware" onClick={this.hardwareClick}>
+                                    <a className="nav-link a-dark" href="#hardware" onClick={this.hardwareClick} title="hardwareClick">
                                         Hardware
                             </a>
                                 </li>
@@ -126,14 +126,14 @@ class Dashboard extends Component {
                             </a>
                                 </li> */}
                                 {/* <li className="nav-item">
-                                    <Link className="nav-link a-dark" to="/" onClick={this.props.logout}> Sign Out</Link>
+                                    <a className="nav-link a-dark" to="/" onClick={this.props.logout} title="logout"> Sign Out</a>
 
                                 </li> */}
                             </ul>
                         </div>
                     </nav>
 
-                    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 height=100%">
+                    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 height=100%" title="profMain"> 
                         {page}
                     </main>
                 </div>

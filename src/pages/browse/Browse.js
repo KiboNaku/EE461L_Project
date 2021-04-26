@@ -140,7 +140,7 @@ class Browse extends Component {
 
 	render() {
 		return (
-			<div className="container dark-background ">
+			<div className="container dark-background " title="browse">
 				<SearchBar search={this.search} />
 				<div className="mt-3">
 					<Link to="/project-add" className="btn button-primary">+ Add Project</Link>

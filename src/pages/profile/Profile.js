@@ -21,7 +21,7 @@ class Profile extends Component {
         }
 
         return (
-            <div className="height=100%">
+            <div className="height=100%" title="dashboard">
                 <Dashboard logout ={this.props.logout}/>
             </div>
         )  

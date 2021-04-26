@@ -77,7 +77,7 @@ class Login extends Component {
 
         return (
             <div className="dark-background max-height container overflow-hidden">
-                <Container fluid className="vertical-center login-form-container">
+                <Container fluid className="vertical-center login-form-container" title="loginContainer">
                     <Row className="justify-content-center">
                         <Col xs={10} sm={9} md={6} lg={5} xl={4}>
                             <Card className="text-center px-sm-2 py-sm-2 px-md-5 py-md-5 light-background text-light">
