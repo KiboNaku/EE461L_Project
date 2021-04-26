@@ -126,7 +126,7 @@ class HardwareDatasets extends Component {
                 <div className="dark-background hardware-page" >
                     {this.state.successString != "" && <Card.Text className="text-light">Success! {this.state.successString}</Card.Text>}
                     {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
-                    <Card className="hardware-card light-background text-light">
+                    <Card className="hardware-card light-background text-light" title="hardware">
                         <Card.Header className="table-header">Hardware Sets</Card.Header>
                         <Card.Body className="hardware-card-body">
                             <table id="fixed-table" className="table table-bordered hardware-table text-light">
@@ -173,7 +173,7 @@ class HardwareDatasets extends Component {
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="hardware-card light-background text-light">
+                    <Card className="hardware-card light-background text-light" title="datasets">
                         <Card.Header className="table-header">DataSets</Card.Header>
                         <Card.Body className="hardware-card-body">
                             <table className="table table-bordered hardware-table text-light">
