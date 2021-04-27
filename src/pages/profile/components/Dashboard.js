@@ -88,12 +88,11 @@ class Dashboard extends Component {
         }
 
         return (
-            <div className="container-fluid dark-background text-light height=100%">
-                <div className="row height=100%">
-                    <nav className="col-md-2 d-none d-md-block bg-light sidebar px-0 height=100%">
-                        <div className="sidebar-sticky height=100%">
+            <div className="container-fluid dark-background text-light">
+                <div className="row">
+                    <nav className="col-2 sidebar px-0">
+                        <div className="sidebar-sticky">
                             <ul className="nav flex-column">
-
                                 {
                                     this.state.navClick.map((nav, i)=> {
                                         return (
@@ -106,35 +105,11 @@ class Dashboard extends Component {
                                         )
                                     })
                                 }
-                                {/* <li className="nav-item">
-                                    <a className="nav-link a-dark" href="#billing" onClick={this.billingClick}>
-                                        Billing
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link a-dark" href="#project" onClick={this.projectClick}>
-                                        Projects
-                            </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link a-dark" href="#hardware" onClick={this.hardwareClick}>
-                                        Hardware
-                            </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link a-dark" href="#dataset" onClick={this.datasetClick}>
-                                        Dataset
-                            </a>
-                                </li> */}
-                                {/* <li className="nav-item">
-                                    <Link className="nav-link a-dark" to="/" onClick={this.props.logout}> Sign Out</Link>
-
-                                </li> */}
                             </ul>
                         </div>
                     </nav>
 
-                    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 height=100%">
+                    <main className="main mx-auto col-lg-10">
                         {page}
                     </main>
                 </div>

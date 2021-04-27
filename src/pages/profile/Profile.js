@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
-import { Container, Row, Col, Card } from 'react-bootstrap'
-import Header from "../home/components/Header"
-import {Redirect} from 'react-router-dom'
+import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
 import Dashboard from "./components/Dashboard";
-import "../home/Home.css"
-import "./components/Dashboard.css"
+import "../home/Home.css";
+import "./Profile.css";
 
 class Profile extends Component {
 
@@ -21,7 +19,7 @@ class Profile extends Component {
         }
 
         return (
-            <div className="height=100%">
+            <div>
                 <Dashboard logout ={this.props.logout}/>
             </div>
         )  

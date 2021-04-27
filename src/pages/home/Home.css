@@ -10,3 +10,9 @@
 .nav-brand {
 	font-family: 'Lobster', cursive;
 }
+
+@media (min-width: 992px) {
+	.navbar {
+		height: 8vh;
+	}
+}

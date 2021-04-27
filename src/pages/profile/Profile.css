@@ -1,0 +1,51 @@
+.profile-table tbody tr:hover {
+	color: white;
+	background-color: rgba(0, 0, 0, .15);
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+	background-color: #111c22;
+	display: block;
+}
+
+.sidebar-sticky {
+	background-color: #111c22;
+	/* position: -webkit-sticky; */
+	/* position: sticky; */
+
+	padding-top: .5rem;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	/* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar-heading {
+	font-size: .75rem;
+	text-transform: uppercase;
+}
+
+.main {
+	padding-top: 20px;
+}
+
+/*
+ * Utilities
+ */
+
+.border-top {
+	border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+@media (min-width: 992px) {
+	.sidebar-sticky {
+		height: 92vh;
+	}
+}
