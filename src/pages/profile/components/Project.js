@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
 import {Link} from "react-router-dom"
 import * as fetch from "./../../../api_calls/fetchInformation"
+import DefaultLoader from "./../../_utils/DefaultLoader";
 
 class Project extends Component {
 
     constructor(){
         super();
         this.state = {
+            loading: true,
             owned: [],
             contr: []
         }
@@ -18,7 +20,7 @@ class Project extends Component {
         fetch
             .fetchUserProjects()
             .then(res => {
-                this.setState({owned: res.data.owned_projects, contr: res.data.contr_projects});
+                this.setState({owned: res.data.owned_projects, contr: res.data.contr_projects, loading: false});
             });
     }
 
@@ -57,13 +59,17 @@ class Project extends Component {
                 <div id="owned-projects" className="mb-5">
                     <h3 >Owned:</h3>
                     {
-                        this.state.owned.map((project, i) => this.getProjectDiv(project, i))
+                        this.state.loading? 
+                            <DefaultLoader loading={this.state.loading}/>:
+                            this.state.owned.map((project, i) => this.getProjectDiv(project, i))
                     }
                 </div>
                 <div id="contr-projects">
                     <h3>Contributed:</h3>
                     {
-                        this.state.contr.map((project, i) => this.getProjectDiv(project, i))
+                        this.state.loading? 
+                            <DefaultLoader loading={this.state.loading}/>:
+                            this.state.contr.map((project, i) => this.getProjectDiv(project, i))
                     }
                 </div>
             </div>

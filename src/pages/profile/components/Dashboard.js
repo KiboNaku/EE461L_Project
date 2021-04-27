@@ -4,11 +4,10 @@ import ProfileHome from './ProfileHome'
 import Billing from '../../billing/Billing'
 import Project from './Project'
 import ProfileHardware from './ProfileHardware'
-import ProfileDataset from './ProfileDataset'
 import { Link } from 'react-router-dom';
 
 const profile = "Profile";
-const project = "Project";
+const project = "Projects";
 const hardware = "Hardware";
 const dataset = "Dataset";
 const logout = "Logout";
@@ -25,17 +24,17 @@ class Dashboard extends Component {
         // this.billingClick = this.billingClick.bind(this);
         this.projectClick = this.projectClick.bind(this);
         this.hardwareClick = this.hardwareClick.bind(this);
-        this.datasetClick = this.datasetClick.bind(this);
+        // this.datasetClick = this.datase  tClick.bind(this);
         this.logoutClick = this.logoutClick.bind(this);
 
         this.state = {
             currentPage: profile,
-            pages: [profile, project, hardware, dataset, logout],
+            pages: [profile, project, hardware, logout],
             navClick: [
                 this.getNavObj(profile, this.profileClick),
                 this.getNavObj(project, this.projectClick),
                 this.getNavObj(hardware, this.hardwareClick),
-                this.getNavObj(dataset, this.datasetClick),
+                // this.getNavObj(dataset, this.datasetClick),
                 this.getNavObj(logout, this.logoutClick)
             ]
         };
@@ -61,9 +60,9 @@ class Dashboard extends Component {
         this.setState({ currentPage: hardware })
     }
 
-    datasetClick() {
-        this.setState({ currentPage: dataset })
-    }
+    // datasetClick() {
+    //     this.setState({ currentPage: dataset })
+    // }
 
     logoutClick() {
         this.props.logout();
@@ -72,26 +71,26 @@ class Dashboard extends Component {
     render() {
         var page
         if (this.state.currentPage === profile) {
-            page = <ProfileHome />
+            page = <ProfileHome title="profHome"/>
         }
         // else if (this.state.currentPage === ) {
         //     page = <Billing />
         // }
         else if (this.state.currentPage === project) {
-            page = <Project />
+            page = <Project title="profProject"/>
         }
         else if (this.state.currentPage === hardware) {
-            page = <ProfileHardware />
+            page = <ProfileHardware title="profHardware"S/>
         }
-        else if (this.state.currentPage === dataset) {
-            page = <ProfileDataset />
-        }
+        // else if (this.state.currentPage === dataset) {
+        //     page = <ProfileDataset />
+        // }
 
         return (
             <div className="container-fluid dark-background text-light">
                 <div className="row">
                     <nav className="col-2 sidebar px-0">
-                        <div className="sidebar-sticky">
+                        <div className="sidebar-sticky" title="profPages">
                             <ul className="nav flex-column">
                                 {
                                     this.state.navClick.map((nav, i)=> {
@@ -108,8 +107,7 @@ class Dashboard extends Component {
                             </ul>
                         </div>
                     </nav>
-
-                    <main className="main mx-auto col-lg-10">
+                    <main className="main mx-auto col-lg-10" title="profMain">
                         {page}
                     </main>
                 </div>

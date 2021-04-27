@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import { Form, Card, Table, Dropdown, DropdownButton } from "react-bootstrap";
 import * as fetch from "./../../../api_calls/fetchInformation"
 import * as handleHardware from '../../../api_calls/handleHardware'
+import DefaultLoader from "./../../_utils/DefaultLoader";
 
 class ProfileHardware extends Component {
 
     constructor() {
         super();
         this.state = {
+            hwLoading: true,
+            projLoading: true,
             rented: [],
             price_per_unit: [20, 10, 50, 15, 5], // currently unused
             errorString: "",
@@ -27,13 +30,13 @@ class ProfileHardware extends Component {
         fetch
             .fetchUserHardware()
             .then(res => {
-                this.setState({ rented: res.data.rented_hardware });
+                this.setState({ rented: res.data.rented_hardware, hwLoading: false });
             });
 
         fetch
             .fetchUserProjects()
             .then(res => {
-                this.setState({ projects: res.data.owned_projects });
+                this.setState({ projects: res.data.owned_projects, projLoading: false });
             });
     }
 
@@ -82,7 +85,6 @@ class ProfileHardware extends Component {
             "hw": this.state.selectValue,
             "num": event.target.value,
         }
-        console.log(assigned)
 
         this.setState({ assigned: this.state.assigned.concat(assigned) })
     }
@@ -118,21 +120,26 @@ class ProfileHardware extends Component {
                             </thead>
                             <tbody>
                                 {
-                                    this.state.rented.map((hw, i) => {
-                                        return (
-                                            <tr key={i}>
-                                                <td>{hw.name}</td>
-                                                <td>{hw.amount}</td>
-                                                {/* TODO: make this display the actual cost of the rented HW */}
-                                                <td id="hw_price">$$$</td>
-                                                <td>
-                                                    <Form>
-                                                        <Form.Control name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount} onChange={this.handleChange} />
-                                                    </Form>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
+                                    this.state.hwLoading ?
+
+                                        <tr>
+                                            <td colspan="4"><DefaultLoader loading={this.state.hwLoading} /></td>
+                                        </tr> :
+                                        this.state.rented.map((hw, i) => {
+                                            return (
+                                                <tr key={i}>
+                                                    <td>{hw.name}</td>
+                                                    <td>{hw.amount}</td>
+                                                    {/* TODO: make this display the actual cost of the rented HW */}
+                                                    <td id="hw_price">$$$</td>
+                                                    <td>
+                                                        <Form>
+                                                            <Form.Control name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount} onChange={this.handleChange} />
+                                                        </Form>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })
                                 }
                             </tbody>
                         </Table>
@@ -151,31 +158,36 @@ class ProfileHardware extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.projects.map((project, i) => {
-                                    return (
-                                        <tr key={i}>
-                                            <td>{project.name}</td>
-                                            <td>
-                                                <select className="form-select form-select-lg" name="selectValue" value={this.state.selectValue}
-                                                    onChange={this.handleChange}>
-                                                    <option value="default">Choose hardware</option>
-                                                    {
-                                                        this.state.rented.map((hw) => {
-                                                            return (
-                                                                <option value={hw.name}>{hw.name}</option>
-                                                            );
-                                                        })
-                                                    }
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <Form>
-                                                    <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0" onChange={this.handleAssignChange(project)} />
-                                                </Form>
-                                            </td>
-                                        </tr>
-                                    );
-                                })
+                                {this.state.projLoading ?
+
+                                    <tr>
+                                        <td colspan="3"><DefaultLoader loading={this.state.hwLoading} /></td>
+                                    </tr> :
+                                    this.state.projects.map((project, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td>{project.name}</td>
+                                                <td>
+                                                    <select className="form-select form-select-lg" name="selectValue" value={this.state.selectValue}
+                                                        onChange={this.handleChange}>
+                                                        <option value="default">Choose hardware</option>
+                                                        {
+                                                            this.state.rented.map((hw) => {
+                                                                return (
+                                                                    <option value={hw.name}>{hw.name}</option>
+                                                                );
+                                                            })
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <Form>
+                                                        <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0" onChange={this.handleAssignChange(project)} />
+                                                    </Form>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
                                 }
                             </tbody>
                         </Table>

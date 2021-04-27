@@ -6,6 +6,7 @@ import { joinProject } from "./../../api_calls/editProject";
 import Project from "./components/Project";
 import SearchBar from "./components/SearchBar";
 import { Link } from "react-router-dom"
+import DefaultLoader from "./../_utils/DefaultLoader";
 
 import "./Browse.css";
 
@@ -26,7 +27,8 @@ class Browse extends Component {
 			// },
 			filtered: false,
 			checked: 0,
-			searched: false
+			searched: false,
+			loading: true,
 		}
 
 		this.setProjectData = this.setProjectData.bind(this)
@@ -39,6 +41,7 @@ class Browse extends Component {
 	componentDidMount() {
 
 		fetchProjects().then(res => {
+			this.setState({loading: false});
 			if (res.error) {
 				alert(res.error)
 			} else {
@@ -137,7 +140,7 @@ class Browse extends Component {
 
 	render() {
 		return (
-			<div className="container dark-background ">
+			<div className="container dark-background " title="browse">
 				<SearchBar search={this.search} />
 				<div className="mt-3">
 					<Link to="/project-add" className="btn button-primary">+ Add Project</Link>
@@ -150,6 +153,7 @@ class Browse extends Component {
 						/>
 					</div> */}
 					<div className="mx-auto col-md-10 browse-content">
+						<DefaultLoader loading={this.state.loading}/>
 						<BrowsingItems
 							projects={this.state.projects}
 							setProjectData={this.setProjectData}

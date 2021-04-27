@@ -12,6 +12,7 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
+            loading: false,
             message: null,
             isLogin: true,
             hasLoggedIn: false,
@@ -19,21 +20,20 @@ class Login extends Component {
             registerError: null,
         }
         this.emailSignIn = this.emailSignIn.bind(this);
-        this.emailRegister = this.emailRegister.bind(this);
-        this.googleSignIn = this.googleSignIn.bind(this);
+        this.emailRegister = this.emailRegister.bind(this); 
         this.switchToRegister = this.switchToRegister.bind(this);
         this.switchToLogin = this.switchToLogin.bind(this);
     }
 
     emailSignIn(email, password) {
-        this.setState({ loginError: null });
+        this.setState({ loginError: null, loading: true });
         admission.login({ email: email, password: password })
             .then(res => {
-                console.log("Logged in with response", res);
                 let errorCode = res.data.success;
                 let error = res.data.error;
                 let token = res.data.token;
 
+                this.setState({loading: false});
                 if (errorCode < 0) {
                     this.setState({ loginError: error });
                 } else {
@@ -44,13 +44,14 @@ class Login extends Component {
     }
 
     emailRegister(username, email, password) {
-        this.setState({ registerError: null });
+        this.setState({ registerError: null, loading: true });
         admission.register({ username: username, email: email, password: password })
             .then(res => {
                 let errorCode = res.data.success;
                 let error = res.data.error;
                 let token = res.data.token;
-
+                
+                this.setState({loading: false});
                 if (errorCode < 0) {
                     this.setState({ registerError: error });
                 } else {
@@ -58,10 +59,6 @@ class Login extends Component {
                     this.props.login();
                 }
             });
-    }
-
-    googleSignIn() {
-        console.log("Signing in with Google.");
     }
 
     switchToRegister() {
@@ -80,7 +77,7 @@ class Login extends Component {
 
         return (
             <div className="dark-background max-height container overflow-hidden">
-                <Container fluid className="vertical-center login-form-container">
+                <Container fluid className="vertical-center login-form-container" title="loginContainer">
                     <Row className="justify-content-center">
                         <Col xs={10} sm={9} md={6} lg={5} xl={4}>
                             <Card className="text-center px-sm-2 py-sm-2 px-md-5 py-md-5 light-background text-light">
@@ -88,11 +85,13 @@ class Login extends Component {
                                     this.state.isLogin ?
                                         <LoginForm
                                             error={this.state.loginError}
+                                            loading={this.state.loading}
                                             onSubmit={this.emailSignIn}
                                             switch={this.switchToRegister}
                                             googleSignIn={this.googleSignIn} /> :
                                         <RegisterForm
                                             error={this.state.registerError}
+                                            loading={this.state.loading}
                                             onSubmit={this.emailRegister}
                                             switch={this.switchToLogin}
                                             googleSignIn={this.googleSignIn} />
