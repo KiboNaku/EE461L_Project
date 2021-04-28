@@ -73,6 +73,12 @@ a:hover {
     border-color: #23967f;
 }
 
+.button-primary:focus {
+    background-color: #13866f;
+    color: white;
+    border-color: #23967f;
+}
+
 .text-light {
     color: white;
 }

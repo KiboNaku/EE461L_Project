@@ -87,26 +87,24 @@ class Dashboard extends Component {
         // }
 
         return (
-            <div className="container-fluid dark-background text-light">
+            <div className="container-fluid dark-background text-light max-height">
                 <div className="row">
-                    <nav className="col-2 sidebar px-0">
+                    <div className="col-lg-2 sidebar px-lg-0">
                         <div className="sidebar-sticky" title="profPages">
-                            <ul className="nav flex-column">
                                 {
                                     this.state.navClick.map((nav, i)=> {
                                         return (
                                             
-                                            <li className= {"nav-item" + nav.name === this.state.currentPage? " ": ""}>
+                                            <span className= {"nav-item" + nav.name === this.state.currentPage? " ": ""}>
                                                 <a className="nav-link active a-dark" href="#menu" onClick={nav.call}>
                                                     {nav.name}
                                                 </a>
-                                            </li>
+                                            </span>
                                         )
                                     })
                                 }
-                            </ul>
                         </div>
-                    </nav>
+                    </div>
                     <main className="main mx-auto col-lg-10" title="profMain">
                         {page}
                     </main>

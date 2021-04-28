@@ -102,7 +102,7 @@ class ProfileHardware extends Component {
         // console.log(this.state)
         return (
             <div>
-                <div id="ProfileHardware" className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <div id="ProfileHardware" className="d-flex justify-content-center flex-wrap flex-md-nowrap pb-2 mb-3 border-bottom">
                     <h1 className="h2">Hardware</h1>
                 </div>
                 <Card className="mb-3 light-background">

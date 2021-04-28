@@ -31,7 +31,7 @@ class Project extends Component {
                 <Card className="light-background" style={{ marginInline:"auto", width: "60%", height: "auto" }}>
                     <Card.Header>{projectInfo.name}</Card.Header>
                     <Card.Body>
-                        <p><b>Owner:</b>{projectInfo.owner}</p>
+                        <p><b>Owner: </b>{projectInfo.owner}</p>
                         <p>{projectInfo.description}</p>
                     </Card.Body>
                     {/** TODO:make link active to project page */}
@@ -50,7 +50,7 @@ class Project extends Component {
         return (
             // TODO: need backend call to auto update projects that are active/completed
             <div>
-                <div id="Project" className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <div id="Project" className="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                     <h1 className="h2">Projects</h1>
                 </div>
                 <div className="mb-3">

@@ -10,17 +10,18 @@
 .sidebar {
 	background-color: #111c22;
 	display: block;
+	padding: 10px;
 }
 
 .sidebar-sticky {
 	background-color: #111c22;
-	/* position: -webkit-sticky; */
-	/* position: sticky; */
+	position: -webkit-sticky; 
+	position: sticky;
+	top: 0;
+}
 
-	padding-top: .5rem;
-	overflow-x: hidden;
-	overflow-y: hidden;
-	/* Scrollable contents if viewport is shorter than content. */
+.nav-link{
+	float: left;
 }
 
 .sidebar-heading {
@@ -45,7 +46,21 @@
 }
 
 @media (min-width: 992px) {
+	.sidebar {
+		background-color: #111c22;
+		display: block;
+	}
+	
 	.sidebar-sticky {
-		height: 92vh;
+		background-color: #111c22;
+		padding-top: .5rem;
+		overflow-x: hidden;
+		overflow-y: hidden;
+		/* Scrollable contents if viewport is shorter than content. */
+		height: 100vh;
+	}
+
+	.nav-link{
+		float: none;
 	}
 }

@@ -362,7 +362,6 @@ def fetch_project_info():
 def assign_hardware(token_data):
     r_val = {"success": 0, "error": None, "error2": []}
     data = json.loads(request.data)
-    print(data)
     user = User.objects(username=token_data['user']).first()
     assign_record = data.get("records")
 
