@@ -53,17 +53,27 @@ class AssignHardware extends Component {
     }
 
     assignHW() {
-        this.setState({hwLoading: true});
 
-        handleHardware.assignHW(localStorage.getItem("token"), this.state.assign).then(res => {
-            if (res.error) {
-                alert(res.error)
-            } else {
-                this.props.assignHw();
-                this.setState({hwLoading: false});
-                alert("You have successfully assigned " + this.state.assign.amount + "x " + this.state.assign.hw.name + " to " + this.state.assign.project.name );
-            }
-        })
+        if(!this.state.assign.project){
+            this.setState({errorString: "You must select a valid project"});
+        } else if(!this.state.assign.hw){
+            this.setState({errorString: "You must select a valid hardware"});
+        } else if(this.state.assign.amount < 1){
+            this.setState({errorString: "You must enter a valid hardware amount (>=1)"});
+        } else {
+
+            this.setState({hwLoading: true});
+
+            handleHardware.assignHW(localStorage.getItem("token"), this.state.assign).then(res => {
+                if (res.error) {
+                    alert(res.error)
+                } else {
+                    this.props.assignHw();
+                    this.setState({hwLoading: false});
+                    alert("You have successfully assigned " + this.state.assign.amount + "x " + this.state.assign.hw.name + " to " + this.state.assign.project.name );
+                }
+            })
+        }
     }
 
     render() {
@@ -73,6 +83,7 @@ class AssignHardware extends Component {
                 {this.state.projLoading || this.state.hwLoading ?
                     <DefaultLoader loading={this.state.hwLoading || this.state.projLoading} /> :
                     <div>
+                        <p className="text-danger">{this.state.errorString}</p>
                         <Form.Group as={Row}>
                             <Form.Label column sm="5">Project</Form.Label>
                             <Col sm="5">
