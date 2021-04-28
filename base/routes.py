@@ -362,38 +362,37 @@ def fetch_project_info():
 def assign_hardware(token_data):
     r_val = {"success": 0, "error": None, "error2": []}
     data = json.loads(request.data)
-    print(data)
     user = User.objects(username=token_data['user']).first()
     assign_record = data.get("records")
+    print(assign_record)
 
     if not user:
         r_val["success"] = -1
         r_val["error"] = "No user found."
     else:
-        for record in assign_record:
-            project = Project.objects(pk=record["project"]["id"]).first()
-            hardware = Hardware.objects(hardware_name=record["hw"]).first()
-            rent_record = RentRecord.objects(user=user, hardware=hardware).first()
-            amount = int(record["num"])
-            if rent_record.amount < amount:
-                r_val["success"] = -1
-                r_val["error2"].append(record["project"])
+        project = Project.objects(pk=assign_record["project"]["id"]).first()
+        hardware = Hardware.objects(hardware_name=assign_record["hw"]["name"]).first()
+        rent_record = RentRecord.objects(user=user, hardware=hardware).first()
+        amount = int(assign_record["amount"])
+        if rent_record.amount < amount:
+            r_val["success"] = -1
+            r_val["error2"].append(record["project"])
+        else:
+            existing_record = AssignedRecord.objects(project=project, hardware=hardware).first()
+            num = 0
+            if not existing_record:
+                r = AssignedRecord(
+                    # user=user,
+                    project=project,
+                    hardware=hardware,
+                    amount=amount
+                )
+                r.save()
+                project.update(add_to_set__rented_hardware=[r])
             else:
-                existing_record = AssignedRecord.objects(project=project, hardware=hardware).first()
-                num = 0
-                if not existing_record:
-                    r = AssignedRecord(
-                        # user=user,
-                        project=project,
-                        hardware=hardware,
-                        amount=amount
-                    )
-                    r.save()
-                    project.update(add_to_set__rented_hardware=[r])
-                else:
-                    num = existing_record.amount
-                    existing_record.update(set__amount=amount)
-                old_amount = rent_record.amount
-                rent_record.update(set__amount=old_amount-amount+num)
+                num = existing_record.amount
+                existing_record.update(set__amount=amount)
+            old_amount = rent_record.amount
+            rent_record.update(set__amount=old_amount-amount+num)
 
     return r_val
