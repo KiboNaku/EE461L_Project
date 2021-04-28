@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Form, Card, Table, Dropdown, DropdownButton } from "react-bootstrap";
+import { Form, Card, Table, Dropdown, DropdownButton, Row, Col } from "react-bootstrap";
 import * as fetch from "./../../../api_calls/fetchInformation"
 import * as handleHardware from '../../../api_calls/handleHardware'
+import AssignHardware from '../../_utils/AssignHardware'
 import DefaultLoader from "./../../_utils/DefaultLoader";
 
 class ProfileHardware extends Component {
@@ -15,17 +16,21 @@ class ProfileHardware extends Component {
             price_per_unit: [20, 10, 50, 15, 5], // currently unused
             errorString: "",
             projects: [],
-            assigned: [],
-            selectValue: "default",
+            assign: {
+                project: null,
+                hw: null,
+                amount: 0,
+            }
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.fixString = this.fixString.bind(this);
         this.getFormInfo = this.getFormInfo.bind(this);
         this.returnHW = this.returnHW.bind(this);
-        this.assignHW = this.assignHW.bind(this);
-        this.handleAssignChange = this.handleAssignChange.bind(this);
+        this.assignHw = this.assignHw.bind(this);
     }
 
+    
     componentDidMount() {
         fetch
             .fetchUserHardware()
@@ -42,7 +47,6 @@ class ProfileHardware extends Component {
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
-        // console.log(event.target.name + " was set to " + event.target.value)
     }
 
     fixString(hardware) {
@@ -52,6 +56,15 @@ class ProfileHardware extends Component {
         else {
             return hardware
         }
+    }
+
+    assignHw(){
+        this.setState({hwLoading: true});
+        fetch
+            .fetchUserHardware()
+            .then(res => {
+                this.setState({ rented: res.data.rented_hardware, hwLoading: false });
+            });
     }
 
     getFormInfo() {
@@ -65,41 +78,25 @@ class ProfileHardware extends Component {
     returnHW() {
         this.state.errorString = "";
         var returnList = this.getFormInfo();
+        this.setState({ hwLoading: true });
         handleHardware.returnHW({
             returnHW: returnList
         }).then(res => {
             if (res.data.success === 0) {
                 fetch.fetchUserHardware().then(res => {
-                    this.setState({ rented: res.data.rented_hardware });
+                    this.setState({ rented: res.data.rented_hardware, hwLoading: false });
+                    this.state.rented.map((item) => (
+                        this.setState({[item.name]: ""})
+                    ))
                 });
-            }
-            else {
-                this.setState({ errorString: res.data.error })
-            }
-        })
-    }
-
-    handleAssignChange = project => (event) => {
-        let assigned = {
-            "project": project,
-            "hw": this.state.selectValue,
-            "num": event.target.value,
-        }
-
-        this.setState({ assigned: this.state.assigned.concat(assigned) })
-    }
-
-    assignHW() {
-        handleHardware.assignHW(localStorage.getItem("token"), this.state.assigned).then(res => {
-            if (res.error) {
-                alert(res.error)
+            } else {
+                this.setState({ errorString: res.data.error, hwLoading: false });
             }
         })
     }
 
     render() {
 
-        // console.log(this.state)
         return (
             <div>
                 <div id="ProfileHardware" className="d-flex justify-content-center flex-wrap flex-md-nowrap pb-2 mb-3 border-bottom">
@@ -123,7 +120,7 @@ class ProfileHardware extends Component {
                                     this.state.hwLoading ?
 
                                         <tr>
-                                            <td colspan="4"><DefaultLoader loading={this.state.hwLoading} /></td>
+                                            <td colSpan="4"><DefaultLoader loading={this.state.hwLoading} /></td>
                                         </tr> :
                                         this.state.rented.map((hw, i) => {
                                             return (
@@ -134,7 +131,8 @@ class ProfileHardware extends Component {
                                                     <td id="hw_price">$$$</td>
                                                     <td>
                                                         <Form>
-                                                            <Form.Control name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount} onChange={this.handleChange} />
+                                                            <Form.Control name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount}
+                                                                onChange={this.handleChange} />
                                                         </Form>
                                                     </td>
                                                 </tr>
@@ -147,51 +145,9 @@ class ProfileHardware extends Component {
                     </Card.Body>
                 </Card>
                 <Card className="mb-3 light-background">
-                    <Card.Header>Projects</Card.Header>
+                    <Card.Header>Assign Hardware to Projects</Card.Header>
                     <Card.Body>
-                        <Table className="text-light profile-table" bordered >
-                            <thead>
-                                <tr>
-                                    <th>Project</th>
-                                    <th>Hardware</th>
-                                    <th>Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.projLoading ?
-
-                                    <tr>
-                                        <td colspan="3"><DefaultLoader loading={this.state.hwLoading} /></td>
-                                    </tr> :
-                                    this.state.projects.map((project, i) => {
-                                        return (
-                                            <tr key={i}>
-                                                <td>{project.name}</td>
-                                                <td>
-                                                    <select className="form-select form-select-lg" name="selectValue" value={this.state.selectValue}
-                                                        onChange={this.handleChange}>
-                                                        <option value="default">Choose hardware</option>
-                                                        {
-                                                            this.state.rented.map((hw) => {
-                                                                return (
-                                                                    <option value={hw.name}>{hw.name}</option>
-                                                                );
-                                                            })
-                                                        }
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <Form>
-                                                        <Form.Control name={project.name} type="number" placeholder="Amount to Assign" min="0" onChange={this.handleAssignChange(project)} />
-                                                    </Form>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                }
-                            </tbody>
-                        </Table>
-                        <button type="button" className="btn button-primary" onClick={this.assignHW}>Assign</button>
+                        <AssignHardware assignHw = {this.assignHw}/>
                     </Card.Body>
                 </Card>
                 {/* <Card className="light-background">
