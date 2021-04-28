@@ -47,7 +47,7 @@ class HardwareDatasets extends Component {
     retrieveHWInfo() {
         handleHardware.fetchHW().then(response => {
             // console.log(response.data);
-            this.setState({ hwList: response.data.HWSets, loading: false });
+            this.setState({ hwList: response.data.HWSets, loading: false })
         })
     }
 
@@ -68,7 +68,6 @@ class HardwareDatasets extends Component {
         this.state.hwList.map((item) => (
             hw.push(this.fixString(this.state[item.hardware_name]))
         ))
-        // console.log(hw);
         return hw;
     }
 
@@ -80,6 +79,9 @@ class HardwareDatasets extends Component {
         }).then(res => {
             if (res.data.success === 0) {
                 this.setState({ successString: res.data.data });  // shows a success banner when hw is rented
+                this.state.hwList.map((item) => (
+                    this.setState({[item.hardware_name]: ""})
+                ));
                 this.retrieveHWInfo();
             }
             else {
@@ -94,6 +96,9 @@ class HardwareDatasets extends Component {
                 }
             }
             this.setState({loading: false});
+            this.state.hwList.map((item) => (
+                this.fixString(this.setState({[item.name]: ""})
+            )))
         });
     }
 

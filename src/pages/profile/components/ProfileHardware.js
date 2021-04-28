@@ -85,6 +85,9 @@ class ProfileHardware extends Component {
             if (res.data.success === 0) {
                 fetch.fetchUserHardware().then(res => {
                     this.setState({ rented: res.data.rented_hardware, hwLoading: false });
+                    this.state.rented.map((item) => (
+                        this.setState({[item.name]: ""})
+                    ))
                 });
             } else {
                 this.setState({ errorString: res.data.error, hwLoading: false });

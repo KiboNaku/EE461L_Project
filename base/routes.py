@@ -200,25 +200,24 @@ def rent_hardware(token_data):
         " rented the following hardware:"
     if user:
         if(enough_available_hardware(wanted_list)):
-            for hardware in hardware_list:
+            for i, hardware in enumerate(hardware_list):
                 name = hardware.hardware_name
-                digit = int(get_hardware_digit(name))
-                if(int(wanted_list[digit-1]) > 0):
+                digit = i
+                if(int(wanted_list[digit]) > 0):
                     if not first:
                         r_val["data"] += ", " + \
-                            wanted_list[digit-1] + " of " + name
+                            wanted_list[digit] + " of " + name
                     else:
                         r_val["data"] += " " + \
-                            wanted_list[digit-1] + " of " + name
+                            wanted_list[digit] + " of " + name
                         first = False
                     hw = Hardware.objects(hardware_name=name).first()
                     old_record = RentRecord.objects(
                         hardware=hw.pk, user=user.pk).first()
-                    # print(old_record)
                     if old_record != None:
                         old_value = old_record.amount
                         old_record.update(
-                            set__amount=old_value + int(wanted_list[digit-1]))
+                            set__amount=old_value + int(wanted_list[digit]))
                         old_record.save()
                     else:
                         today = datetime.date.today()
@@ -228,7 +227,7 @@ def rent_hardware(token_data):
                             user=user.to_dbref(),
                             hardware=Hardware.objects(
                                 hardware_name=name).first().to_dbref(),
-                            amount=wanted_list[digit-1],
+                            amount=wanted_list[digit],
                             date_rented=today,
                             date_expired=expiration
                         )
@@ -237,8 +236,8 @@ def rent_hardware(token_data):
                                     record.to_dbref()])
                     hwset = Hardware.objects(hardware_name=name).first()
                     hwset.update(
-                        set__available_count=hardware_list[digit-1].available_count 
-                            - int(wanted_list[digit-1]))
+                        set__available_count=hardware_list[digit].available_count 
+                            - int(wanted_list[digit]))
                     hwset.reload()
         else:
             r_val["success"] = -1
@@ -247,11 +246,10 @@ def rent_hardware(token_data):
     return r_val
 
 
-def enough_available_hardware(owned):
+def enough_available_hardware(asked):
     hardware_list = Hardware.objects()
-    for hardware in hardware_list:
-        check = hardware.hardware_name
-        if int(owned[int(get_hardware_digit(check))-1]) > int(hardware.available_count):
+    for i, hardware in enumerate(hardware_list):
+        if int(asked[i]) > int(hardware.available_count):
             return False
     return True
 
@@ -266,16 +264,15 @@ def return_hardware(token_data):
     user = User.objects(username=token_data['user']).first()
     if user:
         user_hw = get_user_hw(user)
-        for hardware in return_hardware:
+        for i, hardware in enumerate(return_hardware):
             if int(return_hardware.get(hardware)) > 0:
-                if int(return_hardware.get(hardware)) <= user_hw[int(get_hardware_digit(hardware))-1]:
-                    hardware_list[int(get_hardware_digit(hardware))-1].update(set__available_count=hardware_list[int(get_hardware_digit(hardware))-1]
+                if int(return_hardware.get(hardware)) <= user_hw[hardware]:
+                    hardware_list[i].update(set__available_count=hardware_list[i]
                         .available_count + int(return_hardware.get(hardware)))
                     hw = Hardware.objects(hardware_name=hardware).first()
                     record = RentRecord.objects(
                         hardware=hw.pk, user=user.pk).first()
-                    record.update(set__amount=user_hw[int(get_hardware_digit(
-                        hardware))-1] - int(return_hardware.get(hardware)))
+                    record.update(set__amount=user_hw[hardware] - int(return_hardware.get(hardware)))
                     record.reload()
                 else:
                     r_val["success"] = -1
@@ -287,12 +284,11 @@ def return_hardware(token_data):
 def get_user_hw(user):
     hardware_list = Hardware.objects()
     rented = user.rented_hardware
-    user_hw = []
+    user_hw = {}
     for hardware in hardware_list:
-        user_hw.append(0)
+        user_hw[hardware.hardware_name] = 0
     for r in rented:
-        digit = get_hardware_digit(r.hardware.hardware_name)
-        user_hw[int(digit) - 1] += r.amount
+        user_hw[r.hardware.hardware_name] = r.amount
     return user_hw
 
 
@@ -310,7 +306,6 @@ def fetch_datasets():
     for dataset in dataset_list:
         datasets.append(dataset.to_json())
 
-    print(datasets)
     result = jsonify({"Datasets": datasets})
     return result
 
