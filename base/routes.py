@@ -313,7 +313,7 @@ def fetch_datasets():
 @app.route("/api/add-project", methods=["POST"])
 @token_required
 def add_project(token_data):
-    r_val = {"error": None}
+    r_val = {"error": None, "id": ""}
     project = request.get_json()["project"]
 
     user = User.objects(username=token_data['user']).first()
@@ -327,6 +327,8 @@ def add_project(token_data):
         # TODO: add hardware references and find total cost
         project.total_cost = 0
         project.save()
+
+        r_val["id"] = str(project.id)
 
         user.update(add_to_set__owned_projects=[project.to_dbref()])
         return r_val
@@ -359,7 +361,6 @@ def assign_hardware(token_data):
     data = json.loads(request.data)
     user = User.objects(username=token_data['user']).first()
     assign_record = data.get("records")
-    print(assign_record)
 
     if not user:
         r_val["success"] = -1

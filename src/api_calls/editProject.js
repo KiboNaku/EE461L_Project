@@ -13,7 +13,4 @@ export const joinProject = (token, project) => {
 export const addProject = (project) => {
 	return axios
 		.post(consts.ADD_PROJECT, { "token": localStorage.getItem("token"), "project": project })
-		.then(response => {
-			return response.data
-		})
 }
