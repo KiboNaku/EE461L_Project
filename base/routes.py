@@ -127,7 +127,7 @@ def join_project(token_data):
     user = User.objects(username=token_data['user']).first()
     project_request = data.get("project")
     project = Project.objects(id=project_request['id']).first()
-
+    # print(project["contributors"])
     if not project:
         r_val["success"] = -1
         r_val["error"] = "No project found on query."
@@ -135,8 +135,16 @@ def join_project(token_data):
         r_val["success"] = -1
         r_val["error"] = "No user found."
     else:
-        project.update(add_to_set__contributors=[user])
-        user.update(add_to_set__contributed_projects=[project])
+        if project["owner"] == user:
+            r_val["success"] = -1
+            r_val["error"] = "You are the owner of the project."
+        elif user in project["contributors"]:
+            # print("here")
+            r_val["success"] = -1
+            r_val["error"] = "You are already a contributor of the project."
+        else:
+            project.update(add_to_set__contributors=[user])
+            user.update(add_to_set__contributed_projects=[project])
 
     return r_val
 
