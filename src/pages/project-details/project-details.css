@@ -1,6 +1,6 @@
-
-.project-name{
+.project-name {
     font-size: 60px;
+	font-weight: 100;
 }
 
 .project-members {
@@ -9,7 +9,8 @@
     font-weight: 400;
 }
 
-.project-description {
+.project-tags {
+    padding-top: 5px;
 }
 
 .project-tag {
@@ -20,8 +21,12 @@
     border-radius: 5px;
 }
 
+.project-description{
+    font-weight: 200;
+}
+
 .block-color-title {
-    height: 50vh;
+    min-height: 50vh;
     background-color: #2C363F;
     color: white;
     flex: 0 1 40px;
@@ -48,29 +53,57 @@
     border: none !important;
 }
 
-.custom-input, .custom-input:focus{
+.custom-input, .custom-input:focus {
     border: none !important;
-    border-bottom: 1px solid beige !important;
+    border-bottom: 1px solid #d7fff1 !important;
     background-color: transparent;
     outline: none;
     color: white;
     width: fit-content;
+    /* max-width: 100%; */
 }
 
 #add-tag {
     display: inline;
-    border: 1px solid white;
+    border: 1px solid #d7fff1;
     padding: 0px 3px 3px 3px;
     width: fit-content;
 }
 
 #add-tag:hover {
     border: 1px solid #2C363F;
-    background-color: white;
+    background-color: #d7fff1;
     color: #2C363F;
     cursor: pointer;
 }
 
 .new-tag {
     resize: none;
+}
+
+.project-hardware-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, .15);
+}
+
+.project-name-input {
+    font-size: large;
+    font-weight: 100;
+}
+
+@media (min-width: 576px) {
+    .project-name-input {
+        font-size: 35px;
+    }
+}
+
+@media (min-width: 992px) {
+    .project-name-input {
+        font-size: 60px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .project-name-input {
+        font-size: 45px;
+    }
 }

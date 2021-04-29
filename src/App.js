@@ -14,7 +14,6 @@ import {
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Project from './pages/profile/components/Project';
 import React, { Component } from 'react';
 import * as tokenCalls from './api_calls/tokenCalls';
 import * as adm from './api_calls/admission';

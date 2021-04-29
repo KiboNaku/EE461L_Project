@@ -1,29 +1,43 @@
 import React, { Component } from 'react'
-import {Redirect} from 'react-router-dom'
-import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
+import AddIcon from '@material-ui/icons/Add';
+import { Container, Row, Col, Card, Button, Form, ThemeProvider } from 'react-bootstrap'
 import * as projects from './../../api_calls/editProject'
 import '../project-details/project-details.css'
+import DefaultLoader from "./../_utils/DefaultLoader";
 
 class ProjectAdd extends Component {
 
     constructor() {
         super();
-        this.state = {
-            name: "",
-            description: "",
-            checked_list: [],
-            wish_list: [],
-            tags: [],
-        };
+        this.resetState = this.resetState.bind(this);
         this.handleGeneralChange = this.handleGeneralChange.bind(this);
         this.addNewTag = this.addNewTag.bind(this);
         this.addNewWish = this.addNewWish.bind(this);
         this.handleTagChange = this.handleTagChange.bind(this);
         this.handleWishChange = this.handleWishChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+
+        this.state = this.resetState();
+    }
+
+    resetState() {
+        return (
+            {
+                id: "",
+                redirect: false,
+                loading: false,
+                name: "",
+                description: "",
+                checked_list: [],
+                wish_list: [],
+                tags: [],
+            }
+        );
     }
 
     onSubmit() {
+        this.setState({ loading: true });
         projects.addProject(
             {
                 name: this.state.name,
@@ -32,7 +46,10 @@ class ProjectAdd extends Component {
                 wish_list: this.state.wish_list,
                 tags: this.state.tags
             }
-        )
+        ).then(res => {
+            this.setState({ redirect: true, id: res.data.id });
+            this.resetState();
+        })
     }
 
     handleGeneralChange(event) {
@@ -82,45 +99,61 @@ class ProjectAdd extends Component {
     }
 
     render() {
-        if(!this.props.loggedIn){
+        if (!this.props.loggedIn) {
             return <Redirect to='/' />
         }
 
+        if (this.state.redirect) {
+            return <Redirect to={{
+                pathname: "/project-details/" + this.state.id,
+                state: { projectId: this.state.id }
+            }} />
+        }
+
         return (
-            <div className="w-100 dark-background max-height text-left px-0 py-0 mx-0 my-0 h-100">
-
+            <div className="dark-background max-height text-left px-0 py-0 mx-0 my-0 container">
                 {/* <Form> */}
-
-                <div className="project-title-panel block-color-title px-5 py-5 w-100 h-50  mx-0 my-0">
-                    <div className="col-6 float-left justify-content-center align-items-center row h-100">
-                        <div className="">
-                            <input type="text" className="project-name text-left custom-input" placeholder="Project Name" name="name" value={this.state.name} onChange={this.handleGeneralChange} />
-                            <div className="project-members">You</div>
-                            <div className="project-tags">
-                                <p>Add some tags:</p>
-                                {
-                                    this.state.tags.map((tag, i) => {
-                                        return (
-                                            <input type="text" value={tag} name={i} className="project-tag custom-input new-tag" onChange={this.handleTagChange} placeholder="new tag" />
-                                        );
-                                    })
-                                }
-                                <div id="add-tag" onClick={this.addNewTag}>+</div>
+                {this.state.loading ? <DefaultLoader /> :
+                    <div>
+                        <div className="project-title-panel block-color-title px-2 px-sm-5 py-5 mx-0 my-0 row">
+                            <div className="align-items-center col-xl-6">
+                                <div className="px-sm-5 py-5">
+                                    <input type="text" className="project-name-input text-left custom-input" placeholder="Project Name" name="name" value={this.state.name} onChange={this.handleGeneralChange} />
+                                    <div className="project-members">You</div>
+                                    <div className="project-tags">
+                                        <p>Add some tags:</p>
+                                        {
+                                            this.state.tags.map((tag, i) => {
+                                                return (
+                                                    <input type="text" value={tag} name={i} className="project-tag custom-input new-tag" onChange={this.handleTagChange} placeholder="new tag" />
+                                                );
+                                            })
+                                        }
+                                        <div id="add-tag" onClick={this.addNewTag}>
+                                            <AddIcon />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="align-items-center col-xl-6">
+                                <div className="px-sm-5 py-5 w-100">
+                                    <h4>Description:</h4>
+                                    <textarea className="custom-input w-100" rows="3" placeholder="Description of your project" name="description" value={this.state.description} onChange={this.handleGeneralChange} />
+                                </div>
                             </div>
                         </div>
-
-                    </div>
-                    <div className="col-6 float-left justify-content-center align-items-center row h-100">
-                        <div className="px-5 py-5 w-100">
-                            <h4>Description:</h4>
-                            <textarea className="custom-input w-100" rows="3" placeholder="Description of your project" name="description" value={this.state.description} onChange={this.handleGeneralChange} />
+                        <div className="justify-content-center text-center px-5 py-5 mx-0 my-0">
+                            <Button onClick={this.onSubmit} className="w-50 button-primary">
+                                Submit
+                    </Button>
                         </div>
                     </div>
-                </div>
+
+                }
 
                 {/* List of HW items */}
-                <div className="light-background px-5 py-5 w-100 justify-content-center row mx-0 my-0">
-                    <table className="table borderless col-7 text-light">
+                {/* <div className="light-background px-5 py-5 w-100 justify-content-center row mx-0 my-0"> */}
+                {/* <table className="table borderless col-7 text-light">
                         <thead>
                             <tr>
                                 <th scope="col">Wishlist</th>
@@ -149,11 +182,9 @@ class ProjectAdd extends Component {
                                 <td></td>
                             </tr>
                         </tbody>
-                    </table>
-                    <Button onClick={this.onSubmit} className="w-100 button-primary">
-                        Submit
-                    </Button>
-                </div>
+                    </table> */}
+
+                {/* </div> */}
                 {/* </Form> */}
             </div>
         );
