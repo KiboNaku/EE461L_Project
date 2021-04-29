@@ -1,5 +1,6 @@
 .project-name {
     font-size: 60px;
+	font-weight: 100;
 }
 
 .project-members {
@@ -8,10 +9,8 @@
     font-weight: 400;
 }
 
-.project-description {}
-
 .project-tags {
-    padding-top: 2px;
+    padding-top: 5px;
 }
 
 .project-tag {
@@ -22,8 +21,12 @@
     border-radius: 5px;
 }
 
+.project-description{
+    font-weight: 200;
+}
+
 .block-color-title {
-    /* height: 50vh; */
+    min-height: 50vh;
     background-color: #2C363F;
     color: white;
     flex: 0 1 40px;
@@ -84,6 +87,7 @@
 
 .project-name-input {
     font-size: large;
+    font-weight: 100;
 }
 
 @media (min-width: 576px) {

@@ -137,7 +137,7 @@ class AssignHardware extends Component {
                         <Form.Group as={Row}>
                             <Form.Label column sm="5">How many?</Form.Label>
                             <Col sm="5">
-                                <Form.Control type="number" placeholder="Number to assign" onChange={
+                                <Form.Control className="textbox" type="number" placeholder="Number to assign" onChange={
                                     (e) => {
                                         this.updateAssign("amount", e.target.value)
                                     }

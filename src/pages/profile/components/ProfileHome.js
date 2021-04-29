@@ -48,24 +48,21 @@ class ProfileHome extends Component {
         return (
             <div>
                 <div id="profile" className=" pb-2 mb-3 border-bottom">
-                    <h1 className="h2">Profile</h1>
+                    <h1 className="profile-header">Profile</h1>
                 </div>
                 {
                     this.state.infoLoading ?
 
                         <DefaultLoader loading={this.state.infoLoading} /> :
                         <div>
-                            <div id="avatar" className='mb-3'>
+                            <div id="avatar" className='pt-3 pb-5'>
                                 <Avatar name={this.state.username} />
                             </div>
                             <div id="personal-info" className='mb-3'>
                                 <Card className="light-background">
                                     <Card.Header>Personal Information</Card.Header>
-                                    <Card.Body>
+                                    <Card.Body className="personal-info">
                                         <Table className="text-light" borderless={true} size="sm">
-
-
-
                                             <tbody>
                                                 <tr>
                                                     <td>Username: </td>

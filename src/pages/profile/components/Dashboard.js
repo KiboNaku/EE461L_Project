@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import ProfileHome from './ProfileHome'
 import Billing from '../../billing/Billing'
-import Project from './Project'
+import ProfileProject from './ProfileProject'
 import ProfileHardware from './ProfileHardware'
 import { Link } from 'react-router-dom';
 
@@ -77,10 +77,10 @@ class Dashboard extends Component {
         //     page = <Billing />
         // }
         else if (this.state.currentPage === project) {
-            page = <Project title="profProject"/>
+            page = <ProfileProject title="profProject"/>
         }
         else if (this.state.currentPage === hardware) {
-            page = <ProfileHardware title="profHardware"S/>
+            page = <ProfileHardware title="profHardware"/>
         }
         // else if (this.state.currentPage === dataset) {
         //     page = <ProfileDataset />
@@ -105,7 +105,7 @@ class Dashboard extends Component {
                                 }
                         </div>
                     </div>
-                    <main className="main mx-auto col-lg-10" title="profMain">
+                    <main className="main mx-auto col-lg-10 px-5 py-5" title="profMain">
                         {page}
                     </main>
                 </div>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
 import {Link} from "react-router-dom"
-import * as fetch from "./../../../api_calls/fetchInformation"
-import DefaultLoader from "./../../_utils/DefaultLoader";
+import * as fetch from "../../../api_calls/fetchInformation"
+import DefaultLoader from "../../_utils/DefaultLoader";
 
-class Project extends Component {
+class ProfileProject extends Component {
 
     constructor(){
         super();
@@ -28,7 +28,7 @@ class Project extends Component {
         return(
             
             <div className="mb-3" key={i}>
-                <Card className="light-background" style={{ marginInline:"auto", width: "60%", height: "auto" }}>
+                <Card className="light-background profile-project mx-auto col-md-6">
                     <Card.Header>{projectInfo.name}</Card.Header>
                     <Card.Body>
                         <p><b>Owner: </b>{projectInfo.owner}</p>
@@ -50,14 +50,14 @@ class Project extends Component {
         return (
             // TODO: need backend call to auto update projects that are active/completed
             <div>
-                <div id="Project" className="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                    <h1 className="h2">Projects</h1>
+                <div id="project" className="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    <h1 className="profile-header">Projects</h1>
                 </div>
-                <div className="mb-3">
+                <div className="py-3">
                     <Link to="/project-add" className="btn button-primary">+ Add Project</Link>
                 </div>
                 <div id="owned-projects" className="mb-5">
-                    <h3 >Owned:</h3>
+                    <h3 className="pb-3 project-description">Owned:</h3>
                     {
                         this.state.loading? 
                             <DefaultLoader loading={this.state.loading}/>:
@@ -65,7 +65,7 @@ class Project extends Component {
                     }
                 </div>
                 <div id="contr-projects">
-                    <h3>Contributed:</h3>
+                    <h3 className="pb-3 project-description">Contributed:</h3>
                     {
                         this.state.loading? 
                             <DefaultLoader loading={this.state.loading}/>:
@@ -76,4 +76,5 @@ class Project extends Component {
         )
     }
 }
-export default Project
+
+export default ProfileProject

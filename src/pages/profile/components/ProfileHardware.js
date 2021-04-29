@@ -100,12 +100,12 @@ class ProfileHardware extends Component {
         return (
             <div>
                 <div id="ProfileHardware" className="d-flex justify-content-center flex-wrap flex-md-nowrap pb-2 mb-3 border-bottom">
-                    <h1 className="h2">Hardware</h1>
+                    <h1 className="profile-header">Hardware</h1>
                 </div>
                 <Card className="mb-3 light-background">
                     {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
                     <Card.Header>Checked Out Hardware</Card.Header>
-                    <Card.Body>
+                    <Card.Body className="hardware-card-body">
                         <Table className="text-light profile-table" bordered >
                             <thead>
                                 <tr>
@@ -131,7 +131,7 @@ class ProfileHardware extends Component {
                                                     <td id="hw_price">$$$</td>
                                                     <td>
                                                         <Form>
-                                                            <Form.Control name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount}
+                                                            <Form.Control className="textbox" name={hw.name} type="number" placeholder="Desired Return Amount" min="0" max={hw.amount}
                                                                 onChange={this.handleChange} />
                                                         </Form>
                                                     </td>
@@ -146,7 +146,7 @@ class ProfileHardware extends Component {
                 </Card>
                 <Card className="mb-3 light-background">
                     <Card.Header>Assign Hardware to Projects</Card.Header>
-                    <Card.Body>
+                    <Card.Body className="hardware-card-body">
                         <AssignHardware assignHw = {this.assignHw}/>
                     </Card.Body>
                 </Card>

@@ -94,7 +94,7 @@ class ProjectAdd extends Component {
                     <div className="align-items-center col-xl-6">
                         <div className="px-sm-5 py-5">
                             <input type="text" className="project-name-input text-left custom-input" placeholder="Project Name" name="name" value={this.state.name} onChange={this.handleGeneralChange} />
-                            <div className="project-members">You</div>
+                            <div className="project-members py-2">You</div>
                             <div className="project-tags">
                                 <p>Add some tags:</p>
                                 {
@@ -112,7 +112,7 @@ class ProjectAdd extends Component {
                     </div>
                     <div className="align-items-center col-xl-6">
                         <div className="px-sm-5 py-5 w-100">
-                            <h4>Description:</h4>
+                            <h4 className="project-description">Description:</h4>
                             <textarea className="custom-input w-100" rows="3" placeholder="Description of your project" name="description" value={this.state.description} onChange={this.handleGeneralChange} />
                         </div>
                     </div>
