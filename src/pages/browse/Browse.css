@@ -17,15 +17,11 @@
 
 .project-owner {
 	display: block;
+	margin-bottom: 5px;
 }
 
 .project-description {
 	margin-top: 20px;
-}
-
-.project-tag {
-	margin-left: 2px;
-	margin-right: 2px;
 }
 
 .project-header {

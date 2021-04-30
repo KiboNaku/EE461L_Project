@@ -27,11 +27,13 @@ class ProjectDetails extends Component {
                 let project = res.data.project
                 let mems = project.contributors
                 mems.unshift(project.owner)
+                console.log(project)
                 this.setState({
                     loading: false,
                     projectName: project.name,
                     members: mems.join(", "),
                     // TODO: add functionality for tags
+                    tags: project.tags,
                     description: project.description,
                     checkedHw: project.rented_hardware
                 });
@@ -39,7 +41,7 @@ class ProjectDetails extends Component {
     }
 
     render() {
-        // console.log(this.state.checkedHw)
+        console.log(this.state.tags)
         return (
             <div className="w-100 dark-background max-height text-left px-0 py-0 mx-0 my-0">
 
@@ -61,7 +63,7 @@ class ProjectDetails extends Component {
                                         {
                                             this.state.tags.map((tag, i) => {
                                                 return (
-                                                    <span key={i} className="project-tag">{tag}</span>
+                                                    <span key={i} className="project-tag">{tag.name}</span>
                                                 )
                                             })
                                         }
@@ -69,7 +71,7 @@ class ProjectDetails extends Component {
                                 </div>
 
                             </div>
-                            <div className="col-md-6 float-right justify-content-center align-items-center row h-100">
+                            <div className="col-md-6 float-md-right justify-content-center align-items-center row h-100">
                                 <div className="px-md-5 pb-5 pt-4">
                                     <h4>Description:</h4>
                                     <p>{this.state.description}</p>

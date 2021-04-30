@@ -2,7 +2,7 @@ from models.user import RentRecord
 from flask import Flask, jsonify, request
 from base import app, db
 from models.user import User, RentRecord
-from models.project import AssignedRecord, Project
+from models.project import AssignedRecord, Project, Tag
 from models.hardware import Hardware
 from models.dataset import Dataset
 import json
@@ -324,13 +324,24 @@ def add_project(token_data):
     r_val = {"error": None, "id": ""}
     project = request.get_json()["project"]
 
+    print(project["tags"])
     user = User.objects(username=token_data['user']).first()
     if user:
+        tags = []
+        for tag in project["tags"]:
+            t = Tag(
+                tag_name=tag,
+                tag_type="1"
+            )
+            t.save()
+            tags.append(t)
+        print(tags)
         project = Project(
             project_name=project["name"],
             owner=user.to_dbref(),
             description=project["description"],
-            tags=project["tags"]
+            tags=tags
+            # tags=project["tags"]
         )
         # TODO: add hardware references and find total cost
         project.total_cost = 0
