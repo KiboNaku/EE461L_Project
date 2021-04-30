@@ -277,8 +277,8 @@ def return_hardware(token_data):
             if int(return_hardware[hardware]) > 0:
                 if int(return_hardware[hardware]) <= user_hw[hardware]:
                     found_hardware = Hardware.objects(hardware_name=hardware).first()
-                    print(found_hardware)
-                    print(found_hardware.hardware_name)
+                    # print(found_hardware)
+                    # print(found_hardware.hardware_name)
                     found_hardware.update(set__available_count=found_hardware
                         .available_count + int(return_hardware[hardware]))
                     # hw = Hardware.objects(hardware_name=hardware).first()
