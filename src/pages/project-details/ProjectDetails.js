@@ -80,7 +80,7 @@ class ProjectDetails extends Component {
 
                     :
                     <div>
-                        <div className="project-title-panel block-color-title px-5 py-5 w-100 h-50  mx-0 my-0">
+                        <div className="project-title-panel block-color-title px-5 py-5 w-100 h-50 mx-0 my-0">
                             <div className="col-md-6 float-left justify-content-center align-items-center row h-100">
                                 <div className="">
                                     <div className="project-name text-left">{this.state.projectName}</div>
