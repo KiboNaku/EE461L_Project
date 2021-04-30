@@ -38,6 +38,7 @@ class ProjectDetails extends Component {
             .then(res => {
                 let project = res.data.project
                 let mems = project.contributors
+                mems.unshift(project.owner)
 
                 let isOwner = false;
                 if (this.props.loggedIn) {
@@ -155,7 +156,7 @@ class ProjectDetails extends Component {
                     <div className="modal-dialog">
                         <div className="modal-content dark-background">
                             <div className="modal-header">
-                                <h4 className="mx-auto a-dark">Add Project</h4>
+                                <h4 className="mx-auto a-dark">Assign Hardware to Project</h4>
                             </div>
                             <div className="modal-body">
                                 <AssignHardware assignHw={this.addHwSets} />
