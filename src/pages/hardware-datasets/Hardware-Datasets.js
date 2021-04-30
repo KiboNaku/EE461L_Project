@@ -27,6 +27,7 @@ class HardwareDatasets extends Component {
         this.retrieveDatasetInfo = this.retrieveDatasetInfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.getFormInfo = this.getFormInfo.bind(this);
+        this.getModalInfo = this.getModalInfo.bind(this);
         this.checkOut = this.checkOut.bind(this);
     }
 
@@ -67,6 +68,14 @@ class HardwareDatasets extends Component {
         var hw = [];
         this.state.hwList.map((item) => (
             hw.push(this.fixString(this.state[item.hardware_name]))
+        ))
+        return hw;
+    }
+
+    getModalInfo(){
+        var hw = {};
+        this.state.hwList.map((item) => (
+            hw[item.hardware_name] = this.fixString(this.state[item.hardware_name])
         ))
         return hw;
     }
@@ -152,7 +161,7 @@ class HardwareDatasets extends Component {
                                 }
 
                                 <CheckModal content={this.state.error ? <ErrorMessage errorString={this.state.errorString} /> :
-                                    <CheckCart hw={this.getFormInfo()} checkOut={this.checkOut} />} />
+                                    <CheckCart hw={this.getModalInfo()} hwList={this.state.hwList} checkOut={this.checkOut} />} />
                             </div>
                         </Card.Body>
                     </Card>
