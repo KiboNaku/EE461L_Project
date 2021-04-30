@@ -29,7 +29,6 @@ class ProjectDetails extends Component {
     }
 
     addHwSets() {
-        $("#add-hw-modal").modal("hide");
     }
 
     componentDidMount() {
@@ -39,11 +38,11 @@ class ProjectDetails extends Component {
                 let project = res.data.project
                 let mems = project.contributors
                 mems.unshift(project.owner)
-                
+
                 let isOwner = false;
-                // if(this.props.loggedIn) {
-                //     isOwner = jwt(localStorage.getItem("token")).user === project.owner;
-                // }
+                if (this.props.loggedIn) {
+                    isOwner = jwt(localStorage.getItem("token")).user === project.owner;
+                }
 
                 this.setState({
                     isOwner: isOwner,
@@ -63,6 +62,11 @@ class ProjectDetails extends Component {
     }
 
     render() {
+        let data = "";
+        if (this.state.isOwner) {
+            data = <Button data-toggle="modal" data-target="#add-hw-modal" className="w-50 button-primary">Add Hardware Sets</Button>
+        }
+
         return (
             <div className="w-100 dark-background max-height text-left px-0 py-0 mx-0 my-0">
 
@@ -135,15 +139,7 @@ class ProjectDetails extends Component {
                             </table>
 
                             {
-                                this.props.loggedIn ?
-
-                                    (this.state.isOwner ?
-                                        <Button data-toggle="modal" data-target="#add-hw-modal" className="w-50 button-primary">Add Hardware Sets</Button> : ""
-                                    ) :
-                                    <div>
-                                        Are you the owner? Please < Link to="/login" className="btn button-primary">login</Link> to assign hardware sets.
-                                    </div>
-
+                                data
                             }
                         </div>
                     </div>
@@ -156,7 +152,7 @@ class ProjectDetails extends Component {
                                 <h4 className="mx-auto a-dark">Add Project</h4>
                             </div>
                             <div className="modal-body">
-                                <AssignHardware assignHw={this.addHwSets}/>
+                                <AssignHardware assignHw={this.addHwSets} />
                             </div>
                         </div>
                     </div>
