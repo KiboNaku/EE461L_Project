@@ -267,20 +267,24 @@ def enough_available_hardware(asked):
 def return_hardware(token_data):
     full_return = request.get_json()["hardware"]
     return_hardware =full_return["returnHW"]
+    print(return_hardware)
     hardware_list = Hardware.objects()
     r_val = {"success": 0, "error": None}
     user = User.objects(username=token_data['user']).first()
     if user:
         user_hw = get_user_hw(user)
         for i, hardware in enumerate(return_hardware):
-            if int(return_hardware.get(hardware)) > 0:
-                if int(return_hardware.get(hardware)) <= user_hw[hardware]:
-                    hardware_list[i].update(set__available_count=hardware_list[i]
-                        .available_count + int(return_hardware.get(hardware)))
-                    hw = Hardware.objects(hardware_name=hardware).first()
+            if int(return_hardware[hardware]) > 0:
+                if int(return_hardware[hardware]) <= user_hw[hardware]:
+                    found_hardware = Hardware.objects(hardware_name=hardware).first()
+                    # print(found_hardware)
+                    # print(found_hardware.hardware_name)
+                    found_hardware.update(set__available_count=found_hardware
+                        .available_count + int(return_hardware[hardware]))
+                    # hw = Hardware.objects(hardware_name=hardware).first()
                     record = RentRecord.objects(
-                        hardware=hw.pk, user=user.pk).first()
-                    record.update(set__amount=user_hw[hardware] - int(return_hardware.get(hardware)))
+                        hardware=found_hardware.pk, user=user.pk).first()
+                    record.update(set__amount=user_hw[hardware] - int(return_hardware[hardware]))
                     record.reload()
                 else:
                     r_val["success"] = -1
