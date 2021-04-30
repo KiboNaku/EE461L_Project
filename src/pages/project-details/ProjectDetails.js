@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Card } from 'react-bootstrap'
+import { Container, Row, Col, Card, Button } from 'react-bootstrap'
 import { Link } from 'react-dom'
 import * as fetch from "./../../api_calls/fetchInformation"
+import * as remove from "./../../api_calls/removeProject"
 import './project-details.css'
 import DefaultLoader from "./../_utils/DefaultLoader";
+import AssignHardware from "./../_utils/AssignHardware"
+import jwt from 'jwt-decode';
+import $ from "jquery";
 
 class ProjectDetails extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            isOwner: false,
             loading: true,
             isLogin: true,
             projectName: "",
@@ -18,6 +23,12 @@ class ProjectDetails extends Component {
             description: "",
             checkedHw: []
         };
+        this.removeProject = this.removeProject.bind(this)
+
+        this.addHwSets = this.addHwSets.bind(this);
+    }
+
+    addHwSets() {
     }
 
     componentDidMount() {
@@ -27,19 +38,35 @@ class ProjectDetails extends Component {
                 let project = res.data.project
                 let mems = project.contributors
                 mems.unshift(project.owner)
+
+                let isOwner = false;
+                if (this.props.loggedIn) {
+                    isOwner = jwt(localStorage.getItem("token")).user === project.owner;
+                }
+
                 this.setState({
+                    isOwner: isOwner,
                     loading: false,
                     projectName: project.name,
                     members: mems.join(", "),
                     // TODO: add functionality for tags
+                    tags: project.tags,
                     description: project.description,
                     checkedHw: project.rented_hardware
                 });
             })
     }
 
+    removeProject(){
+        remove.removeProject({name: this.state.projectName})
+    }
+
     render() {
-        // console.log(this.state.checkedHw)
+        let data = "";
+        if (this.state.isOwner) {
+            data = <Button data-toggle="modal" data-target="#add-hw-modal" className="w-50 button-primary">Add Hardware Sets</Button>
+        }
+
         return (
             <div className="w-100 dark-background max-height text-left px-0 py-0 mx-0 my-0">
 
@@ -61,7 +88,7 @@ class ProjectDetails extends Component {
                                         {
                                             this.state.tags.map((tag, i) => {
                                                 return (
-                                                    <span key={i} className="project-tag">{tag}</span>
+                                                    <span key={i} className="project-tag">{tag.name}</span>
                                                 )
                                             })
                                         }
@@ -69,7 +96,7 @@ class ProjectDetails extends Component {
                                 </div>
 
                             </div>
-                            <div className="col-md-6 float-right justify-content-center align-items-center row h-100">
+                            <div className="col-md-6 float-md-right justify-content-center align-items-center row h-100">
                                 <div className="px-md-5 pb-5 pt-4">
                                     <h4>Description:</h4>
                                     <p>{this.state.description}</p>
@@ -89,6 +116,7 @@ class ProjectDetails extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <button type="button" className="btn button-primary" onClick={this.removeProject}>Remove Project</button>
 
                                     {
                                         this.state.checkedHw.map((hwInfo, i) => {
@@ -109,9 +137,26 @@ class ProjectDetails extends Component {
                             </tr> */}
                                 </tbody>
                             </table>
+
+                            {
+                                data
+                            }
                         </div>
                     </div>
                 }
+
+                <div id="add-hw-modal" className="modal">
+                    <div className="modal-dialog">
+                        <div className="modal-content dark-background">
+                            <div className="modal-header">
+                                <h4 className="mx-auto a-dark">Add Project</h4>
+                            </div>
+                            <div className="modal-body">
+                                <AssignHardware assignHw={this.addHwSets} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

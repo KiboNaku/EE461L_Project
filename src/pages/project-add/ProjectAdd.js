@@ -145,7 +145,7 @@ class ProjectAdd extends Component {
                         <div className="justify-content-center text-center px-5 py-5 mx-0 my-0">
                             <Button onClick={this.onSubmit} className="w-50 button-primary">
                                 Submit
-                    </Button>
+                            </Button>
                         </div>
                     </div>
 

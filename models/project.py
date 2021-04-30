@@ -45,9 +45,9 @@ class Project(db.Document):
         for contr in self.contributors:
             contr_names.append(contr.username)
 
-        # tags = []
-        # for tag in self.tags:
-        #     tags.append(tag.to_json())
+        tag_list = []
+        for tag in self.tags:
+            tag_list.append(tag.to_json())
 
         rented_hw = []
         for rented in self.rented_hardware:
@@ -62,7 +62,7 @@ class Project(db.Document):
             "description": self.description,
             "total_cost": self.total_cost,
             "contributors": contr_names,
-            # "tags": tags,
+            "tags": tag_list,
             # "wishlisted_hardware": self.wishlisted_hardware,
             "rented_hardware": rented_hw
         }

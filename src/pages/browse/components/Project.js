@@ -26,16 +26,13 @@ function Project(props) {
 					</div>
 					<small className="project-owner">ID: {props.data.id}</small>
 					<small className="project-owner">Created by: {props.data.owner}</small>
-					{/* {props.data.tag1 &&
-						props.data.tag1.map(tag => {
-							return <span className="badge badge-info project-tag"> {tag}</span>
+					{
+						props.data.tags.map((tag, i) => {
+							return (
+								<small key={i} className="project-tag">{tag.name}</small>
+							)
 						})
 					}
-					{props.data.tag2 &&
-						props.data.tag2.map(tag => {
-							return <span className="badge badge-danger project-tag"> {tag}</span>
-						})
-					} */}
 					< p className="card-text project-description">{description}</p>
 					<Link className="a-dark" to={{
 						pathname: "/project-details/" + props.data.id,
