@@ -85,7 +85,7 @@ class AssignHardware extends Component {
                     <div>
                         <p className="text-danger">{this.state.errorString}</p>
                         <Form.Group as={Row}>
-                            <Form.Label column sm="5">Project</Form.Label>
+                            <Form.Label column sm="5" className="a-dark">Project</Form.Label>
                             <Col sm="5">
                                 <div className="dropdown">
                                     <button className="btn button-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -110,7 +110,7 @@ class AssignHardware extends Component {
                         </Form.Group>
 
                         <Form.Group as={Row}>
-                            <Form.Label column sm="5">Hardware</Form.Label>
+                            <Form.Label column sm="5" className="a-dark">Hardware</Form.Label>
                             <Col sm="5">
                                 <div className="dropdown">
                                     <button className="btn button-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -135,7 +135,7 @@ class AssignHardware extends Component {
                         </Form.Group>
 
                         <Form.Group as={Row}>
-                            <Form.Label column sm="5">How many?</Form.Label>
+                            <Form.Label column sm="5" className="a-dark">How many?</Form.Label>
                             <Col sm="5">
                                 <Form.Control className="textbox" type="number" placeholder="Number to assign" onChange={
                                     (e) => {
