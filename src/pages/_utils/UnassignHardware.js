@@ -67,6 +67,7 @@ class UnassignHardware extends Component {
             handleHardware.unassignHW(localStorage.getItem("token"), this.state.assign).then(res => {
                 if (res.error) {
                     alert(res.error)
+                    this.setState({hwLoading: false});
                     this.props.assignHw();
                 } else {
                     this.props.assignHw();

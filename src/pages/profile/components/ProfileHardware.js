@@ -104,9 +104,9 @@ class ProfileHardware extends Component {
                     <h1 className="profile-header">Hardware</h1>
                 </div>
                 <Card className="mb-3 light-background">
-                    {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
                     <Card.Header>Checked Out Hardware</Card.Header>
                     <Card.Body className="hardware-card-body">
+                        {this.state.errorString != "" && <Card.Text className="text-danger">Error: {this.state.errorString}</Card.Text>}
                         <Table className="text-light profile-table" bordered >
                             <thead>
                                 <tr>
