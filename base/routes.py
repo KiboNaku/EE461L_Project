@@ -383,7 +383,7 @@ def fetch_project_info():
 @app.route("/api/assign-hardware", methods=["POST"])
 @token_required
 def assign_hardware(token_data):
-    r_val = {"success": 0, "error": None, "error2": []}
+    r_val = {"success": 0, "error": None}
     data = json.loads(request.data)
     user = User.objects(username=token_data['user']).first()
     assign_record = data.get("records")
@@ -398,7 +398,7 @@ def assign_hardware(token_data):
         amount = int(assign_record["amount"])
         if rent_record.amount < amount:
             r_val["success"] = -1
-            r_val["error2"].append(record["project"])
+            r_val["error"] = "Not enough hardware to assign"
         else:
             existing_record = AssignedRecord.objects(project=project, hardware=hardware).first()
             num = 0
@@ -422,7 +422,7 @@ def assign_hardware(token_data):
 @app.route("/api/unassign-hardware", methods=["POST"])
 @token_required
 def unassign_hardware(token_data):
-    r_val = {"success": 0, "error": None, "error2": []}
+    r_val = {"success": 0, "error": None}
     data = json.loads(request.data)
     user = User.objects(username=token_data['user']).first()
     assign_record = data.get("records")
@@ -445,15 +445,15 @@ def unassign_hardware(token_data):
         num = 0
         if not existing_record:
                 r_val["success"] = -1
-                r_val["error"] = "hardware isn't assigned to this project"
+                r_val["error"] = "Hardware isn't assigned to this project"
         else:
             if existing_record.amount < amount:
                 r_val["success"] = -1
-                r_val["error"] = "number too much"
+                r_val["error"] = "Not enough hardware to unassign"
             else:
                 num = (existing_record.amount - amount)
                 existing_record.update(set__amount=num)
-            old_amount = rent_record.amount
-            rent_record.update(set__amount=old_amount+amount)
-
+                old_amount = rent_record.amount
+                rent_record.update(set__amount=old_amount+amount)
+            
     return r_val
