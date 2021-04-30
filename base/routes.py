@@ -353,12 +353,19 @@ def add_project(token_data):
 @app.route("/api/remove-project", methods=["POST"])
 @token_required
 def remove_project(token_data):
-    print(request.get_json())
     r_val = {"error": None, "id": ""}
-    name = request.get_json()["name"]
+    p_id = request.get_json()["id"]
     user = User.objects(username=token_data['user']).first()
-    if user:
-        project = Project.objects(project_name=name, user=user).first()
+    project = Project.objects(pk=p_id).first()
+
+    if user and project.owner.username == token_data['user']:
+        # project.owner.
+
+        contrs = project.contributors
+
+
+
+
         project.delete()
         return r_val
     else:

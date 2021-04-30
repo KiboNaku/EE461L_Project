@@ -14,6 +14,7 @@ class ProjectDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: "",
             isOwner: false,
             loading: true,
             isLogin: true,
@@ -45,6 +46,7 @@ class ProjectDetails extends Component {
                 }
 
                 this.setState({
+                    id: project.id,
                     isOwner: isOwner,
                     loading: false,
                     projectName: project.name,
@@ -57,8 +59,8 @@ class ProjectDetails extends Component {
             })
     }
 
-    removeProject(){
-        remove.removeProject({name: this.state.projectName})
+    removeProject() {
+        // remove.removeProject(this.state.id)
     }
 
     render() {
@@ -116,12 +118,11 @@ class ProjectDetails extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <button type="button" className="btn button-primary" onClick={this.removeProject}>Remove Project</button>
 
                                     {
                                         this.state.checkedHw.map((hwInfo, i) => {
                                             return (
-                                                <tr key={i}>
+                                                <tr key={hwInfo}>
                                                     <td>{hwInfo.hw_name}</td>
                                                     <td>{hwInfo.amount}</td>
                                                 </tr>
@@ -138,10 +139,16 @@ class ProjectDetails extends Component {
                                 </tbody>
                             </table>
 
-                            {
-                                data
-                            }
+                            {data}
+
                         </div>
+
+                        {/* {this.state.isOwner ?
+                            <div className="justify-content-center row mx-0 pt-3 pb-5">
+                                <Button type="button" className="btn btn-danger" onClick={this.removeProject}>Remove Project</Button>
+                            </div> : ""
+                        } */}
+
                     </div>
                 }
 
@@ -149,7 +156,7 @@ class ProjectDetails extends Component {
                     <div className="modal-dialog">
                         <div className="modal-content dark-background">
                             <div className="modal-header">
-                                <h4 className="mx-auto a-dark">Add Project</h4>
+                                <h4 className="mx-auto a-dark">Assign Hardware to Project</h4>
                             </div>
                             <div className="modal-body">
                                 <AssignHardware assignHw={this.addHwSets} />
@@ -157,6 +164,7 @@ class ProjectDetails extends Component {
                         </div>
                     </div>
                 </div>
+
             </div>
         );
     }
