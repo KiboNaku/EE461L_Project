@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Card } from 'react-bootstrap'
+import { Container, Row, Col, Card, Button } from 'react-bootstrap'
 import { Link } from 'react-dom'
 import * as fetch from "./../../api_calls/fetchInformation"
 import './project-details.css'
 import DefaultLoader from "./../_utils/DefaultLoader";
+import AssignHardware from "./../_utils/AssignHardware"
+import jwt from 'jwt-decode';
+import $ from "jquery";
 
 class ProjectDetails extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            isOwner: false,
             loading: true,
             isLogin: true,
             projectName: "",
@@ -18,6 +22,12 @@ class ProjectDetails extends Component {
             description: "",
             checkedHw: []
         };
+
+        this.addHwSets = this.addHwSets.bind(this);
+    }
+
+    addHwSets() {
+        $("#add-hw-modal").modal("hide");
     }
 
     componentDidMount() {
@@ -27,7 +37,14 @@ class ProjectDetails extends Component {
                 let project = res.data.project
                 let mems = project.contributors
                 mems.unshift(project.owner)
+                
+                let isOwner = false;
+                // if(this.props.loggedIn) {
+                //     isOwner = jwt(localStorage.getItem("token")).user === project.owner;
+                // }
+
                 this.setState({
+                    isOwner: isOwner,
                     loading: false,
                     projectName: project.name,
                     members: mems.join(", "),
@@ -39,7 +56,6 @@ class ProjectDetails extends Component {
     }
 
     render() {
-        // console.log(this.state.checkedHw)
         return (
             <div className="w-100 dark-background max-height text-left px-0 py-0 mx-0 my-0">
 
@@ -109,9 +125,34 @@ class ProjectDetails extends Component {
                             </tr> */}
                                 </tbody>
                             </table>
+
+                            {
+                                this.props.loggedIn ?
+
+                                    (this.state.isOwner ?
+                                        <Button data-toggle="modal" data-target="#add-hw-modal" className="w-50 button-primary">Add Hardware Sets</Button> : ""
+                                    ) :
+                                    <div>
+                                        Are you the owner? Please < Link to="/login" className="btn button-primary">login</Link> to assign hardware sets.
+                                    </div>
+
+                            }
                         </div>
                     </div>
                 }
+
+                <div id="add-hw-modal" className="modal">
+                    <div className="modal-dialog">
+                        <div className="modal-content dark-background">
+                            <div className="modal-header">
+                                <h4 className="mx-auto a-dark">Add Project</h4>
+                            </div>
+                            <div className="modal-body">
+                                <AssignHardware assignHw={this.addHwSets}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
