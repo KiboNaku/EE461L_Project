@@ -8,6 +8,7 @@ class CheckCart extends Component {
         this.state = {
         }
         this.fixString = this.fixString.bind(this);
+        this.getElement = this.getElement.bind(this);
     }
     
     fixString(hardware) {
@@ -19,6 +20,14 @@ class CheckCart extends Component {
         }
     }
 
+    getElement(hwList, index){
+        hwList.map((value, i) => {
+            if(i == index){
+                return value;
+            }
+        });
+    }
+
     render() {
         return (
             <div className="modal-dialog">
@@ -28,9 +37,10 @@ class CheckCart extends Component {
                     </div>
                     <div className="modal-body">
                         <p>Are these all the hardware sets that you require?</p>
-                        {this.props.hw.map((item, i) => (
-                            <p key={i}>{item} of HWSet{i+1}</p>
-                        ))}
+                        {
+                            Object.entries(this.props.hw)
+                            .map( ([key, value]) => <p>{value} of {key}</p> )
+                        }
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn button-primary" data-dismiss="modal" onClick={this.props.checkOut}>Checkout</button>

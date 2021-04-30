@@ -2,7 +2,7 @@ from models.user import RentRecord
 from flask import Flask, jsonify, request
 from base import app, db
 from models.user import User, RentRecord
-from models.project import AssignedRecord, Project
+from models.project import AssignedRecord, Project, Tag
 from models.hardware import Hardware
 from models.dataset import Dataset
 import json
@@ -127,7 +127,7 @@ def join_project(token_data):
     user = User.objects(username=token_data['user']).first()
     project_request = data.get("project")
     project = Project.objects(id=project_request['id']).first()
-
+    # print(project["contributors"])
     if not project:
         r_val["success"] = -1
         r_val["error"] = "No project found on query."
@@ -135,8 +135,16 @@ def join_project(token_data):
         r_val["success"] = -1
         r_val["error"] = "No user found."
     else:
-        project.update(add_to_set__contributors=[user])
-        user.update(add_to_set__contributed_projects=[project])
+        if project["owner"] == user:
+            r_val["success"] = -1
+            r_val["error"] = "You are the owner of the project."
+        elif user in project["contributors"]:
+            # print("here")
+            r_val["success"] = -1
+            r_val["error"] = "You are already a contributor of the project."
+        else:
+            project.update(add_to_set__contributors=[user])
+            user.update(add_to_set__contributed_projects=[project])
 
     return r_val
 
@@ -316,13 +324,24 @@ def add_project(token_data):
     r_val = {"error": None, "id": ""}
     project = request.get_json()["project"]
 
+    print(project["tags"])
     user = User.objects(username=token_data['user']).first()
     if user:
+        tags = []
+        for tag in project["tags"]:
+            t = Tag(
+                tag_name=tag,
+                tag_type="1"
+            )
+            t.save()
+            tags.append(t)
+        print(tags)
         project = Project(
             project_name=project["name"],
             owner=user.to_dbref(),
             description=project["description"],
-            tags=project["tags"]
+            tags=tags
+            # tags=project["tags"]
         )
         # TODO: add hardware references and find total cost
         project.total_cost = 0

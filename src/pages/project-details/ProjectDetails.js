@@ -49,6 +49,7 @@ class ProjectDetails extends Component {
                     projectName: project.name,
                     members: mems.join(", "),
                     // TODO: add functionality for tags
+                    tags: project.tags,
                     description: project.description,
                     checkedHw: project.rented_hardware
                 });
@@ -77,7 +78,7 @@ class ProjectDetails extends Component {
                                         {
                                             this.state.tags.map((tag, i) => {
                                                 return (
-                                                    <span key={i} className="project-tag">{tag}</span>
+                                                    <span key={i} className="project-tag">{tag.name}</span>
                                                 )
                                             })
                                         }
@@ -85,7 +86,7 @@ class ProjectDetails extends Component {
                                 </div>
 
                             </div>
-                            <div className="col-md-6 float-right justify-content-center align-items-center row h-100">
+                            <div className="col-md-6 float-md-right justify-content-center align-items-center row h-100">
                                 <div className="px-md-5 pb-5 pt-4">
                                     <h4>Description:</h4>
                                     <p>{this.state.description}</p>
