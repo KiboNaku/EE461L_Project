@@ -30,6 +30,7 @@ class ProjectDetails extends Component {
     }
 
     addHwSets() {
+        window.location.reload();
     }
 
     componentDidMount() {
