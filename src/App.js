@@ -89,7 +89,7 @@ class App extends Component {
 						</Route>
 						<Route
 							path={"/project-details/:projectId"}
-							component={ProjectDetails}
+							render={(props) => <ProjectDetails {...props} loggedIn={this.state.loggedIn} />}
 						/>
 						<Route path="/project-add">
 							<ProjectAdd loggedIn={this.state.loggedIn}/>
