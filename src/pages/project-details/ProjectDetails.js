@@ -14,6 +14,7 @@ class ProjectDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: "",
             isOwner: false,
             loading: true,
             isLogin: true,
@@ -37,7 +38,6 @@ class ProjectDetails extends Component {
             .then(res => {
                 let project = res.data.project
                 let mems = project.contributors
-                mems.unshift(project.owner)
 
                 let isOwner = false;
                 if (this.props.loggedIn) {
@@ -45,6 +45,7 @@ class ProjectDetails extends Component {
                 }
 
                 this.setState({
+                    id: project.id,
                     isOwner: isOwner,
                     loading: false,
                     projectName: project.name,
@@ -57,8 +58,8 @@ class ProjectDetails extends Component {
             })
     }
 
-    removeProject(){
-        remove.removeProject({name: this.state.projectName})
+    removeProject() {
+        // remove.removeProject(this.state.id)
     }
 
     render() {
@@ -116,12 +117,11 @@ class ProjectDetails extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <button type="button" className="btn button-primary" onClick={this.removeProject}>Remove Project</button>
 
                                     {
                                         this.state.checkedHw.map((hwInfo, i) => {
                                             return (
-                                                <tr key={i}>
+                                                <tr key={hwInfo}>
                                                     <td>{hwInfo.hw_name}</td>
                                                     <td>{hwInfo.amount}</td>
                                                 </tr>
@@ -138,10 +138,16 @@ class ProjectDetails extends Component {
                                 </tbody>
                             </table>
 
-                            {
-                                data
-                            }
+                            {data}
+
                         </div>
+
+                        {/* {this.state.isOwner ?
+                            <div className="justify-content-center row mx-0 pt-3 pb-5">
+                                <Button type="button" className="btn btn-danger" onClick={this.removeProject}>Remove Project</Button>
+                            </div> : ""
+                        } */}
+
                     </div>
                 }
 
@@ -157,6 +163,7 @@ class ProjectDetails extends Component {
                         </div>
                     </div>
                 </div>
+
             </div>
         );
     }
