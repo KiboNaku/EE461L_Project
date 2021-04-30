@@ -4,7 +4,7 @@ import * as fetch from "../../api_calls/fetchInformation"
 import * as handleHardware from '../../api_calls/handleHardware'
 import DefaultLoader from "./DefaultLoader";
 
-class AssignHardware extends Component {
+class UnassignHardware extends Component {
 
     constructor(props) {
         super(props);
@@ -64,14 +64,14 @@ class AssignHardware extends Component {
 
             this.setState({hwLoading: true});
 
-            handleHardware.assignHW(localStorage.getItem("token"), this.state.assign).then(res => {
+            handleHardware.unassignHW(localStorage.getItem("token"), this.state.assign).then(res => {
                 if (res.error) {
                     alert(res.error)
                     this.props.assignHw();
                 } else {
                     this.props.assignHw();
                     this.setState({hwLoading: false});
-                    alert("You have successfully assigned " + this.state.assign.amount + "x " + this.state.assign.hw.name + " to " + this.state.assign.project.name );
+                    alert("You have successfully unassigned " + this.state.assign.amount + "x " + this.state.assign.hw.name + " from " + this.state.assign.project.name );
                 }
             })
         }
@@ -138,7 +138,7 @@ class AssignHardware extends Component {
                         <Form.Group as={Row}>
                             <Form.Label column sm="5">How many?</Form.Label>
                             <Col sm="5">
-                                <Form.Control className="textbox" type="number" placeholder="Number to assign" onChange={
+                                <Form.Control className="textbox" type="number" placeholder="Number to unassign" onChange={
                                     (e) => {
                                         this.updateAssign("amount", e.target.value)
                                     }
@@ -146,7 +146,7 @@ class AssignHardware extends Component {
                             </Col>
                         </Form.Group>
 
-                        <button type="button" className="btn button-primary" onClick={this.assignHW}>Assign</button>
+                        <button type="button" className="btn button-primary" onClick={this.assignHW}>Unassign</button>
                     </div>
                 }
             </Form>
@@ -154,4 +154,4 @@ class AssignHardware extends Component {
     }
 }
 
-export default AssignHardware;
+export default UnassignHardware;
