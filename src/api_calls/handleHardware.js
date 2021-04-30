@@ -27,3 +27,12 @@ export const assignHW = (token, records) => {
 			return response.data
 		})
 }
+
+export const unassignHW = (token, records) => {
+	let unassignHWUrl = consts.UNASSIGN_HARDWARE;
+	return axios 
+		.post(unassignHWUrl, { "token": token, "records": records })
+		.then(response => {
+			return response.data
+		})
+}

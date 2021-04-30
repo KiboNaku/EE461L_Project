@@ -3,6 +3,7 @@ import { Form, Card, Table, Dropdown, DropdownButton, Row, Col } from "react-boo
 import * as fetch from "./../../../api_calls/fetchInformation"
 import * as handleHardware from '../../../api_calls/handleHardware'
 import AssignHardware from '../../_utils/AssignHardware'
+import UnassignHardware from '../../_utils/UnassignHardware'
 import DefaultLoader from "./../../_utils/DefaultLoader";
 
 class ProfileHardware extends Component {
@@ -148,6 +149,12 @@ class ProfileHardware extends Component {
                     <Card.Header>Assign Hardware to Projects</Card.Header>
                     <Card.Body className="hardware-card-body">
                         <AssignHardware assignHw = {this.assignHw}/>
+                    </Card.Body>
+                </Card>
+                <Card className="mb-3 light-background">
+                    <Card.Header>Unassign Hardware from Projects</Card.Header>
+                    <Card.Body className="hardware-card-body">
+                        <UnassignHardware assignHw = {this.assignHw}/>
                     </Card.Body>
                 </Card>
                 {/* <Card className="light-background">
