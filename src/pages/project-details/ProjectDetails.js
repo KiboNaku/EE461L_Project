@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import { Link } from 'react-dom'
 import * as fetch from "./../../api_calls/fetchInformation"
+import * as remove from "./../../api_calls/removeProject"
 import './project-details.css'
 import DefaultLoader from "./../_utils/DefaultLoader";
 
@@ -18,6 +19,7 @@ class ProjectDetails extends Component {
             description: "",
             checkedHw: []
         };
+        this.removeProject = this.removeProject.bind(this)
     }
 
     componentDidMount() {
@@ -36,6 +38,10 @@ class ProjectDetails extends Component {
                     checkedHw: project.rented_hardware
                 });
             })
+    }
+
+    removeProject(){
+        remove.removeProject({name: this.state.projectName})
     }
 
     render() {
@@ -89,6 +95,7 @@ class ProjectDetails extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <button type="button" className="btn button-primary" onClick={this.removeProject}>Remove Project</button>
 
                                     {
                                         this.state.checkedHw.map((hwInfo, i) => {

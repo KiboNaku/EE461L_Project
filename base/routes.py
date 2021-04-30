@@ -299,13 +299,6 @@ def get_user_hw(user):
         user_hw[r.hardware.hardware_name] = r.amount
     return user_hw
 
-
-def get_hardware_digit(r):
-    for char in r:
-        if char.isdigit():
-            return char
-    return 0
-
 @app.route("/api/fetch-datasets", methods=["GET"])
 def fetch_datasets():
     dataset_list = Dataset.objects()
@@ -344,6 +337,20 @@ def add_project(token_data):
     else:
         app.logger.debug("Username is invalid. Could not add project.")
         r_val["error"] = "Username is invalid"
+        return r_val, 403
+
+@app.route("/api/remove-project", methods=["POST"])
+@token_required
+def remove_project(token_data):
+    print(request.get_json())
+    r_val = {"error": None, "id": ""}
+    name = request.get_json()["name"]
+    user = User.objects(username=token_data['user']).first()
+    if user:
+        project = Project.objects(project_name=name, user=user).first()
+        project.delete()
+        return r_val
+    else:
         return r_val, 403
 
 
